@@ -1,0 +1,1381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BoostUp - Premium Game Store</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3a0ca3;
+            --accent: #f72585;
+            --dark: #1a1a2e;
+            --darker: #0d0d1a;
+            --light: #f8f9fa;
+            --card-bg: rgba(26, 26, 46, 0.8);
+            --card-border: rgba(67, 97, 238, 0.3);
+            --success: #4cc9f0;
+            --warning: #ffd166;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--darker), var(--dark));
+            color: var(--light);
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(67, 97, 238, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(58, 12, 163, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 50% 50%, rgba(247, 37, 133, 0.05) 0%, transparent 30%);
+            z-index: -1;
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(26, 26, 46, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 18px 50px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(67, 97, 238, 0.5);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            padding: 12px 50px;
+            background: rgba(13, 13, 26, 0.97);
+        }
+
+        .navbar .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 32px;
+            font-weight: 900;
+            color: var(--success);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .navbar .logo span {
+            color: var(--accent);
+        }
+
+        .navbar .nav-links {
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar .nav-links a {
+            color: var(--light);
+            text-decoration: none;
+            margin: 0 18px;
+            font-size: 16px;
+            position: relative;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .navbar .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--success);
+            transition: width 0.3s ease;
+        }
+
+        .navbar .nav-links a:hover {
+            color: var(--success);
+        }
+
+        .navbar .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .navbar .dropdown {
+            position: relative;
+        }
+
+        .navbar .dropdown-content {
+            display: none;
+            position: absolute;
+            background: rgba(26, 26, 46, 0.95);
+            min-width: 200px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+            z-index: 1;
+            border-radius: 8px;
+            top: 100%;
+            border: 1px solid var(--accent);
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .navbar .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .navbar .dropdown-content a {
+            display: block;
+            padding: 12px 20px;
+            margin: 0;
+            color: var(--light);
+            transition: all 0.3s;
+        }
+
+        .navbar .dropdown-content a:hover {
+            background: linear-gradient(90deg, transparent, rgba(67, 97, 238, 0.3));
+            color: var(--light);
+            padding-left: 25px;
+        }
+
+        .navbar .search-bar {
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .navbar .search-bar input {
+            padding: 12px 45px 12px 20px;
+            border: 1px solid rgba(76, 201, 240, 0.5);
+            border-radius: 30px;
+            background: rgba(26, 26, 46, 0.5);
+            color: var(--light);
+            width: 250px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-size: 14px;
+        }
+
+        .navbar .search-bar input:focus {
+            width: 300px;
+            border-color: var(--accent);
+            outline: none;
+            background: rgba(26, 26, 46, 0.8);
+        }
+
+        .navbar .search-bar button {
+            position: absolute;
+            right: 5px;
+            background: transparent;
+            border: none;
+            color: var(--success);
+            font-size: 18px;
+            cursor: pointer;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+
+        .navbar .search-bar button:hover {
+            color: var(--accent);
+            transform: scale(1.1);
+        }
+
+        .navbar .cart-icon {
+            margin-left: 20px;
+            position: relative;
+            color: var(--light);
+            font-size: 22px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .navbar .cart-icon:hover {
+            color: var(--accent);
+            transform: scale(1.1);
+        }
+
+        .navbar .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--accent);
+            color: var(--darker);
+            font-size: 12px;
+            font-weight: bold;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            position: relative;
+            margin-top: 80px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(rgba(13, 13, 26, 0.8), rgba(26, 26, 46, 0.9)), url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .hero-content {
+            text-align: center;
+            max-width: 900px;
+            padding: 0 20px;
+            z-index: 2;
+            animation: fadeInUp 1s ease;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-content h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 64px;
+            font-weight: 900;
+            margin-bottom: 20px;
+            color: var(--light);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .hero-content h1 span {
+            color: var(--success);
+            display: block;
+        }
+
+        .hero-content p {
+            font-size: 22px;
+            margin-bottom: 40px;
+            color: var(--light);
+            line-height: 1.6;
+            max-width: 700px;
+            margin: 0 auto 40px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 16px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 18px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid transparent;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: var(--light);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(67, 97, 238, 0.5);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid var(--success);
+            color: var(--success);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(76, 201, 240, 0.1);
+            transform: translateY(-5px);
+        }
+
+        /* Featured Games */
+        .section {
+            padding: 100px 10%;
+            position: relative;
+        }
+
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 40px;
+            margin-bottom: 50px;
+            color: var(--light);
+            position: relative;
+            padding-left: 20px;
+            display: inline-block;
+        }
+
+        .section-title::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 5px;
+            background: linear-gradient(to bottom, var(--primary), var(--success));
+            border-radius: 10px;
+        }
+
+        .section-title span {
+            color: var(--success);
+        }
+
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .game-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transform: perspective(1000px);
+            transform-style: preserve-3d;
+        }
+
+        .game-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 20px 40px rgba(67, 97, 238, 0.3);
+            border-color: var(--primary);
+        }
+
+        .game-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(67, 97, 238, 0.1), transparent);
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .game-card:hover::before {
+            opacity: 1;
+        }
+
+        .game-card img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            transition: all 0.5s ease;
+        }
+
+        .game-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .game-card .badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: linear-gradient(45deg, var(--accent), var(--primary));
+            color: var(--light);
+            padding: 8px 15px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 600;
+            z-index: 2;
+        }
+
+        .game-card .info {
+            padding: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .game-card .info h3 {
+            font-size: 22px;
+            margin-bottom: 10px;
+            color: var(--light);
+            font-weight: 700;
+        }
+
+        .game-card .info p {
+            color: #aaa;
+            font-size: 15px;
+            margin-bottom: 15px;
+            line-height: 1.5;
+            min-height: 70px;
+        }
+
+        .game-card .info .price {
+            color: var(--success);
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .game-card .info .price .old-price {
+            color: #777;
+            text-decoration: line-through;
+            font-size: 18px;
+            margin-right: 10px;
+        }
+
+        .game-card .info .add-to-cart {
+            display: block;
+            padding: 12px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: var(--light);
+            text-align: center;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+
+        .game-card .info .add-to-cart:hover {
+            background: linear-gradient(45deg, var(--secondary), var(--primary));
+            transform: translateY(-3px);
+        }
+
+        /* Category Filters */
+        .category-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .category-btn {
+            padding: 12px 25px;
+            background: rgba(26, 26, 46, 0.5);
+            border: 1px solid rgba(67, 97, 238, 0.3);
+            color: var(--light);
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .category-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(67, 97, 238, 0.3), transparent);
+            transition: 0.5s;
+        }
+
+        .category-btn:hover::before {
+            left: 100%;
+        }
+
+        .category-btn:hover {
+            background: rgba(67, 97, 238, 0.2);
+            border-color: var(--primary);
+            color: var(--success);
+        }
+
+        .category-btn.active {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: var(--light);
+            border-color: var(--accent);
+        }
+
+        /* Newsletter */
+        .newsletter {
+            background: linear-gradient(135deg, rgba(26, 26, 46, 0.8), rgba(67, 97, 238, 0.2));
+            padding: 80px 10%;
+            text-align: center;
+            border-radius: 20px;
+            margin: 100px 0;
+            border: 1px solid var(--card-border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .newsletter::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(67, 97, 238, 0.1) 0%, transparent 70%);
+            z-index: -1;
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .newsletter h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: var(--light);
+        }
+
+        .newsletter p {
+            font-size: 18px;
+            color: #aaa;
+            max-width: 600px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+        }
+
+        .newsletter-form {
+            display: flex;
+            max-width: 600px;
+            margin: 0 auto;
+            gap: 15px;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 15px 25px;
+            border: 2px solid var(--success);
+            border-radius: 50px;
+            background: rgba(26, 26, 46, 0.5);
+            color: var(--light);
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .newsletter-form input:focus {
+            border-color: var(--accent);
+            outline: none;
+        }
+
+        .newsletter-form button {
+            padding: 15px 35px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: var(--light);
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .newsletter-form button:hover {
+            transform: translateY(-3px);
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(13, 13, 26, 0.95);
+            padding: 60px 10% 30px;
+            border-top: 1px solid rgba(67, 97, 238, 0.3);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+
+        .footer-column h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 22px;
+            margin-bottom: 25px;
+            color: var(--success);
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(to right, var(--primary), var(--success));
+            border-radius: 3px;
+        }
+
+        .footer-column p {
+            color: #aaa;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: #aaa;
+            text-decoration: none;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+        }
+
+        .footer-links a i {
+            margin-right: 10px;
+            color: var(--success);
+            transition: all 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--success);
+            transform: translateX(5px);
+        }
+
+        .footer-links a:hover i {
+            color: var(--accent);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(67, 97, 238, 0.2);
+            color: var(--light);
+            font-size: 18px;
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            transform: translateY(-5px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(67, 97, 238, 0.2);
+            color: #777;
+            font-size: 14px;
+        }
+
+        /* Back to Top */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: var(--light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            text-decoration: none;
+            transition: all 0.3s;
+            z-index: 999;
+            opacity: 0;
+            transform: translateY(20px);
+            cursor: pointer;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-5px) scale(1.1);
+        }
+
+        /* Floating Elements */
+        .floating {
+            position: absolute;
+            z-index: -1;
+            border-radius: 50%;
+            background: rgba(76, 201, 240, 0.1);
+            filter: blur(20px);
+            animation: float 15s infinite ease-in-out;
+        }
+
+        .floating-1 {
+            top: 20%;
+            left: 5%;
+            width: 150px;
+            height: 150px;
+        }
+
+        .floating-2 {
+            top: 40%;
+            right: 10%;
+            width: 200px;
+            height: 200px;
+        }
+
+        .floating-3 {
+            bottom: 20%;
+            left: 15%;
+            width: 120px;
+            height: 120px;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(20px, 40px) rotate(90deg); }
+            50% { transform: translate(40px, 0) rotate(180deg); }
+            75% { transform: translate(20px, -40px) rotate(270deg); }
+            100% { transform: translate(0, 0) rotate(360deg); }
+        }
+
+        /* Stats Section */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .stat-card {
+            background: rgba(26, 26, 46, 0.7);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            border: 1px solid rgba(67, 97, 238, 0.3);
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--success);
+        }
+
+        .stat-card .number {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 48px;
+            color: var(--success);
+            margin-bottom: 10px;
+        }
+
+        .stat-card .label {
+            font-size: 18px;
+            color: var(--light);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .hero-content h1 {
+                font-size: 50px;
+            }
+            
+            .section {
+                padding: 80px 5%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 15px 20px;
+            }
+            
+            .navbar .logo {
+                font-size: 26px;
+            }
+            
+            .navbar .nav-links a {
+                margin: 0 10px;
+                font-size: 14px;
+            }
+            
+            .navbar .search-bar input {
+                width: 180px;
+            }
+            
+            .navbar .search-bar input:focus {
+                width: 220px;
+            }
+            
+            .hero-content h1 {
+                font-size: 36px;
+            }
+            
+            .hero-content p {
+                font-size: 18px;
+            }
+            
+            .section-title {
+                font-size: 32px;
+            }
+            
+            .newsletter-form {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .navbar .nav-links {
+                display: none;
+            }
+            
+            .navbar .search-bar input {
+                width: 150px;
+            }
+            
+            .hero-content h1 {
+                font-size: 32px;
+            }
+            
+            .btn {
+                padding: 12px 25px;
+                font-size: 16px;
+            }
+            
+            .game-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar">
+        <div class="logo">BOOST<span>UP</span></div>
+        <div class="nav-links">
+            <a href="#browse">Browse</a>
+            <div class="dropdown">
+                <a href="#categories">Categories</a>
+                <div class="dropdown-content">
+                    <a href="#" onclick="filterCategory('Action')">Action</a>
+                    <a href="#" onclick="filterCategory('Adventure')">Adventure</a>
+                    <a href="#" onclick="filterCategory('Simulation')">Simulation</a>
+                    <a href="#" onclick="filterCategory('RPG')">RPG</a>
+                    <a href="#" onclick="filterCategory('Strategy')">Strategy</a>
+                    <a href="#" onclick="filterCategory('Sports')">Sports</a>
+                </div>
+            </div>
+            <a href="#new">New Releases</a>
+            <a href="#specials">Specials</a>
+            <a href="#free">Free Games</a>
+        </div>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search games...">
+            <button><i class="fas fa-search"></i></button>
+        </div>
+        <div class="cart-icon">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="cart-count">3</span>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="floating floating-1"></div>
+        <div class="floating floating-2"></div>
+        <div class="floating floating-3"></div>
+        
+        <div class="hero-content">
+            <h1>PREMIUM GAMING <span>EXPERIENCE</span></h1>
+            <p>Discover thousands of games across all genres at unbeatable prices. Join millions of gamers worldwide on the ultimate gaming platform.</p>
+            <div class="hero-buttons">
+                <a href="#browse" class="btn btn-primary">Explore Games</a>
+                <a href="#specials" class="btn btn-secondary">View Specials</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="section">
+        <div class="stats">
+            <div class="stat-card">
+                <div class="number">15K+</div>
+                <div class="label">Games Available</div>
+            </div>
+            <div class="stat-card">
+                <div class="number">25M+</div>
+                <div class="label">Active Players</div>
+            </div>
+            <div class="stat-card">
+                <div class="number">98%</div>
+                <div class="label">Positive Reviews</div>
+            </div>
+            <div class="stat-card">
+                <div class="number">24/7</div>
+                <div class="label">Customer Support</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Browse by Category -->
+    <section id="browse" class="section">
+        <h2 class="section-title">Browse by <span>Category</span></h2>
+        <div class="category-filters">
+            <button onclick="filterCategory('Action')" class="category-btn">Action</button>
+            <button onclick="filterCategory('Adventure')" class="category-btn">Adventure</button>
+            <button onclick="filterCategory('Simulation')" class="category-btn">Simulation</button>
+            <button onclick="filterCategory('RPG')" class="category-btn">RPG</button>
+            <button onclick="filterCategory('Strategy')" class="category-btn">Strategy</button>
+            <button onclick="filterCategory('Sports')" class="category-btn">Sports</button>
+            <button onclick="filterCategory('All')" class="category-btn active">All Games</button>
+        </div>
+        <div class="game-grid">
+            <!-- Game Card 1 -->
+            <div class="game-card">
+                <div class="badge">New</div>
+                <img src="https://images.unsplash.com/photo-1552820728-8b83bb6b773f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Cyber Assault">
+                <div class="info">
+                    <h3>Cyber Assault</h3>
+                    <p>Futuristic FPS with stunning graphics and intense multiplayer battles.</p>
+                    <span class="price">$49.99</span>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+            
+            <!-- Game Card 2 -->
+            <div class="game-card">
+                <div class="badge">Hot</div>
+                <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Dragon's Legacy">
+                <div class="info">
+                    <h3>Dragon's Legacy</h3>
+                    <p>Epic fantasy RPG with deep character customization and vast open world.</p>
+                    <span class="price">$59.99</span>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+            
+            <!-- Game Card 3 -->
+            <div class="game-card">
+                <div class="badge">Sale</div>
+                <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80" alt="Racing Revolution">
+                <div class="info">
+                    <h3>Racing Revolution</h3>
+                    <p>Hyper-realistic racing simulator with 200+ cars and 50 tracks worldwide.</p>
+                    <span class="price"><span class="old-price">$44.99</span> $29.99</span>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+            
+            <!-- Game Card 4 -->
+            <div class="game-card">
+                <img src="https://images.unsplash.com/photo-1551103782-8ab07afd45c1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Space Explorers">
+                <div class="info">
+                    <h3>Space Explorers</h3>
+                    <p>Explore the cosmos in this breathtaking space adventure with generated galaxies.</p>
+                    <span class="price">$39.99</span>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+            
+            <!-- Game Card 5 -->
+            <div class="game-card">
+                <div class="badge">New</div>
+                <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Shadow Realms">
+                <div class="info">
+                    <h3>Shadow Realms</h3>
+                    <p>Dark fantasy action game with a gripping story and intense combat mechanics.</p>
+                    <span class="price">$54.99</span>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+            
+            <!-- Game Card 6 -->
+            <div class="game-card">
+                <img src="https://images.unsplash.com/photo-1534423861386-85a16f5d13fd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Football Legends">
+                <div class="info">
+                    <h3>Football Legends</h3>
+                    <p>The ultimate football experience with realistic physics and official licenses.</p>
+                    <span class="price">$49.99</span>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+            
+            <!-- Game Card 7 -->
+            <div class="game-card">
+                <div class="badge">Popular</div>
+                <img src="https://images.unsplash.com/photo-1511882150382-421056c89033?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Zombie Survival">
+                <div class="info">
+                    <h3>Zombie Survival</h3>
+                    <p>Fight for your life in a post-apocalyptic world overrun by the undead.</p>
+                    <span class="price">$34.99</span>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+            
+            <!-- Game Card 8 -->
+            <div class="game-card">
+                <div class="badge">Sale</div>
+                <img src="https://images.unsplash.com/photo-1538481199705-c710c4e965fc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2065&q=80" alt="Ancient Empires">
+                <div class="info">
+                    <h3>Ancient Empires</h3>
+                    <p>Build and command your civilization in this epic historical strategy game.</p>
+                    <span class="price"><span class="old-price">$39.99</span> $24.99</span>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- New Releases -->
+    <section id="new" class="section">
+        <h2 class="section-title">New <span>Releases</span></h2>
+        <div class="game-grid">
+            <!-- New Release 1 -->
+            <div class="game-card">
+                <div class="badge">Just Released</div>
+                <img src="https://images.unsplash.com/photo-1598550476439-6847785fcea6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Neon Drift">
+                <div class="info">
+                    <h3>Neon Drift</h3>
+                    <p>Futuristic racing game with stunning visuals and high-speed gameplay.</p>
+                    <span class="price">$49.99</span>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+            
+            <!-- New Release 2 -->
+            <div class="game-card">
+                <div class="badge">New</div>
+                <img src="https://images.unsplash.com/photo-1542751110-97427bbecf20?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2048&q=80" alt="Mythic Realms">
+                <div class="info">
+                    <h3>Mythic Realms</h3>
+                    <p>Explore a world filled with mythical creatures and ancient magic.</p>
+                    <span class="price">$59.99</span>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+            
+            <!-- New Release 3 -->
+            <div class="game-card">
+                <img src="https://images.unsplash.com/photo-1586182987320-4f376d39d787?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80" alt="Cyber Heist">
+                <div class="info">
+                    <h3>Cyber Heist</h3>
+                    <p>Pull off the ultimate heists in a cyberpunk world with your team.</p>
+                    <span class="price">$44.99</span>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+            
+            <!-- New Release 4 -->
+            <div class="game-card">
+                <div class="badge">New</div>
+                <img src="https://images.unsplash.com/photo-1546443046-ed1ce6ffd1ab?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Ghost Operative">
+                <div class="info">
+                    <h3>Ghost Operative</h3>
+                    <p>Stealth action game where you play as an elite operative on covert missions.</p>
+                    <span class="price">$39.99</span>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Specials -->
+    <section id="specials" class="section">
+        <h2 class="section-title">Special <span>Offers</span></h2>
+        <div class="game-grid">
+            <!-- Special 1 -->
+            <div class="game-card">
+                <div class="badge">50% OFF</div>
+                <img src="https://images.unsplash.com/photo-1512790182412-b19e6d62bc39?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1932&q=80" alt="GTA 5">
+                <div class="info">
+                    <h3>GTA 5</h3>
+                    <p>Open-world action masterpiece set in the sprawling city of Los Santos.</p>
+                    <span class="price"><span class="old-price">$59.99</span> $29.99</span>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+            
+            <!-- Special 2 -->
+            <div class="game-card">
+                <div class="badge">65% OFF</div>
+                <img src="https://images.unsplash.com/photo-1560419015-7c427e8ae5ba?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Euro Truck Simulator">
+                <div class="info">
+                    <h3>Euro Truck Simulator</h3>
+                    <p>Become a truck driver and travel across Europe with realistic physics.</p>
+                    <span class="price"><span class="old-price">$39.99</span> $13.99</span>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+            
+            <!-- Special 3 -->
+            <div class="game-card">
+                <div class="badge">40% OFF</div>
+                <img src="https://images.unsplash.com/photo-1587174486073-ae5e5cff23aa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="The Witcher 3">
+                <div class="info">
+                    <h3>The Witcher 3</h3>
+                    <p>Award-winning RPG with a massive open world to explore and conquer.</p>
+                    <span class="price"><span class="old-price">$49.99</span> $29.99</span>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+            
+            <!-- Special 4 -->
+            <div class="game-card">
+                <div class="badge">30% OFF</div>
+                <img src="https://images.unsplash.com/photo-1552820728-8b83bb6b773f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Cyberpunk 2077">
+                <div class="info">
+                    <h3>Cyberpunk 2077</h3>
+                    <p>Open-world, action-adventure RPG set in the megalopolis of Night City.</p>
+                    <span class="price"><span class="old-price">$59.99</span> $41.99</span>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Free Games -->
+    <section id="free" class="section">
+        <h2 class="section-title">Free <span>Games</span></h2>
+        <div class="game-grid">
+            <!-- Free Game 1 -->
+            <div class="game-card">
+                <div class="badge">Free</div>
+                <img src="https://images.unsplash.com/photo-1538481199705-c710c4e965fc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2065&q=80" alt="Battle Royale">
+                <div class="info">
+                    <h3>Battle Royale</h3>
+                    <p>Free-to-play battle royale with intense multiplayer combat and updates.</p>
+                    <span class="price">$0.00</span>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+            
+            <!-- Free Game 2 -->
+            <div class="game-card">
+                <div class="badge">Free</div>
+                <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Fantasy Arena">
+                <div class="info">
+                    <h3>Fantasy Arena</h3>
+                    <p>Free MOBA game with strategic gameplay and diverse roster of heroes.</p>
+                    <span class="price">$0.00</span>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+            
+            <!-- Free Game 3 -->
+            <div class="game-card">
+                <div class="badge">Free</div>
+                <img src="https://images.unsplash.com/photo-1511882150382-421056c89033?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Survival Quest">
+                <div class="info">
+                    <h3>Survival Quest</h3>
+                    <p>Free survival game set in a post-apocalyptic world with base building.</p>
+                    <span class="price">$0.00</span>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+            
+            <!-- Free Game 4 -->
+            <div class="game-card">
+                <div class="badge">Free</div>
+                <img src="https://images.unsplash.com/photo-1538481199705-c710c4e965fc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2065&q=80" alt="Space Odyssey">
+                <div class="info">
+                    <h3>Space Odyssey</h3>
+                    <p>Free space exploration game with procedurally generated galaxies.</p>
+                    <span class="price">$0.00</span>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="newsletter">
+        <h2>Join the Gaming Revolution</h2>
+        <p>Subscribe to our newsletter and be the first to know about exclusive deals, new releases, and gaming events!</p>
+        <div class="newsletter-form">
+            <input type="email" placeholder="Enter your email address">
+            <button type="submit">Subscribe</button>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>About BoostUp</h3>
+                <p>BoostUp is the ultimate gaming destination for gamers worldwide. We offer the best prices, exclusive deals, and a massive collection of games across all platforms.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-discord"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Browse Games</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> New Releases</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Special Offers</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Free Games</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Top Sellers</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Support</h3>
+                <ul class="footer-links">
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Help Center</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Contact Us</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Refund Policy</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Terms of Service</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Privacy Policy</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Contact Us</h3>
+                <ul class="footer-links">
+                    <li><a href="#"><i class="fas fa-map-marker-alt"></i> Gaming Street 42, Cyber City</a></li>
+                    <li><a href="#"><i class="fas fa-phone"></i> +1 234 567 890</a></li>
+                    <li><a href="#"><i class="fas fa-envelope"></i> support@boostup.com</a></li>
+                    <li><a href="#"><i class="fas fa-clock"></i> 24/7 Support</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2023 BoostUp Gaming Store. All rights reserved. All trademarks are property of their respective owners.</p>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <a href="#" class="back-to-top" id="backToTop"><i class="fas fa-arrow-up"></i></a>
+
+    <script>
+        // Smooth Scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+            
+            // Back to top button visibility
+            const backToTop = document.getElementById('backToTop');
+            if (window.scrollY > 300) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        });
+
+        // Category Filter
+        function filterCategory(category) {
+            const buttons = document.querySelectorAll('.category-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Animation for filtering
+            document.querySelector('.game-grid').style.opacity = '0.5';
+            setTimeout(() => {
+                document.querySelector('.game-grid').style.opacity = '1';
+            }, 300);
+        }
+
+        // Add to Cart Animation
+        document.querySelectorAll('.add-to-cart').forEach(button => {
+            button.addEventListener('click', function() {
+                const gameCard = this.closest('.game-card');
+                gameCard.style.transform = 'scale(0.95)';
+                
+                setTimeout(() => {
+                    gameCard.style.transform = '';
+                }, 300);
+                
+                // Update cart count
+                const cartCount = document.querySelector('.cart-count');
+                cartCount.textContent = parseInt(cartCount.textContent) + 1;
+                
+                // Animation for cart icon
+                const cartIcon = document.querySelector('.cart-icon');
+                cartIcon.style.transform = 'scale(1.2)';
+                setTimeout(() => {
+                    cartIcon.style.transform = '';
+                }, 300);
+            });
+        });
+
+        // Floating elements animation
+        const floaters = document.querySelectorAll('.floating');
+        floaters.forEach((floater, index) => {
+            floater.style.animationDelay = `${index * 2}s`;
+        });
+    </script>
+</body>
+</html>

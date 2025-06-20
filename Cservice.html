@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cservice - Professional Home Services in Visakhapatnam</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background-color: #f9fbfc;
+      color: #2d3436;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Navbar */
+    .header {
+      background-color: #fff;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      padding: 15px 0;
+      transition: all 0.3s ease;
+    }
+
+    .header-content {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 30px;
+    }
+
+    .logo {
+      font-size: 32px;
+      font-weight: 700;
+      color: #1abc9c;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-links a {
+      margin-left: 30px;
+      text-decoration: none;
+      color: #2d3436;
+      font-size: 16px;
+      font-weight: 500;
+      transition: color 0.3s ease;
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -5px;
+      left: 0;
+      background-color: #1abc9c;
+      transition: width 0.3s ease;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .nav-links a:hover {
+      color: #1abc9c;
+    }
+
+    .hamburger {
+      display: none;
+      font-size: 28px;
+      cursor: pointer;
+      color: #2d3436;
+    }
+
+    /* Hero Section */
+    .hero {
+      background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1513696780218-eba1817e7d65?q=80&w=1920');
+      background-size: cover;
+      background-position: center;
+      height: 600px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #fff;
+      position: relative;
+    }
+
+    .hero-content {
+      animation: fadeIn 1s ease-in-out;
+      padding: 20px;
+    }
+
+    .hero h1 {
+      font-size: 56px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .hero p {
+      font-size: 22px;
+      max-width: 700px;
+      margin: 0 auto 30px;
+    }
+
+    .cta-button {
+      display: inline-block;
+      padding: 15px 40px;
+      background-color: #1abc9c;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 30px;
+      font-size: 18px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(26, 188, 156, 0.4);
+    }
+
+    .cta-button:hover {
+      background-color: #16a085;
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(26, 188, 156, 0.5);
+    }
+
+    /* Promotional Banner */
+    .promo-banner {
+      background-color: #1abc9c;
+      color: #fff;
+      text-align: center;
+      padding: 25px 0;
+      margin: 30px 0;
+      animation: slideIn 1s ease-in-out;
+    }
+
+    .promo-banner h3 {
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+
+    /* Filters Section */
+    .filters {
+      max-width: 1280px;
+      margin: 50px auto;
+      padding: 0 30px;
+      text-align: center;
+    }
+
+    .filters h2 {
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: #2d3436;
+    }
+
+    .filter-group {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
+    }
+
+    .filter-btn {
+      padding: 10px 25px;
+      border: 2px solid #1abc9c;
+      background-color: #fff;
+      color: #1abc9c;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+      background-color: #1abc9c;
+      color: #fff;
+      transform: scale(1.05);
+    }
+
+    /* Services Section */
+    .services {
+      max-width: 1280px;
+      margin: 0 auto 50px;
+      padding: 0 30px;
+    }
+
+    .service-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+    }
+
+    .service-card {
+      background-color: #fff;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      transition: all 0.5s ease;
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    .service-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .service-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .service-card-content {
+      padding: 20px;
+      text-align: center;
+    }
+
+    .service-card h4 {
+      font-size: 22px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: #2d3436;
+    }
+
+    .service-card p {
+      font-size: 16px;
+      color: #7f8c8d;
+    }
+
+    /* Most Booked Services */
+    .most-booked {
+      max-width: 1280px;
+      margin: 50px auto;
+      padding: 0 30px;
+    }
+
+    .most-booked h2 {
+      font-size: 36px;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 40px;
+      color: #2d3436;
+    }
+
+    .booked-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+    }
+
+    .booked-card {
+      background-color: #fff;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .booked-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .booked-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .booked-card-content {
+      padding: 15px;
+      text-align: center;
+    }
+
+    .booked-card h4 {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 5px;
+      color: #2d3436;
+    }
+
+    .booked-card p {
+      font-size: 14px;
+      color: #7f8c8d;
+    }
+
+    /* Salon Sections */
+    .salon-section {
+      max-width: 1280px;
+      margin: 50px auto;
+      padding: 0 30px;
+    }
+
+    .salon-section h2 {
+      font-size: 36px;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 40px;
+      color: #2d3436;
+    }
+
+    .salon-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+    }
+
+    .salon-card {
+      background-color: #fff;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .salon-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .salon-card img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+    }
+
+    .salon-card-content {
+      padding: 15px;
+      text-align: center;
+    }
+
+    .salon-card h4 {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 5px;
+      color: #2d3436;
+    }
+
+    /* New and Noteworthy */
+    .new-noteworthy {
+      max-width: 1280px;
+      margin: 50px auto;
+      padding: 0 30px;
+    }
+
+    .new-noteworthy h2 {
+      font-size: 36px;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 40px;
+      color: #2d3436;
+    }
+
+    .new-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+    }
+
+    .new-card {
+      background-color: #fff;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .new-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .new-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .new-card-content {
+      padding: 15px;
+      text-align: center;
+    }
+
+    .new-card h4 {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 5px;
+      color: #2d3436;
+    }
+
+    /* Testimonials Section */
+    .testimonials {
+      max-width: 1280px;
+      margin: 50px auto;
+      padding: 0 30px;
+      text-align: center;
+    }
+
+    .testimonials h2 {
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: 40px;
+      color: #2d3436;
+    }
+
+    .testimonial-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+
+    .testimonial-card {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    .testimonial-card p {
+      font-size: 16px;
+      color: #7f8c8d;
+      margin-bottom: 20px;
+    }
+
+    .testimonial-card h5 {
+      font-size: 18px;
+      font-weight: 600;
+      color: #1abc9c;
+    }
+
+    /* Trust Badges */
+    .trust-badges {
+      max-width: 1280px;
+      margin: 50px auto;
+      padding: 0 30px;
+      text-align: center;
+    }
+
+    .trust-badges h2 {
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: 30px;
+      color: #2d3436;
+    }
+
+    .badge-grid {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      font-size: 18px;
+      font-weight: 500;
+      color: #2d3436;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .badge::before {
+      content: '✔';
+      color: #1abc9c;
+      font-size: 22px;
+    }
+
+    /* Footer */
+    .footer {
+      background-color: #2d3436;
+      color: #ecf0f1;
+      padding: 60px 30px;
+      margin-top: 60px;
+    }
+
+    .footer-content {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 40px;
+    }
+
+    .footer-section h5 {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: #1abc9c;
+    }
+
+    .footer-section p, .footer-section ul {
+      font-size: 16px;
+      color: #bdc3c7;
+    }
+
+    .footer-section ul {
+      list-style: none;
+    }
+
+    .footer-section ul li {
+      margin-bottom: 15px;
+    }
+
+    .footer-section ul li a {
+      color: #bdc3c7;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .footer-section ul li a:hover {
+      color: #1abc9c;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideIn {
+      from { transform: translateX(-100%); }
+      to { transform: translateX(0); }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        background-color: #fff;
+        padding: 20px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .nav-links.active {
+        display: flex;
+      }
+
+      .hamburger {
+        display: block;
+      }
+
+      .hero h1 {
+        font-size: 36px;
+      }
+
+      .hero p {
+        font-size: 16px;
+      }
+
+      .service-grid, .booked-grid, .salon-grid, .new-grid, .testimonial-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .filter-group {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .filter-btn {
+        width: 100%;
+        margin-bottom: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-content">
+      <div class="logo">Cservice</div>
+      <div class="hamburger">☰</div>
+      <nav class="nav-links">
+        <a href="#home">Home</a>
+        <a href="#services">Services</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+        <a href="#login">Login</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero" id="home">
+    <div class="hero-content">
+      <h1>Trusted Home & Beauty Services in Visakhapatnam</h1>
+      <p>Experience top-quality professional services delivered right to your doorstep. Book now for cleaning, repairs, salon treatments, and more as of 10:51 AM IST, Wednesday, June 18, 2025!</p>
+      <a href="#services" class="cta-button">Explore Services</a>
+    </div>
+  </section>
+
+  <!-- Promotional Banner -->
+  <section class="promo-banner">
+    <h3>Get 20% Off Your First Booking!</h3>
+    <p>Use code CSERVICE20 at checkout. Offer valid until July 18, 2025. Terms apply.</p>
+  </section>
+
+  <!-- Filters Section -->
+  <section class="filters" id="services">
+    <h2>Find Your Service</h2>
+    <div class="filter-group">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="cleaning">Cleaning</button>
+      <button class="filter-btn" data-filter="plumbing">Plumbing</button>
+      <button class="filter-btn" data-filter="electrical">Electrical</button>
+      <button class="filter-btn" data-filter="beauty">Beauty</button>
+      <button class="filter-btn" data-filter="pest-control">Pest Control</button>
+      <button class="filter-btn" data-filter="painting">Painting</button>
+      <button class="filter-btn" data-filter="ac-repair">AC Repair</button>
+      <button class="filter-btn" data-filter="carpentry">Carpentry</button>
+      <button class="filter-btn" data-filter="appliance-repair">Appliance Repair</button>
+      <button class="filter-btn" data-filter="smart-locks">Smart Locks</button>
+    </div>
+    <div class="service-grid">
+      <div class="service-card" data-category="cleaning">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRCftO5wPbvjRRaVo2GsltyGtA2L6sIIYkhUA&s" alt="Home Cleaning Service">
+        <div class="service-card-content">
+          <h4>Home Cleaning</h4>
+          <p>Deep cleaning with eco-friendly products by trained professionals.</p>
+        </div>
+      </div>
+      <div class="service-card" data-category="plumbing">
+        <img src="https://api.gharpedia.com/wp-content/uploads/2018/08/0105010002-Plumbing-Contractor.jpg" alt="Plumbing Service">
+        <div class="service-card-content">
+          <h4>Plumbing</h4>
+          <p>Expert solutions for leaks, clogs, and installations.</p>
+        </div>
+      </div>
+      <div class="service-card" data-category="electrical">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOqgZdV10CeMTTyv3O-pAQRqDrAQzZqtgRlg&s" alt="Electrical Service">
+        <div class="service-card-content">
+          <h4>Electrical</h4>
+          <p>Safe and reliable electrical repairs and installations.</p>
+        </div>
+      </div>
+      <div class="service-card" data-category="beauty">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTlJbFNhVA9DFsv-c9J73u3EKz0HnMb2iK4vA&s" alt="Beauty Service">
+        <div class="service-card-content">
+          <h4>Beauty Services</h4>
+          <p>Salon-quality hair, makeup, and spa services at home.</p>
+        </div>
+      </div>
+      <div class="service-card" data-category="pest-control">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7Av5FC3S5LSf6oKYxdbb5J60Su8WbyOplNA&s" alt="Pest Control Service">
+        <div class="service-card-content">
+          <h4>Pest Control</h4>
+          <p>Safe and effective pest elimination services.</p>
+        </div>
+      </div>
+      <div class="service-card" data-category="painting">
+        <img src="https://media.istockphoto.com/id/508449768/photo/painter-painting-with-paint-roller.jpg?s=612x612&w=0&k=20&c=m-vuBg8Tx0yMT4j1nTeUnd6MK8ivb9TKgqW2D3akPkE=" alt="Painting Service">
+        <div class="service-card-content">
+          <h4>Painting</h4>
+          <p>Professional interior and exterior painting services.</p>
+        </div>
+      </div>
+      <div class="service-card" data-category="ac-repair">
+        <img src="https://islandcomfort.com/wp-content/uploads/2021/07/Untitled-design-24-1024x683.jpg" alt="AC Repair Service">
+        <div class="service-card-content">
+          <h4>AC Repair</h4>
+          <p>Expert AC servicing and repair by certified technicians.</p>
+        </div>
+      </div>
+      <div class="service-card" data-category="carpentry">
+        <img src="https://cdn.prod.website-files.com/6390e14cc734a931f8327343/679c741cfd2f81997c15fb20_Featured-image.jpg" alt="Carpentry Service">
+        <div class="service-card-content">
+          <h4>Carpentry</h4>
+          <p>Custom furniture and repair services by skilled carpenters.</p>
+        </div>
+      </div>
+      <div class="service-card" data-category="appliance-repair">
+        <img src="https://appliancerecovery.com/wp-content/uploads/2024/03/Top-5-Advantages-of-Professional-Home-Appliance-Repair-Services.jpg" alt="Appliance Repair Service">
+        <div class="service-card-content">
+          <h4>Appliance Repair</h4>
+          <p>Fixing washers, dryers, and other home appliances.</p>
+        </div>
+      </div>
+      <div class="service-card" data-category="smart-locks">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRw2XioUWdItRz-7ysFBi3wmXiYyRSeZUu7Og&s" alt="Smart Locks Service">
+        <div class="service-card-content">
+          <h4>Smart Locks</h4>
+          <p>Installation and maintenance of advanced smart lock systems.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Most Booked Services -->
+  <section class="most-booked">
+    <h2>Most Booked Services</h2>
+    <div class="booked-grid">
+      <div class="booked-card">
+        <img src="https://www.123homepaints.com/assets/images/blog-image/home-painting-company-at-kolkata31may23.jpg" alt="Full Home Painting">
+        <div class="booked-card-content">
+          <h4>Full Home Painting Consultation</h4>
+          <p>₹49 (50K)</p>
+        </div>
+      </div>
+      <div class="booked-card">
+        <img src="https://5.imimg.com/data5/BB/KB/TY/SELLER-37942208/1-rk-apartment-deep-cleaning-500x500.jpg" alt="Intense Cleaning">
+        <div class="booked-card-content">
+          <h4>Intense Cleaning (2 Bathrooms)</h4>
+          <p>₹1,016 (2.5M)</p>
+        </div>
+      </div>
+      <div class="booked-card">
+        <img src="https://acces.in/cdn/shop/files/Untitleddesign_7_8388e8c7-3afe-430f-851f-6e2a2b1ce79a.png?v=1711970984&width=1946" alt="Foam-jet AC Service">
+        <div class="booked-card-content">
+          <h4>Foam-jet AC Service</h4>
+          <p>₹799 (1.6M)</p>
+        </div>
+      </div>
+      <div class="booked-card">
+        <img src="https://s3-ap-southeast-1.amazonaws.com/urbanclap-prod/images/growth/home-screen/1625159882387-9585c7.jpeg" alt="Intense Bathroom Cleaning">
+        <div class="booked-card-content">
+          <h4>Intense Bathroom Cleaning</h4>
+          <p>₹549 (2.5M)</p>
+        </div>
+      </div>
+      <div class="booked-card">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTiLyTUgtZNT5AwLgCnD47sWUgLuapdLLcjxw&s" alt="Tap Repair">
+        <div class="booked-card-content">
+          <h4>Tap Repair</h4>
+          <p>₹59 (138K)</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Salon for Women -->
+  <section class="salon-section">
+    <h2>Salon for Women</h2>
+    <div class="salon-grid">
+      <div class="salon-card">
+        <img src="https://skinkraft.com/cdn/shop/articles/Applying-wax-to-a-young-woman_s-leg-for-hair-removal_1024x1024.jpg?v=1658830857" alt="Waxing">
+        <div class="salon-card-content">
+          <h4>Waxing</h4>
+          <p>₹150</p>
+        </div>
+      </div>
+      <div class="salon-card">
+        <img src="https://nickylashes.com/cdn/shop/articles/threading-vs-waxing-which-is-better-850540_1600x.jpg?v=1642277831" alt="Threading & Face Waxing">
+        <div class="salon-card-content">
+          <h4>Threading & Face Waxing</h4>
+          <p>₹200</p>
+        </div>
+      </div>
+      <div class="salon-card">
+        <img src="https://cureskin.com/wp-content/uploads/2021/06/AdobeStock_358942388-1024x760.jpeg" alt="Facial & Cleanup">
+        <div class="salon-card-content">
+          <h4>Facial & Cleanup</h4>
+          <p>₹300</p>
+        </div>
+      </div>
+      <div class="salon-card">
+        <img src="https://www.selfobsessed.in/wp-content/uploads/2024/05/Manicure.jpg" alt="Manicure">
+        <div class="salon-card-content">
+          <h4>Manicure</h4>
+          <p>₹250</p>
+        </div>
+      </div>
+      <div class="salon-card">
+        <img src="https://5.imimg.com/data5/SELLER/Default/2022/1/VG/RA/PP/144217961/pedicure.jpg" alt="Pedicure">
+        <div class="salon-card-content">
+          <h4>Pedicure</h4>
+          <p>₹250</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Salon for Men -->
+  <section class="salon-section">
+    <h2>Salon for Men</h2>
+    <div class="salon-grid">
+      <div class="salon-card">
+        <img src="https://t4.ftcdn.net/jpg/02/69/63/35/360_F_269633549_QijCLiqbGdwW1ynHsnul7ELl2trMpn25.jpg" alt="Haircut & Beard Styling">
+        <div class="salon-card-content">
+          <h4>Haircut & Beard Styling</h4>
+          <p>₹200</p>
+        </div>
+      </div>
+      <div class="salon-card">
+        <img src="https://img.freepik.com/premium-photo/man-getting-hair-wash-barber-shop_53876-135327.jpg" alt="Hair Color & Hair Spa">
+        <div class="salon-card-content">
+          <h4>Hair Color & Hair Spa</h4>
+          <p>₹350</p>
+        </div>
+      </div>
+      <div class="salon-card">
+        <img src="https://www.swagmee.com/media/wysiwyg/blog/Why_is_Facial_and_Clean_Up_Important_for_Men.jpg" alt="Facial & Cleanup">
+        <div class="salon-card-content">
+          <h4>Facial & Cleanup</h4>
+          <p>₹250</p>
+        </div>
+      </div>
+      <div class="salon-card">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-3R3VAJuLMQ9CdQgOcy8sw96tDr9zLrifVw&s" alt="Pedicure & Manicure">
+        <div class="salon-card-content">
+          <h4>Pedicure & Manicure</h4>
+          <p>₹400</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- New and Noteworthy -->
+  <section class="new-noteworthy">
+    <h2>New and Noteworthy</h2>
+    <div class="new-grid">
+      <div class="new-card">
+        <img src="https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template,q_auto:low,f_auto/w_128,dpr_2,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/growth/home-screen/1733136605585-3c4829.jpeg" alt="Native Water Purifier">
+        <div class="new-card-content">
+          <h4>Native Water Purifier</h4>
+          <p>₹1,200</p>
+        </div>
+      </div>
+      <div class="new-card">
+        <img src="https://broomberg.in/images/banner/broomberg-bathroom-cleaning-service.jpg" alt="Bathroom & Kitchen Cleaning">
+        <div class="new-card-content">
+          <h4>Bathroom & Kitchen Cleaning</h4>
+          <p>₹800</p>
+        </div>
+      </div>
+      <div class="new-card">
+        <img src="https://static.asianpaints.com/content/dam/asian_paints/blog/waterproofing/smartcare-damproof/7-simple-steps-to-waterproofing-your-exterior-walls/blog1.jpg" alt="Painting & Waterproofing">
+        <div class="new-card-content">
+          <h4>Painting & Waterproofing</h4>
+          <p>₹500</p>
+        </div>
+      </div>
+      <div class="new-card">
+        <img src="https://5.imimg.com/data5/SELLER/Default/2020/8/YW/QH/QU/4295468/laptop-repair-services.jpg" alt="Laptop Repair & Service">
+        <div class="new-card-content">
+          <h4>Laptop Repair & Service</h4>
+          <p>₹1,000</p>
+        </div>
+      </div>
+      <div class="new-card">
+        <img src="https://webtk.sfastservices.com/blogimg/Ac%20Service%20In%20Nagpur.jpg" alt="AC Service and Repair">
+        <div class="new-card-content">
+          <h4>AC Service and Repair</h4>
+          <p>₹799</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section class="testimonials">
+    <h2>What Our Customers Say</h2>
+    <div class="testimonial-grid">
+      <div class="testimonial-card">
+        <p>"Cservice transformed my home with their cleaning service. Highly professional and reliable!"</p>
+        <h5>Anita Sharma</h5>
+      </div>
+      <div class="testimonial-card">
+        <p>"The plumbing service was quick and efficient. Will definitely use Cservice again!"</p>
+        <h5>Rahul Verma</h5>
+      </div>
+      <div class="testimonial-card">
+        <p>"Amazing beauty services at home. Felt like a spa day!"</p>
+        <h5>Priya Rao</h5>
+      </div>
+      <div class="testimonial-card">
+        <p>"The AC repair was done perfectly. Great team and affordable rates!"</p>
+        <h5>Suresh Kumar</h5>
+      </div>
+      <div class="testimonial-card">
+        <p>"Excellent pest control service. My home is pest-free now!"</p>
+        <h5>Meena Patel</h5>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trust Badges -->
+  <section class="trust-badges">
+    <h2>Why Choose Cservice?</h2>
+    <div class="badge-grid">
+      <div class="badge">Trusted Professionals</div>
+      <div class="badge">100% Satisfaction Guaranteed</div>
+      <div class="badge">Affordable Pricing</div>
+      <div class="badge">24/7 Customer Support</div>
+      <div class="badge">Eco-Friendly Solutions</div>
+      <div class="badge">10+ Years Experience</div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer" id="contact">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h5>About Cservice</h5>
+        <p>Cservice is your trusted partner for professional home and beauty services in Visakhapatnam, delivering top-quality solutions with over 10 years of experience since 2015.</p>
+      </div>
+      <div class="footer-section">
+        <h5>Our Services</h5>
+        <ul>
+          <li><a href="#services">Home Cleaning</a></li>
+          <li><a href="#services">Plumbing</a></li>
+          <li><a href="#services">Electrical</a></li>
+          <li><a href="#services">Beauty Services</a></li>
+          <li><a href="#services">Pest Control</a></li>
+          <li><a href="#services">Painting</a></li>
+          <li><a href="#services">AC Repair</a></li>
+          <li><a href="#services">Carpentry</a></li>
+          <li><a href="#services">Appliance Repair</a></li>
+          <li><a href="#services">Smart Locks</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h5>Contact Us</h5>
+        <ul>
+          <li><a href="mailto:support@cservice.com">Email: support@cservice.com</a></li>
+          <li><a href="tel:+911234567890">Phone: +91 12345 67890</a></li>
+          <li><a href="#">Address: Visakhapatnam, Andhra Pradesh, India</a></li>
+          <li><a href="#">Support: 10:51 AM - 10:00 PM IST</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h5>Follow Us</h5>
+        <ul>
+          <li><a href="#">Facebook</a></li>
+          <li><a href="#">Twitter</a></li>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">LinkedIn</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Hamburger Menu Toggle
+    const hamburger = document.querySelector('.hamburger');
+    const navLinks = document.querySelector('.nav-links');
+
+    hamburger.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+    });
+
+    // Smooth Scroll for Navbar Links
+    document.querySelectorAll('.nav-links a').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href').substring(1);
+        const targetElement = document.getElementById(targetId);
+        if (targetElement) {
+          window.scrollTo({
+            top: targetElement.offsetTop - 80,
+            behavior: 'smooth'
+          });
+        }
+        navLinks.classList.remove('active');
+      });
+    });
+
+    // Filter Functionality
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const serviceCards = document.querySelectorAll('.service-card');
+
+    filterButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        // Remove active class from all buttons
+        filterButtons.forEach(btn => btn.classList.remove('active'));
+        // Add active class to clicked button
+        button.classList.add('active');
+
+        const filter = button.getAttribute('data-filter');
+
+        // Filter service cards
+        serviceCards.forEach(card => {
+          const category = card.getAttribute('data-category');
+          if (filter === 'all' || filter === category) {
+            card.classList.add('visible');
+            setTimeout(() => {
+              card.style.display = 'block';
+            }, 10); // Small delay to allow transition
+          } else {
+            card.classList.remove('visible');
+            setTimeout(() => {
+              card.style.display = 'none';
+            }, 500); // Match transition duration
+          }
+        });
+      });
+    });
+
+    // Initial load animation
+    window.addEventListener('load', () => {
+      serviceCards.forEach(card => {
+        card.classList.add('visible');
+        card.style.display = 'block';
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,1828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zesteat - Premium Food Delivery</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        :root {
+            --primary: #FF6B35;
+            --secondary: #4A4A4A;
+            --accent: #FFD166;
+            --light: #F7F7F7;
+            --dark: #2E2E2E;
+            --success: #06D6A0;
+            --card-bg: #FFFFFF;
+            --section-bg: #FFF9F5;
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        header {
+            background-color: var(--primary);
+            padding: 18px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            animation: slideDown 0.5s ease;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            font-weight: 800;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo i {
+            color: var(--accent);
+            font-size: 28px;
+            transform: rotate(-15deg);
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50px;
+            padding: 10px 20px;
+            width: 40%;
+            transition: var(--transition);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-bar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .search-bar input {
+            border: none;
+            outline: none;
+            width: 100%;
+            padding: 8px;
+            font-size: 16px;
+            background: transparent;
+        }
+
+        .search-bar button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--primary);
+            font-size: 18px;
+            transition: var(--transition);
+        }
+
+        .search-bar button:hover {
+            transform: scale(1.1);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            position: relative;
+            padding: 8px 0;
+            transition: var(--transition);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a i {
+            font-size: 20px;
+        }
+
+        .cart-count {
+            background: var(--accent);
+            color: var(--dark);
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+            position: absolute;
+            top: -8px;
+            right: -12px;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+                        url('https://images.unsplash.com/photo-1504674900247-0877df9cc926') no-repeat center;
+            background-size: cover;
+            height: 85vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, transparent 0%, rgba(0,0,0,0.7) 100%);
+        }
+
+        .hero-content {
+            max-width: 800px;
+            padding: 20px;
+            position: relative;
+            z-index: 2;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 64px;
+            margin-bottom: 20px;
+            line-height: 1.1;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero p {
+            font-size: 22px;
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-btn {
+            background: var(--accent);
+            color: var(--dark);
+            border: none;
+            padding: 16px 40px;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .hero-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+            background: #ffc346;
+        }
+
+        .hero-btn i {
+            animation: pulse 2s infinite;
+        }
+
+        /* Features */
+        .features {
+            padding: 80px 40px;
+            background: var(--section-bg);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 42px;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .section-title p {
+            font-size: 18px;
+            color: var(--secondary);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--primary);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s ease;
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature-icon {
+            background: rgba(255, 107, 53, 0.1);
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            color: var(--primary);
+            font-size: 36px;
+        }
+
+        .feature-card h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        .feature-card p {
+            color: var(--secondary);
+            line-height: 1.6;
+        }
+
+        /* Filters */
+        .filters {
+            display: flex;
+            justify-content: center;
+            padding: 30px 20px;
+            background: var(--card-bg);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .filter-btn {
+            background: white;
+            color: var(--dark);
+            border: 2px solid var(--primary);
+            padding: 12px 28px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+        }
+
+        .filter-btn.active {
+            transform: scale(1.05);
+        }
+
+        .filter-btn i {
+            font-size: 18px;
+        }
+
+        /* Restaurant Grid */
+        .restaurant-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            padding: 60px 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .restaurant-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            transition: var(--transition);
+            position: relative;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeIn 0.6s forwards;
+        }
+
+        .restaurant-card:nth-child(2) { animation-delay: 0.1s; }
+        .restaurant-card:nth-child(3) { animation-delay: 0.2s; }
+        .restaurant-card:nth-child(4) { animation-delay: 0.3s; }
+        .restaurant-card:nth-child(5) { animation-delay: 0.4s; }
+        .restaurant-card:nth-child(6) { animation-delay: 0.5s; }
+        .restaurant-card:nth-child(7) { animation-delay: 0.6s; }
+        .restaurant-card:nth-child(8) { animation-delay: 0.7s; }
+        .restaurant-card:nth-child(9) { animation-delay: 0.8s; }
+        .restaurant-card:nth-child(10) { animation-delay: 0.9s; }
+        .restaurant-card:nth-child(11) { animation-delay: 1.0s; }
+        .restaurant-card:nth-child(12) { animation-delay: 1.1s; }
+        .restaurant-card:nth-child(13) { animation-delay: 1.2s; }
+        .restaurant-card:nth-child(14) { animation-delay: 1.3s; }
+        .restaurant-card:nth-child(15) { animation-delay: 1.4s; }
+
+        .restaurant-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .restaurant-img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .restaurant-card:hover .restaurant-img {
+            transform: scale(1.05);
+        }
+
+        .restaurant-info {
+            padding: 25px;
+            position: relative;
+        }
+
+        .restaurant-info h3 {
+            font-size: 22px;
+            margin-bottom: 10px;
+            color: var(--primary);
+            transition: var(--transition);
+        }
+
+        .restaurant-card:hover .restaurant-info h3 {
+            color: #e05a2a;
+        }
+
+        .cuisine-tag {
+            background: rgba(255, 107, 53, 0.1);
+            color: var(--primary);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+        .restaurant-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .rating {
+            background: var(--success);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .delivery-time {
+            color: var(--secondary);
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .view-menu {
+            position: absolute;
+            bottom: 25px;
+            right: 25px;
+            background: var(--primary);
+            color: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 10px rgba(255, 107, 53, 0.4);
+        }
+
+        .view-menu:hover {
+            transform: rotate(15deg) scale(1.1);
+            background: #e05a2a;
+        }
+
+        /* Menu Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 800px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            transform: scale(0.9);
+            animation: scaleUp 0.4s forwards;
+        }
+
+        .modal-content h2 {
+            color: var(--primary);
+            margin-bottom: 30px;
+            font-family: 'Playfair Display', serif;
+            font-size: 36px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .modal-content h2 i {
+            color: var(--accent);
+        }
+
+        .menu-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+            transition: var(--transition);
+        }
+
+        .menu-item:hover {
+            background: rgba(255, 209, 102, 0.05);
+            padding: 20px 15px;
+            border-radius: 10px;
+        }
+
+        .item-info {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            width: 80%;
+        }
+
+        .item-name {
+            font-weight: 600;
+            font-size: 18px;
+            color: var(--dark);
+        }
+
+        .item-desc {
+            color: var(--secondary);
+            font-size: 15px;
+            line-height: 1.5;
+        }
+
+        .item-price {
+            font-weight: 700;
+            font-size: 20px;
+            color: var(--primary);
+            min-width: 80px;
+            text-align: right;
+        }
+
+        .add-to-cart {
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 8px 20px;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 10px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .add-to-cart:hover {
+            background: #e05a2a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(255, 107, 53, 0.4);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            font-size: 28px;
+            cursor: pointer;
+            color: var(--dark);
+            transition: var(--transition);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .close-btn:hover {
+            color: var(--primary);
+            background: rgba(0, 0, 0, 0.05);
+            transform: rotate(90deg);
+        }
+
+        /* Cart Modal */
+        #cartModal .modal-content {
+            max-width: 600px;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+        }
+
+        .cart-item-info {
+            flex-grow: 1;
+        }
+
+        .cart-item-name {
+            font-weight: 600;
+            font-size: 18px;
+            color: var(--dark);
+        }
+
+        .cart-item-restaurant {
+            color: var(--secondary);
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .cart-item-price {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .cart-item-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .quantity-btn {
+            background: var(--light);
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-weight: bold;
+            transition: var(--transition);
+        }
+
+        .quantity-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .remove-btn {
+            background: transparent;
+            border: none;
+            color: #ff6b6b;
+            cursor: pointer;
+            font-size: 20px;
+            margin-left: 10px;
+            transition: var(--transition);
+        }
+
+        .remove-btn:hover {
+            transform: scale(1.2);
+        }
+
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px 0;
+            margin-top: 20px;
+            border-top: 2px solid var(--primary);
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .cart-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .cart-btn {
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .continue-btn {
+            background: white;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .continue-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .checkout-btn {
+            background: var(--primary);
+            border: 2px solid var(--primary);
+            color: white;
+        }
+
+        .checkout-btn:hover {
+            background: #e05a2a;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.4);
+        }
+
+        /* Testimonials */
+        .testimonials {
+            padding: 80px 40px;
+            background: var(--section-bg);
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 40px auto 0;
+        }
+
+        .testimonial-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 35px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+            position: relative;
+        }
+
+        .testimonial-card::before {
+            content: '"';
+            position: absolute;
+            top: 20px;
+            left: 25px;
+            font-family: 'Playfair Display', serif;
+            font-size: 80px;
+            color: rgba(255, 107, 53, 0.1);
+            line-height: 1;
+        }
+
+        .testimonial-text {
+            color: var(--secondary);
+            font-size: 17px;
+            line-height: 1.7;
+            margin-bottom: 25px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .author-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--accent);
+        }
+
+        .author-info h4 {
+            font-size: 18px;
+            color: var(--dark);
+        }
+
+        .author-info p {
+            color: var(--primary);
+            font-size: 15px;
+        }
+
+        .rating-stars {
+            color: var(--accent);
+            margin-top: 5px;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 70px 40px 30px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto 50px;
+        }
+
+        .footer-col h3 {
+            font-size: 22px;
+            margin-bottom: 25px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-col h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--accent);
+        }
+
+        .footer-col p {
+            color: #bbb;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            height: 42px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            font-size: 18px;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 15px;
+        }
+
+        .footer-links a {
+            color: #bbb;
+            text-decoration: none;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+            transform: translateX(5px);
+        }
+
+        .footer-links a i {
+            font-size: 14px;
+            color: var(--accent);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #999;
+            font-size: 15px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes scaleUp {
+            from {
+                transform: scale(0.9);
+            }
+            to {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+            }
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 50px;
+            }
+            
+            .search-bar {
+                width: 50%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 15px 20px;
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+            
+            .logo {
+                font-size: 28px;
+            }
+            
+            .search-bar {
+                width: 100%;
+                order: 3;
+            }
+            
+            .hero {
+                height: 70vh;
+            }
+            
+            .hero h1 {
+                font-size: 36px;
+            }
+            
+            .hero p {
+                font-size: 18px;
+            }
+            
+            .section-title h2 {
+                font-size: 32px;
+            }
+            
+            .modal-content {
+                padding: 25px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-links a span {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 30px;
+            }
+            
+            .restaurant-grid {
+                padding: 40px 20px;
+            }
+            
+            .feature-grid {
+                gap: 25px;
+            }
+            
+            .testimonial-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <i class="fas fa-utensils"></i>
+            <span>Zesteat</span>
+        </div>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search for restaurants or dishes...">
+            <button><i class="fas fa-search"></i></button>
+        </div>
+        <div class="nav-links">
+            <a href="#"><i class="fas fa-home"></i> <span>Home</span></a>
+            <a href="#"><i class="fas fa-percent"></i> <span>Offers</span></a>
+            <a href="#" id="cartLink">
+                <i class="fas fa-shopping-cart"></i>
+                <span>Cart</span>
+                <span class="cart-count">0</span>
+            </a>
+            <a href="#"><i class="fas fa-user"></i> <span>Profile</span></a>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Savor the Flavors, Delivered to Your Door</h1>
+            <p>Discover culinary delights from the best restaurants in town, delivered fresh and fast.</p>
+            <button class="hero-btn" id="orderNowBtn">Order Now <i class="fas fa-arrow-right"></i></button>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="section-title">
+            <h2>Why Choose Zesteat?</h2>
+            <p>Experience the ultimate convenience in food delivery with our premium service</p>
+        </div>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <h3>Lightning Fast</h3>
+                <p>Get your food delivered in under 30 minutes with our optimized delivery network and dedicated riders.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-star"></i>
+                </div>
+                <h3>Premium Quality</h3>
+                <p>Enjoy restaurant-quality meals prepared with the freshest ingredients and delivered with care.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-tags"></i>
+                </div>
+                <h3>Exclusive Offers</h3>
+                <p>Save big with our daily deals, discounts, and special promotions for our loyal customers.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="filters">
+        <button class="filter-btn active" data-filter="all">
+            <i class="fas fa-utensils"></i> All
+        </button>
+        <button class="filter-btn" data-filter="north-indian">
+            <i class="fas fa-pepper-hot"></i> North Indian
+        </button>
+        <button class="filter-btn" data-filter="chinese">
+            <i class="fas fa-dragon"></i> Chinese
+        </button>
+        <button class="filter-btn" data-filter="italian">
+            <i class="fas fa-pizza-slice"></i> Italian
+        </button>
+        <button class="filter-btn" data-filter="fast-food">
+            <i class="fas fa-hamburger"></i> Fast Food
+        </button>
+        <button class="filter-btn" data-filter="desserts">
+            <i class="fas fa-ice-cream"></i> Desserts
+        </button>
+        <button class="filter-btn" data-filter="mexican">
+            <i class="fas fa-pepper-hot"></i> Mexican
+        </button>
+        <button class="filter-btn" data-filter="south-indian">
+            <i class="fas fa-leaf"></i> South Indian
+        </button>
+    </section>
+
+    <section class="restaurant-grid" id="restaurantGrid">
+        <!-- Restaurants will be dynamically added here -->
+    </section>
+
+    <section class="testimonials">
+        <div class="section-title">
+            <h2>Customer Stories</h2>
+            <p>Hear what our satisfied customers have to say about their Zesteat experience</p>
+        </div>
+        <div class="testimonial-grid">
+            <div class="testimonial-card">
+                <p class="testimonial-text">Zesteat has transformed my dining experience! The food always arrives hot and fresh, and the variety of restaurants is incredible. Their delivery is faster than any other service I've tried.</p>
+                <div class="testimonial-author">
+                    <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Sarah Johnson" class="author-avatar">
+                    <div class="author-info">
+                        <h4>Sarah Johnson</h4>
+                        <p>Regular Customer</p>
+                        <div class="rating-stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <p class="testimonial-text">As a busy professional, Zesteat has been a lifesaver. The app is intuitive, the ordering process is seamless, and the food quality is consistently excellent. Highly recommend!</p>
+                <div class="testimonial-author">
+                    <img src="https://randomuser.me/api/portraits/men/54.jpg" alt="Michael Chen" class="author-avatar">
+                    <div class="author-info">
+                        <h4>Michael Chen</h4>
+                        <p>Business Executive</p>
+                        <div class="rating-stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <p class="testimonial-text">I've tried many food delivery services, but Zesteat stands out for their exceptional customer service. When there was a minor issue with my order, they resolved it immediately. Truly impressed!</p>
+                <div class="testimonial-author">
+                    <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Priya Sharma" class="author-avatar">
+                    <div class="author-info">
+                        <h4>Priya Sharma</h4>
+                        <p>Food Blogger</p>
+                        <div class="rating-stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Modal -->
+    <div class="modal" id="menuModal">
+        <div class="modal-content">
+            <span class="close-btn"><i class="fas fa-times"></i></span>
+            <h2 id="modalTitle"><i class="fas fa-book-open"></i> <span>Restaurant Menu</span></h2>
+            <div id="menuItems"></div>
+        </div>
+    </div>
+
+    <!-- Cart Modal -->
+    <div class="modal" id="cartModal">
+        <div class="modal-content">
+            <span class="close-btn"><i class="fas fa-times"></i></span>
+            <h2><i class="fas fa-shopping-cart"></i> Your Cart</h2>
+            <div id="cartItems"></div>
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cartTotal">₹0</span>
+            </div>
+            <div class="cart-actions">
+                <button class="cart-btn continue-btn" id="continueShopping">Continue Shopping</button>
+                <button class="cart-btn checkout-btn" id="checkoutBtn">Checkout</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h3>About Zesteat</h3>
+                <p>Zesteat is revolutionizing food delivery with our commitment to quality, speed, and exceptional service. We connect food lovers with the best local restaurants.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Home</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Restaurants</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Deals & Offers</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> My Account</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Order Tracking</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Contact Us</h3>
+                <ul class="footer-links">
+                    <li><a href="#"><i class="fas fa-map-marker-alt"></i> 123 Gourmet Street, Foodville</a></li>
+                    <li><a href="#"><i class="fas fa-phone"></i> +1 (555) 123-4567</a></li>
+                    <li><a href="#"><i class="fas fa-envelope"></i> hello@zesteat.com</a></li>
+                    <li><a href="#"><i class="fas fa-headset"></i> 24/7 Customer Support</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Zesteat. All rights reserved. | Designed with <i class="fas fa-heart" style="color: var(--accent);"></i> for food lovers</p>
+        </div>
+    </footer>
+
+    <script>
+        // Restaurant data with 20 diverse restaurants
+        const restaurants = [
+            {
+                id: 1,
+                name: "Spice Haven",
+                cuisine: "north-indian",
+                rating: 4.5,
+                time: "30-40 mins",
+                image: "https://th.bing.com/th/id/R.d53b9b36fc11e78b3ba32d2c74068a64?rik=JF%2f1LmC5es6iWg&riu=http%3a%2f%2fcoveteur.com%2fwp-content%2fuploads%2f2018%2f03%2flondon-regent-street-best-restaurants-2.jpg&ehk=BMknNyaNUcakC8VyTj5oUG2Exgz%2fUPSfYSB1S7e%2b15k%3d&risl=&pid=ImgRaw&r=0",
+                menu: [
+                    { id: 101, name: "Butter Chicken", desc: "Tender chicken in rich tomato and butter sauce", price: 350 },
+                    { id: 102, name: "Paneer Tikka", desc: "Grilled cottage cheese with spices and vegetables", price: 280 },
+                    { id: 103, name: "Garlic Naan", desc: "Traditional Indian bread with garlic and herbs", price: 50 },
+                    { id: 104, name: "Vegetable Biryani", desc: "Fragrant basmati rice with mixed vegetables", price: 320 }
+                ]
+            },
+            {
+                id: 2,
+                name: "Dragon Wok",
+                cuisine: "chinese",
+                rating: 4.2,
+                time: "25-35 mins",
+                image: "https://th.bing.com/th/id/OIP.T56Bd63N3eTV-zxPRwgPVQAAAA?rs=1&pid=ImgDetMain&cb=idpwebp2&o=7&rm=3",
+                menu: [
+                    { id: 201, name: "Hakka Noodles", desc: "Stir-fried noodles with vegetables and soy sauce", price: 220 },
+                    { id: 202, name: "Chicken Manchurian", desc: "Crispy chicken in tangy Manchurian sauce", price: 250 },
+                    { id: 203, name: "Vegetable Fried Rice", desc: "Wok-tossed rice with fresh vegetables", price: 200 },
+                    { id: 204, name: "Spring Rolls", desc: "Crispy rolls with vegetable filling", price: 180 }
+                ]
+            },
+            {
+                id: 3,
+                name: "Pasta Palazzo",
+                cuisine: "italian",
+                rating: 4.7,
+                time: "35-45 mins",
+                image: "https://images.unsplash.com/photo-1516100882582-96c3a05fe590",
+                menu: [
+                    { id: 301, name: "Margherita Pizza", desc: "Classic pizza with tomato, mozzarella, and basil", price: 400 },
+                    { id: 302, name: "Pasta Alfredo", desc: "Fettuccine in creamy Parmesan sauce", price: 320 },
+                    { id: 303, name: "Tiramisu", desc: "Classic Italian coffee-flavored dessert", price: 180 },
+                    { id: 304, name: "Truffle Arancini", desc: "Risotto balls with truffle and mozzarella", price: 280 }
+                ]
+            },
+            {
+                id: 4,
+                name: "Burger Bonanza",
+                cuisine: "fast-food",
+                rating: 4.0,
+                time: "20-30 mins",
+                image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd",
+                menu: [
+                    { id: 401, name: "Classic Cheeseburger", desc: "Beef patty with cheese, lettuce, and special sauce", price: 150 },
+                    { id: 402, name: "Crispy French Fries", desc: "Golden fried potatoes with seasoning", price: 80 },
+                    { id: 403, name: "Chocolate Milkshake", desc: "Creamy milkshake with chocolate syrup", price: 120 },
+                    { id: 404, name: "BBQ Chicken Burger", desc: "Grilled chicken with BBQ sauce and slaw", price: 180 }
+                ]
+            },
+            {
+                id: 5,
+                name: "Sweet Escape",
+                cuisine: "desserts",
+                rating: 4.8,
+                time: "15-25 mins",
+                image: "https://th.bing.com/th/id/R.fea033812bb9e5a47daa4aa3d052be59?rik=Ia8jYlw38iEcJA&riu=http%3a%2f%2fstatic1.squarespace.com%2fstatic%2f56c3bd7e60b5e94c660287c3%2ft%2f6313738d09db2e13c98ff003%2f1662219157725%2fDCEFB291-8D08-48AD-81B3-EBE16876B77C.jpeg%3fformat%3d1500w&ehk=uqxdbewe2Bt8WgOr0N%2bCYwlbJP2kXEAqqsnFTttN26s%3d&risl=&pid=ImgRaw&r=0",
+                menu: [
+                    { id: 501, name: "Chocolate Lava Cake", desc: "Warm chocolate cake with molten center", price: 200 },
+                    { id: 502, name: "Ice Cream Sundae", desc: "Vanilla ice cream with chocolate sauce and nuts", price: 150 },
+                    { id: 503, name: "Gulab Jamun", desc: "Traditional Indian sweet in sugar syrup", price: 100 },
+                    { id: 504, name: "Red Velvet Cupcake", desc: "Moist red velvet cake with cream cheese frosting", price: 120 }
+                ]
+            },
+            {
+                id: 6,
+                name: "Taste of Punjab",
+                cuisine: "north-indian",
+                rating: 4.3,
+                time: "30-40 mins",
+                image: "https://th.bing.com/th/id/OIP.vmYtaUebocZDBcPJC7VVgAHaE8?rs=1&pid=ImgDetMain&cb=idpwebp2&o=7&rm=3",
+                menu: [
+                    { id: 601, name: "Dal Makhani", desc: "Creamy black lentils slow-cooked with spices", price: 300 },
+                    { id: 602, name: "Rogan Josh", desc: "Aromatic lamb curry from Kashmir", price: 380 },
+                    { id: 603, name: "Stuffed Paratha", desc: "Whole wheat bread stuffed with potato", price: 60 },
+                    { id: 604, name: "Punjabi Lassi", desc: "Traditional yogurt-based drink", price: 90 }
+                ]
+            },
+            {
+                id: 7,
+                name: "Wok & Roll",
+                cuisine: "chinese",
+                rating: 4.1,
+                time: "25-35 mins",
+                image: "https://images.unsplash.com/photo-1543352634-a1c51d9f1fa7",
+                menu: [
+                    { id: 701, name: "Chilli Chicken", desc: "Crispy chicken in spicy sauce with vegetables", price: 260 },
+                    { id: 702, name: "Veg Spring Rolls", desc: "Crispy rolls with vegetable filling", price: 180 },
+                    { id: 703, name: "Schezwan Fried Rice", desc: "Spicy fried rice with Schezwan sauce", price: 220 },
+                    { id: 704, name: "Hot & Sour Soup", desc: "Spicy and tangy soup with vegetables", price: 150 }
+                ]
+            },
+            {
+                id: 8,
+                name: "Italian Affair",
+                cuisine: "italian",
+                rating: 4.6,
+                time: "35-45 mins",
+                image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c",
+                menu: [
+                    { id: 801, name: "Pepperoni Pizza", desc: "Classic pizza with pepperoni and cheese", price: 450 },
+                    { id: 802, name: "Pasta Carbonara", desc: "Spaghetti with bacon and creamy sauce", price: 340 },
+                    { id: 803, name: "Gelato", desc: "Italian-style ice cream in various flavors", price: 160 },
+                    { id: 804, name: "Bruschetta", desc: "Toasted bread topped with tomatoes and basil", price: 200 }
+                ]
+            },
+            {
+                id: 9,
+                name: "Quick Bites",
+                cuisine: "fast-food",
+                rating: 3.9,
+                time: "20-30 mins",
+                image: "https://images.unsplash.com/photo-1550547660-d9450f859349",
+                menu: [
+                    { id: 901, name: "Chicken Wrap", desc: "Grilled chicken with veggies in tortilla", price: 180 },
+                    { id: 902, name: "Onion Rings", desc: "Crispy battered onion rings", price: 90 },
+                    { id: 903, name: "Soda", desc: "Refreshing carbonated drink", price: 50 },
+                    { id: 904, name: "Nachos Supreme", desc: "Crispy tortilla chips with cheese and toppings", price: 220 }
+                ]
+            },
+            {
+                id: 10,
+                name: "Taco Fiesta",
+                cuisine: "mexican",
+                rating: 4.4,
+                time: "25-35 mins",
+                image: "https://media.cntraveler.com/photos/5859aad8eaa56c5e65d43539/master/pass/best-restaurants-NYC-Charlie-Bird-interior-2016.jpg",
+                menu: [
+                    { id: 1001, name: "Beef Tacos", desc: "Crispy corn tortillas with seasoned beef", price: 250 },
+                    { id: 1002, name: "Guacamole", desc: "Fresh avocado dip with lime and cilantro", price: 120 },
+                    { id: 1003, name: "Chicken Quesadilla", desc: "Grilled tortilla with cheese and chicken", price: 280 },
+                    { id: 1004, name: "Churros", desc: "Fried dough pastry with chocolate dip", price: 150 }
+                ]
+            },
+            {
+                id: 11,
+                name: "Dosa Delight",
+                cuisine: "south-indian",
+                rating: 4.5,
+                time: "30-40 mins",
+                image: "https://images.unsplash.com/photo-1631452180519-c014fe946bc7",
+                menu: [
+                    { id: 1101, name: "Masala Dosa", desc: "Crispy crepe filled with spiced potatoes", price: 180 },
+                    { id: 1102, name: "Idli Sambar", desc: "Steamed rice cakes with lentil soup", price: 120 },
+                    { id: 1103, name: "Vada", desc: "Savory fried lentil doughnuts", price: 100 },
+                    { id: 1104, name: "Filter Coffee", desc: "Traditional South Indian coffee", price: 80 }
+                ]
+            },
+            {
+                id: 12,
+                name: "Sushi Sensation",
+                cuisine: "japanese",
+                rating: 4.7,
+                time: "35-45 mins",
+                image: "https://images.unsplash.com/photo-1611143669185-af224c5e3252",
+                menu: [
+                    { id: 1201, name: "California Roll", desc: "Crab, avocado, cucumber wrapped in rice", price: 320 },
+                    { id: 1202, name: "Sashimi Platter", desc: "Assorted fresh raw fish slices", price: 450 },
+                    { id: 1203, name: "Miso Soup", desc: "Traditional Japanese soybean soup", price: 120 },
+                    { id: 1204, name: "Tempura Shrimp", desc: "Lightly battered and fried shrimp", price: 280 }
+                ]
+            },
+            {
+                id: 13,
+                name: "BBQ Kingdom",
+                cuisine: "american",
+                rating: 4.3,
+                time: "40-50 mins",
+                image: "https://images.unsplash.com/photo-1558036117-15d82a90b9b1",
+                menu: [
+                    { id: 1301, name: "Smoked Brisket", desc: "Slow-smoked beef brisket with BBQ sauce", price: 480 },
+                    { id: 1302, name: "Pulled Pork Sandwich", desc: "Tender pulled pork on brioche bun", price: 320 },
+                    { id: 1303, name: "Mac & Cheese", desc: "Creamy macaroni with four cheeses", price: 200 },
+                    { id: 1304, name: "Cornbread", desc: "Sweet cornbread with honey butter", price: 120 }
+                ]
+            },
+            {
+                id: 14,
+                name: "Mediterranean Magic",
+                cuisine: "mediterranean",
+                rating: 4.6,
+                time: "30-40 mins",
+                image: "https://assets.gqindia.com/photos/62a9d4653e8cdc9b632eb2ad/16:9/w_1280,c_limit/10%20restaurants%20in%20Mumbai%20that%20offer%20the%20best%20sunset%20views.jpg",
+                menu: [
+                    { id: 1401, name: "Chicken Shawarma", desc: "Grilled chicken with garlic sauce", price: 280 },
+                    { id: 1402, name: "Hummus & Pita", desc: "Chickpea dip with warm pita bread", price: 150 },
+                    { id: 1403, name: "Falafel Platter", desc: "Crispy chickpea fritters with tahini", price: 220 },
+                    { id: 1404, name: "Greek Salad", desc: "Fresh vegetables with feta and olives", price: 180 }
+                ]
+            },
+            {
+                id: 15,
+                name: "Thai Orchid",
+                cuisine: "thai",
+                rating: 4.5,
+                time: "35-45 mins",
+                image: "https://images.unsplash.com/photo-1529042410759-befb1204b468",
+                menu: [
+                    { id: 1501, name: "Pad Thai", desc: "Stir-fried rice noodles with tofu and peanuts", price: 280 },
+                    { id: 1502, name: "Green Curry", desc: "Spicy coconut curry with vegetables", price: 320 },
+                    { id: 1503, name: "Tom Yum Soup", desc: "Hot and sour soup with shrimp", price: 180 },
+                    { id: 1504, name: "Mango Sticky Rice", desc: "Sweet mango with coconut sticky rice", price: 150 }
+                ]
+            },
+            {
+                id: 16,
+                name: "Seafood Shack",
+                cuisine: "seafood",
+                rating: 4.4,
+                time: "40-50 mins",
+                image: "https://images.unsplash.com/photo-1606851094291-6efae152bb87",
+                menu: [
+                    { id: 1601, name: "Grilled Salmon", desc: "Fresh salmon with lemon butter sauce", price: 450 },
+                    { id: 1602, name: "Shrimp Scampi", desc: "Garlic butter shrimp with pasta", price: 380 },
+                    { id: 1603, name: "Clam Chowder", desc: "Creamy soup with clams and potatoes", price: 180 },
+                    { id: 1604, name: "Crab Cakes", desc: "Pan-seared crab cakes with remoulade", price: 320 }
+                ]
+            },
+            {
+                id: 17,
+                name: "Vegan Vibes",
+                cuisine: "vegan",
+                rating: 4.7,
+                time: "25-35 mins",
+                image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd",
+                menu: [
+                    { id: 1701, name: "Buddha Bowl", desc: "Quinoa, roasted veggies, and tahini dressing", price: 280 },
+                    { id: 1702, name: "Jackfruit Tacos", desc: "Pulled jackfruit with avocado crema", price: 250 },
+                    { id: 1703, name: "Vegan Burger", desc: "Plant-based patty with special sauce", price: 220 },
+                    { id: 1704, name: "Acai Bowl", desc: "Acai smoothie with fresh fruits and granola", price: 200 }
+                ]
+            },
+            {
+                id: 18,
+                name: "Crepe Corner",
+                cuisine: "french",
+                rating: 4.3,
+                time: "20-30 mins",
+                image: "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/10/f0/71/1d/photo0jpg.jpg?w=1200&h=800&s=1",
+                menu: [
+                    { id: 1801, name: "Nutella Crepe", desc: "Thin pancake with Nutella and bananas", price: 180 },
+                    { id: 1802, name: "Ham & Cheese Crepe", desc: "Savory crepe with ham and Gruyère", price: 220 },
+                    { id: 1803, name: "Croque Monsieur", desc: "Grilled ham and cheese sandwich", price: 250 },
+                    { id: 1804, name: "French Onion Soup", desc: "Caramelized onion soup with croutons", price: 200 }
+                ]
+            },
+            {
+                id: 19,
+                name: "Korean Grill",
+                cuisine: "korean",
+                rating: 4.6,
+                time: "35-45 mins",
+                image: "https://media.timeout.com/images/102523828/image.jpg",
+                menu: [
+                    { id: 1901, name: "Bibimbap", desc: "Rice bowl with vegetables and beef", price: 280 },
+                    { id: 1902, name: "Kimchi Fried Rice", desc: "Spicy fried rice with fermented cabbage", price: 220 },
+                    { id: 1903, name: "Bulgogi", desc: "Marinated grilled beef with rice", price: 320 },
+                    { id: 1904, name: "Tteokbokki", desc: "Spicy rice cakes with fish cakes", price: 200 }
+                ]
+            },
+            {
+                id: 20,
+                name: "Poke Paradise",
+                cuisine: "hawaiian",
+                rating: 4.4,
+                time: "20-30 mins",
+                image: "https://images.unsplash.com/photo-1611143669185-af224c5e3252",
+                menu: [
+                    { id: 2001, name: "Ahi Tuna Poke", desc: "Fresh tuna with soy sauce and sesame", price: 320 },
+                    { id: 2002, name: "Salmon Poke Bowl", desc: "Salmon with rice and vegetables", price: 300 },
+                    { id: 2003, name: "Tofu Poke", desc: "Marinated tofu with edamame and avocado", price: 250 },
+                    { id: 2004, name: "Mango Tango Bowl", desc: "Tropical fruits with coconut rice", price: 220 }
+                ]
+            }
+        ];
+
+        // DOM Elements
+        const restaurantGrid = document.getElementById('restaurantGrid');
+        const searchInput = document.getElementById('searchInput');
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const menuModal = document.getElementById('menuModal');
+        const cartModal = document.getElementById('cartModal');
+        const menuTitle = document.getElementById('modalTitle');
+        const menuItems = document.getElementById('menuItems');
+        const cartItems = document.getElementById('cartItems');
+        const cartTotal = document.getElementById('cartTotal');
+        const cartLink = document.getElementById('cartLink');
+        const closeButtons = document.querySelectorAll('.close-btn');
+        const orderNowBtn = document.getElementById('orderNowBtn');
+        const continueShoppingBtn = document.getElementById('continueShopping');
+        const checkoutBtn = document.getElementById('checkoutBtn');
+
+        // State
+        let cart = [];
+        let currentRestaurant = null;
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', () => {
+            displayRestaurants();
+            updateCartCount();
+            
+            // Event listeners
+            searchInput.addEventListener('input', handleSearch);
+            cartLink.addEventListener('click', showCart);
+            orderNowBtn.addEventListener('click', scrollToRestaurants);
+            continueShoppingBtn.addEventListener('click', () => cartModal.style.display = 'none');
+            checkoutBtn.addEventListener('click', handleCheckout);
+            
+            // Close modals when clicking outside
+            window.addEventListener('click', (e) => {
+                if (e.target === menuModal) menuModal.style.display = 'none';
+                if (e.target === cartModal) cartModal.style.display = 'none';
+            });
+            
+            // Close modals with close buttons
+            closeButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    menuModal.style.display = 'none';
+                    cartModal.style.display = 'none';
+                });
+            });
+        });
+
+        // Display restaurants
+        function displayRestaurants(filter = 'all', search = '') {
+            restaurantGrid.innerHTML = '';
+            
+            const filtered = restaurants.filter(restaurant => {
+                const matchesFilter = filter === 'all' || restaurant.cuisine === filter;
+                const matchesSearch = restaurant.name.toLowerCase().includes(search.toLowerCase()) ||
+                                     restaurant.cuisine.replace('-', ' ').toLowerCase().includes(search.toLowerCase());
+                return matchesFilter && matchesSearch;
+            });
+            
+            if (filtered.length === 0) {
+                restaurantGrid.innerHTML = `
+                    <div class="no-results" style="grid-column:1/-1; text-align:center; padding:40px;">
+                        <h3 style="color:var(--primary); margin-bottom:20px;">No restaurants found</h3>
+                        <p>Try adjusting your search or filter criteria</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            filtered.forEach((restaurant, index) => {
+                const card = document.createElement('div');
+                card.className = 'restaurant-card';
+                card.style.animationDelay = `${index * 0.1}s`;
+                card.innerHTML = `
+                    <img src="${restaurant.image}" alt="${restaurant.name}" class="restaurant-img">
+                    <div class="restaurant-info">
+                        <h3>${restaurant.name}</h3>
+                        <span class="cuisine-tag">${restaurant.cuisine.replace('-', ' ')}</span>
+                        <div class="restaurant-meta">
+                            <div class="rating">
+                                <i class="fas fa-star"></i> ${restaurant.rating}
+                            </div>
+                            <div class="delivery-time">
+                                <i class="fas fa-clock"></i> ${restaurant.time}
+                            </div>
+                        </div>
+                        <div class="view-menu">
+                            <i class="fas fa-book-open"></i>
+                        </div>
+                    </div>
+                `;
+                card.querySelector('.view-menu').addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    showMenu(restaurant);
+                });
+                card.addEventListener('click', () => showMenu(restaurant));
+                restaurantGrid.appendChild(card);
+            });
+        }
+
+        // Show restaurant menu
+        function showMenu(restaurant) {
+            currentRestaurant = restaurant;
+            menuTitle.querySelector('span').textContent = `${restaurant.name} Menu`;
+            menuItems.innerHTML = restaurant.menu.map(item => `
+                <div class="menu-item">
+                    <div class="item-info">
+                        <div class="item-name">${item.name}</div>
+                        <div class="item-desc">${item.desc}</div>
+                        <button class="add-to-cart" data-id="${item.id}">
+                            <i class="fas fa-plus"></i> Add to Cart
+                        </button>
+                    </div>
+                    <div class="item-price">₹${item.price}</div>
+                </div>
+            `).join('');
+            
+            // Add event listeners to Add to Cart buttons
+            document.querySelectorAll('.add-to-cart').forEach(button => {
+                button.addEventListener('click', function() {
+                    const itemId = parseInt(this.getAttribute('data-id'));
+                    addToCart(itemId);
+                });
+            });
+            
+            menuModal.style.display = 'flex';
+        }
+
+        // Add item to cart
+        function addToCart(itemId) {
+            const restaurant = currentRestaurant;
+            const menuItem = restaurant.menu.find(item => item.id === itemId);
+            
+            if (!menuItem) return;
+            
+            // Check if item already in cart
+            const existingItem = cart.find(item => item.id === itemId);
+            
+            if (existingItem) {
+                existingItem.quantity++;
+            } else {
+                cart.push({
+                    id: menuItem.id,
+                    name: menuItem.name,
+                    price: menuItem.price,
+                    restaurant: restaurant.name,
+                    quantity: 1
+                });
+            }
+            
+            updateCartCount();
+            alert(`Added ${menuItem.name} to your cart!`);
+        }
+
+        // Update cart count display
+        function updateCartCount() {
+            const cartCount = document.querySelector('.cart-count');
+            const count = cart.reduce((total, item) => total + item.quantity, 0);
+            cartCount.textContent = count;
+            
+            if (count > 0) {
+                cartCount.style.display = 'flex';
+                cartCount.style.animation = 'pulse 0.5s';
+                setTimeout(() => cartCount.style.animation = '', 500);
+            } else {
+                cartCount.style.display = 'none';
+            }
+        }
+
+        // Show cart modal
+        function showCart(e) {
+            e.preventDefault();
+            renderCart();
+            cartModal.style.display = 'flex';
+        }
+
+        // Render cart contents
+        function renderCart() {
+            if (cart.length === 0) {
+                cartItems.innerHTML = `
+                    <div style="text-align:center; padding:40px 20px;">
+                        <i class="fas fa-shopping-cart" style="font-size:60px; color:#ddd; margin-bottom:20px;"></i>
+                        <h3 style="color:var(--primary);">Your cart is empty</h3>
+                        <p>Add delicious food items to your cart</p>
+                    </div>
+                `;
+                cartTotal.textContent = '₹0';
+                return;
+            }
+            
+            cartItems.innerHTML = '';
+            let total = 0;
+            
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                
+                const cartItem = document.createElement('div');
+                cartItem.className = 'cart-item';
+                cartItem.innerHTML = `
+                    <div class="cart-item-info">
+                        <div class="cart-item-name">${item.name}</div>
+                        <div class="cart-item-restaurant">${item.restaurant}</div>
+                    </div>
+                    <div class="cart-item-controls">
+                        <button class="quantity-btn decrease" data-id="${item.id}">-</button>
+                        <span>${item.quantity}</span>
+                        <button class="quantity-btn increase" data-id="${item.id}">+</button>
+                        <button class="remove-btn" data-id="${item.id}">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                    <div class="cart-item-price">₹${itemTotal}</div>
+                `;
+                cartItems.appendChild(cartItem);
+            });
+            
+            cartTotal.textContent = `₹${total}`;
+            
+            // Add event listeners for quantity controls
+            document.querySelectorAll('.decrease').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = parseInt(this.getAttribute('data-id'));
+                    updateQuantity(id, -1);
+                });
+            });
+            
+            document.querySelectorAll('.increase').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = parseInt(this.getAttribute('data-id'));
+                    updateQuantity(id, 1);
+                });
+            });
+            
+            document.querySelectorAll('.remove-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = parseInt(this.getAttribute('data-id'));
+                    removeItem(id);
+                });
+            });
+        }
+
+        // Update item quantity
+        function updateQuantity(itemId, change) {
+            const item = cart.find(item => item.id === itemId);
+            if (!item) return;
+            
+            item.quantity += change;
+            
+            if (item.quantity <= 0) {
+                cart = cart.filter(i => i.id !== itemId);
+            }
+            
+            updateCartCount();
+            renderCart();
+        }
+
+        // Remove item from cart
+        function removeItem(itemId) {
+            cart = cart.filter(item => item.id !== itemId);
+            updateCartCount();
+            renderCart();
+        }
+
+        // Handle checkout
+        function handleCheckout() {
+            if (cart.length === 0) {
+                alert("Your cart is empty!");
+                return;
+            }
+            
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            alert(`Order placed successfully!\nTotal: ₹${total}\nThank you for choosing Zesteat!`);
+            cart = [];
+            updateCartCount();
+            cartModal.style.display = 'none';
+        }
+
+        // Handle search
+        function handleSearch() {
+            const searchTerm = searchInput.value.trim().toLowerCase();
+            const activeFilter = document.querySelector('.filter-btn.active').dataset.filter;
+            displayRestaurants(activeFilter, searchTerm);
+        }
+
+        // Filter restaurants
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                const searchTerm = searchInput.value.trim().toLowerCase();
+                displayRestaurants(button.dataset.filter, searchTerm);
+            });
+        });
+
+        // Scroll to restaurants
+        function scrollToRestaurants() {
+            document.querySelector('.filters').scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+    </script>
+</body>
+</html>

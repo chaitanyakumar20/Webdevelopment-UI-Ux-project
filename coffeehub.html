@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CoffeeHub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #4b2e1e;
+            --secondary: #d4a017;
+            --light: #f5f0e8;
+            --dark: #2f1c0f;
+            --gray: #5d5d5d;
+            --success: #4CAF50;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            padding-top: 80px;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background-color: var(--primary);
+            color: white;
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .navbar .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .navbar .logo {
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            color: var(--secondary);
+        }
+
+        .navbar .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 25px;
+        }
+
+        .navbar .nav-links li a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            position: relative;
+            padding: 5px 0;
+            transition: all 0.3s;
+        }
+
+        .navbar .nav-links li a:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--secondary);
+            transition: width 0.3s;
+        }
+
+        .navbar .nav-links li a:hover:after,
+        .navbar .nav-links li a.active:after {
+            width: 100%;
+        }
+
+        .navbar .nav-links li a:hover {
+            color: var(--secondary);
+        }
+
+        .navbar .cart-icon {
+            position: relative;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -10px;
+            background: var(--secondary);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hamburger {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: calc(100vh - 80px);
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+                        url('https://images.unsplash.com/photo-1447933601403-0c6688de566e?q=80&w=2562&auto=format&fit=crop') no-repeat center center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            padding: 0 20px;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .hero-content p {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .btn {
+            background-color: var(--primary);
+            color: white;
+            padding: 12px 30px;
+            text-decoration: none;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: 600;
+            display: inline-block;
+            transition: all 0.3s;
+            border: 2px solid var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn:hover {
+            background-color: transparent;
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary);
+            border-color: var(--secondary);
+        }
+
+        .btn-secondary:hover {
+            background-color: transparent;
+            color: white;
+        }
+
+        /* Sections */
+        .section {
+            padding: 80px 0;
+            background-color: #fffcf5;
+        }
+
+        .section-header {
+            max-width: 1200px;
+            margin: 0 auto 40px;
+            padding: 0 20px;
+            text-align: center;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-header h2:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--secondary);
+            border-radius: 2px;
+        }
+
+        .section-header p {
+            font-size: 1.1rem;
+            color: var(--gray);
+            max-width: 700px;
+            margin: 20px auto 0;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Subcategories */
+        .subcategories {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .subcategories span {
+            background-color: #e6e1d9;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-size: 14px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .subcategories span:hover,
+        .subcategories span.active {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        /* Product Grid */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .product-card {
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 2px solid var(--light);
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--secondary);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            z-index: 1;
+        }
+
+        .product-tags {
+            padding: 15px 15px 0;
+            display: flex;
+            gap: 10px;
+        }
+
+        .product-tags .veg, 
+        .product-tags .non-veg {
+            font-size: 12px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+
+        .product-tags .veg {
+            background-color: rgba(75, 46, 30, 0.1);
+            color: var(--success);
+            border: 1px solid var(--success);
+        }
+
+        .product-tags .non-veg {
+            background-color: rgba(166, 46, 46, 0.1);
+            color: #a62e2e;
+            border: 1px solid #a62e2e;
+        }
+
+        .product-tags .new-launch {
+            background-color: rgba(212, 160, 23, 0.1);
+            color: var(--secondary);
+            border: 1px solid var(--secondary);
+            font-size: 12px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+
+        .product-info {
+            padding: 15px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-info h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+
+        .product-info .details {
+            font-size: 14px;
+            color: var(--gray);
+            margin-bottom: 10px;
+        }
+
+        .product-info p {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.5;
+            flex-grow: 1;
+        }
+
+        .product-price {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .product-price .price {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--dark);
+        }
+
+        .product-price .btn {
+            padding: 8px 20px;
+            font-size: 14px;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 60px 0 30px;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            padding: 0 20px;
+        }
+
+        .footer-column h3 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-column h3:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--secondary);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: #bbb;
+            text-decoration: none;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-links a:hover {
+            color: var(--secondary);
+        }
+
+        .footer-links i {
+            width: 20px;
+            text-align: center;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            color: white;
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            background: var(--secondary);
+            transform: translateY(-3px);
+        }
+
+        .newsletter p {
+            color: #bbb;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 12px 15px;
+            border: none;
+            border-radius: 30px;
+            font-size: 14px;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 40px;
+            margin-top: 40px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #bbb;
+            font-size: 14px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .hero-content h1 {
+                font-size: 2.8rem;
+            }
+            
+            .hero-content p {
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar .nav-links {
+                display: none;
+            }
+            
+            .hamburger {
+                display: block;
+                color: white;
+            }
+            
+            .hero-content h1 {
+                font-size: 2.2rem;
+            }
+            
+            .hero-content p {
+                font-size: 1rem;
+            }
+            
+            .section {
+                padding: 60px 0;
+            }
+            
+            .section-header h2 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero {
+                height: 70vh;
+            }
+            
+            .hero-content h1 {
+                font-size: 1.8rem;
+            }
+            
+            .btn {
+                padding: 10px 20px;
+                font-size: 16px;
+            }
+            
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            position: fixed;
+            top: 80px;
+            left: 0;
+            width: 100%;
+            background: var(--primary);
+            z-index: 999;
+            transform: translateY(-100%);
+            transition: transform 0.3s ease-in-out;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .mobile-menu.active {
+            transform: translateY(0);
+        }
+
+        .mobile-links {
+            list-style: none;
+            padding: 20px;
+        }
+
+        .mobile-links li {
+            margin-bottom: 15px;
+        }
+
+        .mobile-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            display: block;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-mug-hot"></i>
+                CoffeeHub
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home" class="active">Home</a></li>
+                <li><a href="#gift">Gift</a></li>
+                <li><a href="#order">Order</a></li>
+                <li><a href="#pay">Pay</a></li>
+                <li><a href="#store">Store</a></li>
+                <li><a href="#"><i class="fas fa-shopping-cart cart-icon"><span class="cart-count">3</span></i></a></li>
+            </ul>
+            <div class="hamburger">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu">
+        <ul class="mobile-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#gift">Gift</a></li>
+            <li><a href="#order">Order</a></li>
+            <li><a href="#pay">Pay</a></li>
+            <li><a href="#store">Store</a></li>
+            <li><a href="#"><i class="fas fa-shopping-cart"></i> Cart (3)</a></li>
+        </ul>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Welcome to CoffeeHub</h1>
+            <p>Discover your favorite coffee, crafted just for you.</p>
+            <a href="#order" class="btn">Order Now</a>
+            <a href="#bestseller" class="btn btn-secondary">Our Bestsellers</a>
+        </div>
+    </section>
+
+    <!-- Bestseller Section -->
+    <section class="section" id="bestseller">
+        <div class="section-header">
+            <h2>Bestseller</h2>
+            <p>Everyone's favorite CoffeeHub put together in a specially curated collection.</p>
+        </div>
+        <div class="container">
+            <div class="product-grid">
+                <div class="product-card">
+                    <div class="product-badge">Bestseller</div>
+                    <img src="https://bing.com/th?id=OSK.83247d7378effefa6b50ad32629ffe35" alt="Java Chip Frappuccino" class="product-image">
+                    <div class="product-tags">
+                        <div class="veg">Veg Item</div>
+                    </div>
+                    <div class="product-info">
+                        <h3>Java Chip Frappuccino</h3>
+                        <div class="details">TALL(354 ml) • 392 kcal</div>
+                        <p>Mocha sauce and Frappuccino® chips blended with coffee, milk and ice, then topped with whipped cream.</p>
+                        <div class="product-price">
+                            <div class="price">₹ 441.00</div>
+                            <a href="#" class="btn">Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-badge">Bestseller</div>
+                    <img src="https://th.bing.com/th/id/OIP.LbK2h3NP1RWS0wFq9PeBpgAAAA?rs=1&pid=ImgDetMain&cb=idpwebp2&o=7&rm=3" alt="Double Chocolate Chip Frappuccino" class="product-image">
+                    <div class="product-tags">
+                        <div class="veg">Veg Item</div>
+                    </div>
+                    <div class="product-info">
+                        <h3>Double Chocolate Chip Frappuccino</h3>
+                        <div class="details">TALL(354 ml) • 415 kcal</div>
+                        <p>Rich mocha-flavored sauce meets up with chocolaty chips, milk and ice for a blender bash.</p>
+                        <div class="product-price">
+                            <div class="price">₹ 462.00</div>
+                            <a href="#" class="btn">Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-badge">Bestseller</div>
+                    <img src="https://th.bing.com/th/id/OIP.yuJVHrWzFAn2rt2wV9hsAQHaHa?rs=1&pid=ImgDetMain&cb=idpwebp2&o=7&rm=3" alt="Picco Cappuccino" class="product-image">
+                    <div class="product-tags">
+                        <div class="veg">Veg Item</div>
+                    </div>
+                    <div class="product-info">
+                        <h3>Picco Cappuccino</h3>
+                        <div class="details">PICCO(180 ml) • 95 kcal</div>
+                        <p>Dark, rich in flavour espresso lies in wait under a smoothed and stretched layer of thick foam.</p>
+                        <div class="product-price">
+                            <div class="price">₹ 194.25</div>
+                            <a href="#" class="btn">Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-badge">Bestseller</div>
+                    <img src="https://www.homegrounds.co/wp-content/uploads/2019/08/americano-e1522545816957-1.jpg" alt="Caffe Americano" class="product-image">
+                    <div class="product-tags">
+                        <div class="veg">Veg Item</div>
+                    </div>
+                    <div class="product-info">
+                        <h3>Caffe Americano</h3>
+                        <div class="details">SHORT(237 mL) • 0 kcal</div>
+                        <p>Rich in flavour, full-bodied espresso with hot water in true European style.</p>
+                        <div class="product-price">
+                            <div class="price">₹ 309.75</div>
+                            <a href="#" class="btn">Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-badge">Bestseller</div>
+                    <img src="https://th.bing.com/th/id/OIP.MDUMX107kc3qrBYCvDvfjQHaKd?rs=1&pid=ImgDetMain&cb=idpwebp2&o=7&rm=3" alt="Cold Coffee" class="product-image">
+                    <div class="product-tags">
+                        <div class="veg">Veg Item</div>
+                    </div>
+                    <div class="product-info">
+                        <h3>Cold Coffee</h3>
+                        <div class="details">TALL(354 ml) • 354 kcal</div>
+                        <p>Everybody’s favourite indulgence. Crafted expertly with premium beans and milk.</p>
+                        <div class="product-price">
+                            <div class="price">₹ 404.25</div>
+                            <a href="#" class="btn">Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Drinks Section -->
+    <section class="section" id="drinks">
+        <div class="section-header">
+            <h2>Drinks</h2>
+            <p>Our smooth signature Espresso Roast with rich flavor and caramelly sweetness is at the very heart of everything we do.</p>
+        </div>
+        <div class="container">
+            <div class="subcategories">
+                <span class="active">All Drinks</span>
+                <span>Espresso</span>
+                <span>Frappuccino®</span>
+                <span>Brewed Coffee</span>
+                <span>Tea</span>
+                <span>Cold Brew</span>
+            </div>
+            <div class="product-grid">
+                <div class="product-card">
+                    <img src="https://th.bing.com/th/id/OIP.pKs9Ea653v_4U6mprgsvZgHaHa?rs=1&pid=ImgDetMain&cb=idpwebp2&o=7&rm=3" alt="Belgium Chocolate Latte" class="product-image">
+                    <div class="product-tags">
+                        <div class="veg">Veg Item</div>
+                        <div class="new-launch">New Launch</div>
+                    </div>
+                    <div class="product-info">
+                        <h3>Belgium Chocolate Latte</h3>
+                        <div class="details">SHORT(237 ml) • 240 kcal</div>
+                        <p>Espresso with decadent Belgian chocolate sauce, mocha sauce and steamed milk.</p>
+                        <div class="product-price">
+                            <div class="price">₹ 430.50</div>
+                            <a href="#" class="btn">Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://img.freepik.com/premium-photo/iced-cocoa-latte-iced-chocolate-latte_282791-568.jpg?w=360" alt="Iced Belgium Chocolate Latte" class="product-image">
+                    <div class="product-tags">
+                        <div class="veg">Veg Item</div>
+                        <div class="new-launch">New Launch</div>
+                    </div>
+                    <div class="product-info">
+                        <h3>Iced Belgium Chocolate Latte</h3>
+                        <div class="details">TALL(354 ml) • 343 kcal</div>
+                        <p>Espresso with decadent Belgian chocolate sauce, mocha sauce and cold milk over ice.</p>
+                        <div class="product-price">
+                            <div class="price">₹ 472.50</div>
+                            <a href="#" class="btn">Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://cdn.shopify.com/s/files/1/1135/9368/products/GCB_CLASSIC_ICED_COFFEE_REDUX_2000x2000.jpg?v=1565306518" alt="Classic Iced Coffee" class="product-image">
+                    <div class="product-tags">
+                        <div class="veg">Veg Item</div>
+                    </div>
+                    <div class="product-info">
+                        <h3>Classic Iced Coffee</h3>
+                        <div class="details">SHORT(237 ml) • 128 kcal</div>
+                        <p>Savour our premium coffee made with top 3% Arabica beans in a refreshing cold version.</p>
+                        <div class="product-price">
+                            <div class="price">₹ 236.25</div>
+                            <a href="#" class="btn">Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://www.archanaskitchen.com/images/archanaskitchen/Indian_Beverages/hot_coffee_latte_recipe.jpg" alt="Classic Hot Coffee" class="product-image">
+                    <div class="product-tags">
+                        <div class="veg">Veg Item</div>
+                    </div>
+                    <div class="product-info">
+                        <h3>Classic Hot Coffee</h3>
+                        <div class="details">SHORT(180 ml) • 105 kcal</div>
+                        <p>Savour our premium coffee made with top 3% Arabica beans in its classic hot form.</p>
+                        <div class="product-price">
+                            <div class="price">₹ 157.50</div>
+                            <a href="#" class="btn">Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Food Section -->
+    <section class="section" id="food">
+        <div class="section-header">
+            <h2>Food</h2>
+            <p>Signature breads made with fresh ingredients and in-house sauces.</p>
+        </div>
+        <div class="container">
+            <div class="subcategories">
+                <span class="active">All Food</span>
+                <span>Sandwiches & Wraps</span>
+                <span>Croissants & More</span>
+                <span>Cookies & Desserts</span>
+            </div>
+            <div class="product-grid">
+                <div class="product-card">
+                    <img src="https://lh3.googleusercontent.com/5kk340ZqNlPIBBBStJt1354LLgjWDOnosSmb3a-zasjTxNQ1iV3uy-r67nxapYxy13PyfooU1IxAuHsw5OaWn84Xlxh1kNqNn7IuRQY7" alt="Murgh Kathi Wrap" class="product-image">
+                    <div class="product-tags">
+                        <div class="non-veg">Non Veg</div>
+                    </div>
+                    <div class="product-info">
+                        <h3>Murgh Kathi Wrap</h3>
+                        <div class="details">Per Serve (220 g) • 546 Kcal</div>
+                        <p>Spicy melange of chicken, onion, peppers and cheddar cheese wrapped in a paratha.</p>
+                        <div class="product-price">
+                            <div class="price">₹ 383.25</div>
+                            <a href="#" class="btn">Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://th.bing.com/th/id/OIP.x9oPlDvpZUAWKGw9IdnC9gHaLH?rs=1&pid=ImgDetMain&cb=idpwebp2&o=7&rm=3" alt="Chilli Cheese Toast" class="product-image">
+                    <div class="product-tags">
+                        <div class="veg">Veg Item</div>
+                    </div>
+                    <div class="product-info">
+                        <h3>Chilli Cheese Toast</h3>
+                        <div class="details">Per Serve (140 g) • 471 kcal</div>
+                        <p>Cheesy and fiery snack on a toasted French-style baguette topped with herbs.</p>
+                        <div class="product-price">
+                            <div class="price">₹ 372.75</div>
+                            <a href="#" class="btn">Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://th.bing.com/th/id/OIP.zErwEmsGGSWOLQOYmQBS_QHaD4?o=7rm=3&rs=1&pid=ImgDetMain&cb=idpwebp2&o=7&rm=3" alt="Kosha Mangsho Wrap" class="product-image">
+                    <div class="product-tags">
+                        <div class="non-veg">Non Veg</div>
+                    </div>
+                    <div class="product-info">
+                        <h3>Kosha Mangsho Wrap</h3>
+                        <div class="details">Per Serve (210 g) • 662 kcal</div>
+                        <p>A traditional mutton preparation packed in a parantha with onions and mint chutney.</p>
+                        <div class="product-price">
+                            <div class="price">₹ 367.50</div>
+                            <a href="#" class="btn">Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://th.bing.com/th/id/OIP.bq_bSMOTpP0wcUApfWKgkAAAAA?rs=1&pid=ImgDetMain&cb=idpwebp2&o=7&rm=3" alt="Basil Tomato Mozzarella Cheese Sandwich" class="product-image">
+                    <div class="product-tags">
+                        <div class="veg">Veg Item</div>
+                    </div>
+                    <div class="product-info">
+                        <h3>Basil Tomato Mozzarella Sandwich</h3>
+                        <div class="details">Per Serve (170 g) • 484 kcal</div>
+                        <p>Tomato and mozzarella slices on a layer of basil sauce sandwiched between multigrain bread.</p>
+                        <div class="product-price">
+                            <div class="price">₹ 399.00</div>
+                            <a href="#" class="btn">Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>CoffeeHub</h3>
+                <p>Discover your perfect cup of coffee with us. We source the finest beans and craft each beverage with care and expertise.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-pinterest"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="#home"><i class="fas fa-chevron-right"></i> Home</a></li>
+                    <li><a href="#bestseller"><i class="fas fa-chevron-right"></i> Bestsellers</a></li>
+                    <li><a href="#drinks"><i class="fas fa-chevron-right"></i> Drinks</a></li>
+                    <li><a href="#food"><i class="fas fa-chevron-right"></i> Food</a></li>
+                    <li><a href="#merchandise"><i class="fas fa-chevron-right"></i> Merchandise</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Contact Us</h3>
+                <ul class="footer-links">
+                    <li><a href="#"><i class="fas fa-map-marker-alt"></i> 123 Coffee Street, Brew City</a></li>
+                    <li><a href="tel:+1234567890"><i class="fas fa-phone"></i> +1 (234) 567-890</a></li>
+                    <li><a href="mailto:info@coffeehub.com"><i class="fas fa-envelope"></i> info@coffeehub.com</a></li>
+                    <li><a href="#"><i class="fas fa-clock"></i> Mon-Sun: 7:00 AM - 10:00 PM</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column newsletter">
+                <h3>Newsletter</h3>
+                <p>Subscribe to our newsletter for the latest updates, promotions, and coffee tips!</p>
+                <div class="newsletter-form">
+                    <input type="email" placeholder="Your email address">
+                    <a href="#" class="btn">Subscribe</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            <p>© 2025 CoffeeHub. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        const hamburger = document.querySelector('.hamburger');
+        const mobileMenu = document.querySelector('.mobile-menu');
+        
+        hamburger.addEventListener('click', () => {
+            mobileMenu.classList.toggle('active');
+        });
+        
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('.mobile-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+            });
+        });
+        
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Highlight active navigation link
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-links a, .mobile-links a');
+            
+            let current = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                
+                if (pageYOffset >= (sectionTop - 100)) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').substring(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+        
+        // Subcategory selection
+        document.querySelectorAll('.subcategories span').forEach(subcategory => {
+            subcategory.addEventListener('click', function() {
+                document.querySelectorAll('.subcategories span').forEach(s => {
+                    s.classList.remove('active');
+                });
+                this.classList.add('active');
+                
+                // In a real app, this would filter products
+                // For demo, we'll just show an alert
+                alert(`Filtering by: ${this.textContent}`);
+            });
+        });
+        
+        // Add to cart functionality
+        document.querySelectorAll('.product-price .btn').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const productCard = this.closest('.product-card');
+                const productName = productCard.querySelector('h3').textContent;
+                const cartCount = document.querySelector('.cart-count');
+                
+                // Update cart count
+                let count = parseInt(cartCount.textContent);
+                count++;
+                cartCount.textContent = count;
+                
+                // Show success message
+                alert(`${productName} added to cart!`);
+            });
+        });
+    </script>
+</body>
+</html>

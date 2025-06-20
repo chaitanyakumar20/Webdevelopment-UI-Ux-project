@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Property Locator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+        }
+
+        /* Header */
+        header {
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 10px 20px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #e81c2e;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+            font-size: 16px;
+        }
+
+        nav ul li a:hover {
+            color: #e81c2e;
+        }
+
+        .auth-buttons button {
+            padding: 8px 15px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .login-btn {
+            background-color: transparent;
+            color: #e81c2e;
+            border: 1px solid #e81c2e;
+            margin-right: 10px;
+        }
+
+        .post-btn {
+            background-color: #e81c2e;
+            color: #fff;
+            border-radius: 4px;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1560448204-e02f11c3d0e2');
+            background-size: cover;
+            background-position: center;
+            height: 400px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: #fff;
+        }
+
+        .hero h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        /* Search Bar */
+        .search-container {
+            background-color: #fff;
+            max-width: 1000px;
+            margin: -50px auto 20px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .search-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .search-tabs button {
+            padding: 10px 20px;
+            border: none;
+            background-color: #f5f5f5;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 4px;
+        }
+
+        .search-tabs button.active {
+            background-color: #e81c2e;
+            color: #fff;
+        }
+
+        .search-form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .search-form input, .search-form select {
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .search-form button {
+            padding: 10px 20px;
+            background-color: #e81c2e;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        /* Filters Section */
+        .filters-container {
+            max-width: 1200px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .filters-container h3 {
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .filter-group select, .filter-group input[type="range"] {
+            padding: 8px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 200px;
+        }
+
+        .filter-group label {
+            font-size: 14px;
+            margin-right: 10px;
+        }
+
+        /* Property Listings */
+        .properties-container {
+            max-width: 1200px;
+            margin: 20px auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .property-card {
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+
+        .property-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .property-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .property-card-content {
+            padding: 15px;
+        }
+
+        .property-card-content h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .property-card-content p {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .property-card-content .price {
+            font-size: 16px;
+            color: #e81c2e;
+            font-weight: bold;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 40px 20px;
+            margin-top: 40px;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-column {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .footer-column h4 {
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li a {
+            color: #ccc;
+            text-decoration: none;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .footer-column ul li a:hover {
+            color: #e81c2e;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #444;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="nav-container">
+            <div class="logo">Property Locator</div>
+            <nav>
+                <ul>
+                    <li><a href="#">Buy</a></li>
+                    <li><a href="#">Rent</a></li>
+                    <li><a href="#">New Projects</a></li>
+                    <li><a href="#">PG</a></li>
+                    <li><a href="#">Commercial</a></li>
+                </ul>
+            </nav>
+            <div class="auth-buttons">
+                <button class="login-btn">Login</button>
+                <button class="post-btn">Post Property Free</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div>
+            <h1>Find Your Dream Property with Property Locator</h1>
+            <p>Explore the best properties for sale and rent across India</p>
+        </div>
+    </section>
+
+    <!-- Search Bar -->
+    <section class="search-container">
+        <div class="search-tabs">
+            <button class="active" data-tab="buy">Buy</button>
+            <button data-tab="rent">Rent</button>
+            <button data-tab="pg">PG</button>
+            <button data-tab="commercial">Commercial</button>
+        </div>
+        <form class="search-form" id="search-form">
+            <input type="text" id="search-input" placeholder="Search by City, Locality or Project">
+            <select id="property-type">
+                <option>Property Type</option>
+                <option>Residential</option>
+                <option>Commercial</option>
+                <option>Plot</option>
+            </select>
+            <select id="budget">
+                <option>Budget</option>
+                <option>Up to 50 Lac</option>
+                <option>50 Lac - 1 Cr</option>
+                <option>1 Cr - 2 Cr</option>
+            </select>
+            <button type="submit">Search</button>
+        </form>
+    </section>
+
+    <!-- Filters Section -->
+    <section class="filters-container">
+        <h3>Refine Your Search</h3>
+        <div class="filter-group">
+            <div>
+                <label for="bhk">BHK:</label>
+                <select id="bhk">
+                    <option>Any</option>
+                    <option>1 BHK</option>
+                    <option>2 BHK</option>
+                    <option>3 BHK</option>
+                    <option>4+ BHK</option>
+                </select>
+            </div>
+            <div>
+                <label for="price-range">Price Range:</label>
+                <input type="range" id="price-range" min="0" max="50000000" step="100000">
+                <span id="price-value">Up to ₹50 Lac</span>
+            </div>
+            <div>
+                <label for="area">Area (sq.ft):</label>
+                <select id="area">
+                    <option>Any</option>
+                    <option>500 - 1000</option>
+                    <option>1000 - 1500</option>
+                    <option>1500 - 2000</option>
+                </select>
+            </div>
+            <div>
+                <label for="possession">Possession Status:</label>
+                <select id="possession">
+                    <option>Any</option>
+                    <option>Ready to Move</option>
+                    <option>Under Construction</option>
+                </select>
+            </div>
+        </div>
+    </section>
+
+    <!-- Property Listings -->
+    <section class="properties-container">
+        <div class="property-card">
+            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c" alt="Property">
+            <div class="property-card-content">
+                <h3>2 BHK Apartment in Mumbai</h3>
+                <p>Spacious apartment with modern amenities</p>
+                <p class="price">₹1.2 Cr</p>
+            </div>
+        </div>
+        <div class="property-card">
+            <img src="https://images.unsplash.com/photo-1600566752355-35792bedcfea" alt="Property">
+            <div class="property-card-content">
+                <h3>3 BHK Villa in Bangalore</h3>
+                <p>Luxurious villa with private garden</p>
+                <p class="price">₹2.5 Cr</p>
+            </div>
+        </div>
+        <div class="property-card">
+            <img src="https://www.kamalhousing.com/uploads/property/e60f2fec90c5fb6b2c4877b0df6fb594.webp" alt="Property">
+            <div class="property-card-content">
+                <h3>1 BHK Flat in Delhi</h3>
+                <p>Compact flat in prime location</p>
+                <p class="price">₹45 Lac</p>
+            </div>
+        </div>
+        <div class="property-card">
+            <img src="https://www.archidust.com/uploaded_files/project/162083510639272.jpg" alt="Property">
+            <div class="property-card-content">
+                <h3>4 BHK Penthouse in Gurgaon</h3>
+                <p>Premium penthouse with city views</p>
+                <p class="price">₹3.8 Cr</p>
+            </div>
+        </div>
+        <div class="property-card">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXG8a3oznKvPkPXpjmDNmfTL4CCPmOGMAI_w&s" alt="Property">
+            <div class="property-card-content">
+                <h3>2 BHK Flat in Pune</h3>
+                <p>Modern flat near IT hub</p>
+                <p class="price">₹80 Lac</p>
+            </div>
+        </div>
+        <div class="property-card">
+            <img src="https://images.unsplash.com/photo-1600585152915-d208bec867a1" alt="Property">
+            <div class="property-card-content">
+                <h3>3 BHK House in Chennai</h3>
+                <p>Independent house with large terrace</p>
+                <p class="price">₹1.5 Cr</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-column">
+                <h4>About Property Locator</h4>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Services</h4>
+                <ul>
+                    <li><a href="#">Property Valuation</a></li>
+                    <li><a href="#">Legal Services</a></li>
+                    <li><a href="#">Home Loans</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#">Buy Property</a></li>
+                    <li><a href="#">Rent Property</a></li>
+                    <li><a href="#">Post Property</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Connect With Us</h4>
+                <ul>
+                    <li><a href="#">Facebook</a></li>
+                    <li><a href="#">Twitter</a></li>
+                    <li><a href="#">LinkedIn</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © 2025 Property Locator. All Rights Reserved.
+        </div>
+    </footer>
+
+    <script>
+        // Search Tab Functionality
+        const tabs = document.querySelectorAll('.search-tabs button');
+        const searchInput = document.getElementById('search-input');
+        const propertyType = document.getElementById('property-type');
+        const budget = document.getElementById('budget');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+
+                // Update search form based on tab
+                const tabType = tab.getAttribute('data-tab');
+                switch (tabType) {
+                    case 'buy':
+                        searchInput.placeholder = 'Search by City, Locality or Project';
+                        propertyType.innerHTML = `
+                            <option>Property Type</option>
+                            <option>Residential</option>
+                            <option>Commercial</option>
+                            <option>Plot</option>
+                        `;
+                        budget.innerHTML = `
+                            <option>Budget</option>
+                            <option>Up to 50 Lac</option>
+                            <option>50 Lac - 1 Cr</option>
+                            <option>1 Cr - 2 Cr</option>
+                        `;
+                        break;
+                    case 'rent':
+                        searchInput.placeholder = 'Search Rental Properties by City or Locality';
+                        propertyType.innerHTML = `
+                            <option>Property Type</option>
+                            <option>Apartment</option>
+                            <option>House</option>
+                            <option>Room</option>
+                        `;
+                        budget.innerHTML = `
+                            <option>Budget</option>
+                            <option>Up to ₹20,000</option>
+                            <option>₹20,000 - ₹50,000</option>
+                            <option>₹50,000+</option>
+                        `;
+                        break;
+                    case 'pg':
+                        searchInput.placeholder = 'Search PG by City or Locality';
+                        propertyType.innerHTML = `
+                            <option>PG Type</option>
+                            <option>Male</option>
+                            <option>Female</option>
+                            <option>Co-living</option>
+                        `;
+                        budget.innerHTML = `
+                            <option>Budget</option>
+                            <option>Up to ₹10,000</option>
+                            <option>₹10,000 - ₹20,000</option>
+                            <option>₹20,000+</option>
+                        `;
+                        break;
+                    case 'commercial':
+                        searchInput.placeholder = 'Search Commercial Properties by City';
+                        propertyType.innerHTML = `
+                            <option>Property Type</option>
+                            <option>Office Space</option>
+                            <option>Retail Shop</option>
+                            <option>Warehouse</option>
+                        `;
+                        budget.innerHTML = `
+                            <option>Budget</option>
+                            <option>Up to ₹1 Lac</option>
+                            <option>₹1 Lac - ₹5 Lac</option>
+                            <option>₹5 Lac+</option>
+                        `;
+                        break;
+                }
+            });
+        });
+
+        // Price Range Slider
+        const priceRange = document.getElementById('price-range');
+        const priceValue = document.getElementById('price-value');
+
+        priceRange.addEventListener('input', () => {
+            const value = priceRange.value;
+            priceValue.textContent = `Up to ₹${(value / 100000).toFixed(2)} Lac`;
+        });
+
+        // Prevent form submission for demo
+        document.getElementById('search-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Search functionality is a demo. Entered: ' + searchInput.value);
+        });
+    </script>
+</body>
+</html>

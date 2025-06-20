@@ -1,0 +1,1533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>tickbook.in - Book Flights, Hotels & More</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background-color: #f9fafb;
+      color: #1f2937;
+      overflow-x: hidden;
+    }
+
+    /* Header */
+    header {
+      background: linear-gradient(90deg, #1d4ed8, #1e3a8a);
+      color: white;
+      padding: 20px 50px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+      backdrop-filter: blur(10px);
+    }
+
+    .logo a {
+      color: white;
+      text-decoration: none;
+      font-size: 36px;
+      font-weight: 700;
+      letter-spacing: -1px;
+      transition: transform 0.3s ease;
+    }
+
+    .logo a:hover {
+      transform: scale(1.03);
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 30px;
+    }
+
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 600;
+      padding: 10px 20px;
+      border-radius: 10px;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    nav ul li a:hover,
+    nav ul li a.active {
+      background: #3b82f6;
+      transform: translateY(-2px);
+    }
+
+    /* Hero Section */
+    .hero-section {
+      position: relative;
+      min-height: 600px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-size: cover;
+      background-position: center;
+      overflow: hidden;
+    }
+
+    .hero-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6));
+      z-index: 1;
+    }
+
+    .search-box {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 20px;
+      padding: 40px;
+      max-width: 1200px;
+      width: 90%;
+      margin: 0 auto;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+      position: relative;
+      z-index: 2;
+      animation: slideIn 0.8s ease-out;
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(50px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .tabs {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 30px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .tabs button {
+      background: #e5e7eb;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 50px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .tabs button.active {
+      background: #3b82f6;
+      color: white;
+    }
+
+    .tabs button:hover {
+      background: #2563eb;
+      color: white;
+      transform: scale(1.05);
+    }
+
+    .search-form {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 15px;
+      align-items: center;
+    }
+
+    .search-form input,
+    .search-form select {
+      padding: 14px;
+      border: 1px solid #d1d5db;
+      border-radius: 12px;
+      font-size: 16px;
+      background: #f9fafb;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .search-form input:focus,
+    .search-form select:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+      outline: none;
+    }
+
+    .search-form button {
+      background: #f97316;
+      color: white;
+      border: none;
+      padding: 14px 40px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 600;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    .search-form button:hover {
+      background: #ea580c;
+      transform: translateY(-2px);
+    }
+
+    /* Multi-city flight form */
+    .multi-city-form {
+      display: none;
+      grid-template-columns: 1fr;
+      gap: 15px;
+    }
+
+    .multi-city-leg {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 15px;
+      align-items: center;
+      padding: 15px;
+      background: #f3f4f6;
+      border-radius: 10px;
+    }
+
+    .multi-city-leg button.remove-leg {
+      background: #ef4444;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .add-leg-btn {
+      background: #10b981;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      margin-top: 10px;
+    }
+
+    /* Offers Section */
+    .offers-section {
+      max-width: 1200px;
+      margin: 50px auto;
+      padding: 0 20px;
+    }
+
+    .offers-section h2 {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 30px;
+      color: #1d4ed8;
+      text-align: center;
+      animation: fadeIn 1s ease-in;
+    }
+
+    .offers-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 25px;
+    }
+
+    .offer-card {
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      animation: slideUp 0.6s ease-out;
+    }
+
+    .offer-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .offer-card img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    .offer-card:hover img {
+      transform: scale(1.05);
+    }
+
+    .offer-card-content {
+      padding: 20px;
+    }
+
+    .offer-card h3 {
+      font-size: 22px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: #1d4ed8;
+    }
+
+    .offer-card p {
+      font-size: 14px;
+      color: #6b7280;
+      margin-bottom: 15px;
+    }
+
+    .offer-card button {
+      background: #ef4444;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.3s ease;
+    }
+
+    .offer-card button:hover {
+      background: #dc2626;
+    }
+
+    /* Filters and Results Section */
+    .filters-section {
+      display: flex;
+      max-width: 1200px;
+      margin: 50px auto;
+      gap: 30px;
+      padding: 0 20px;
+    }
+
+    .filters {
+      width: 25%;
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      animation: fadeIn 0.8s ease-in;
+    }
+
+    .filters h3 {
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: #1d4ed8;
+    }
+
+    .filter-group {
+      margin-bottom: 25px;
+    }
+
+    .filter-group h4 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 15px;
+      color: #3b82f6;
+    }
+
+    .filter-group label {
+      display: flex;
+      align-items: center;
+      margin-bottom: 12px;
+      font-size: 14px;
+      color: #4b5563;
+      cursor: pointer;
+      transition: color 0.2s ease;
+    }
+
+    .filter-group label:hover {
+      color: #1d4ed8;
+    }
+
+    .filter-group input[type="checkbox"] {
+      margin-right: 10px;
+      accent-color: #3b82f6;
+      transform: scale(1.2);
+    }
+
+    .results {
+      width: 75%;
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .result-item {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+      align-items: center;
+      padding: 20px;
+      border-bottom: 1px solid #e5e7eb;
+      transition: transform 0.2s ease, background 0.2s ease;
+      border-radius: 10px;
+    }
+
+    .result-item:hover {
+      background: #f1f5f9;
+      transform: translateY(-2px);
+    }
+
+    .result-item img {
+      width: 50px;
+      height: 50px;
+      object-fit: cover;
+      margin-right: 15px;
+      border-radius: 8px;
+    }
+
+    .result-item button {
+      background: #f97316;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    .result-item button:hover {
+      background: #ea580c;
+      transform: scale(1.05);
+    }
+
+    /* Content Sections */
+    .content-section {
+      display: none;
+      animation: fadeIn 0.5s ease-in;
+    }
+
+    .content-section.active {
+      display: block;
+    }
+
+    /* Footer */
+    footer {
+      background: #111827;
+      color: white;
+      padding: 50px 20px;
+      text-align: center;
+      border-top: 1px solid #1f2937;
+    }
+
+    footer a {
+      color: #3b82f6;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.2s ease;
+    }
+
+    footer a:hover {
+      color: #2563eb;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .filters-section {
+        flex-direction: column;
+      }
+
+      .filters,
+      .results {
+        width: 100%;
+      }
+
+      .search-form {
+        grid-template-columns: 1fr;
+      }
+
+      .multi-city-leg {
+        grid-template-columns: 1fr;
+      }
+
+      nav ul {
+        flex-wrap: wrap;
+        gap: 15px;
+        justify-content: center;
+      }
+
+      .search-box {
+        padding: 25px;
+      }
+
+      .offers-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-section {
+        min-height: 500px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <a href="#">tickbook.in</a>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="#flights" class="active">Flights</a></li>
+        <li><a href="#hotels">Hotels</a></li>
+        <li><a href="#holidays">Holidays</a></li>
+        <li><a href="#trains">Trains</a></li>
+        <li><a href="#cabs">Cabs</a></li>
+        <li><a href="#login">Login</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Flights Section -->
+  <section id="flights" class="content-section active">
+    <section class="hero-section" style="background-image: url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05')">
+      <div class="search-box">
+        <div class="tabs">
+          <button class="active" data-tab="one-way">One Way</button>
+          <button data-tab="round-trip">Round Trip</button>
+          <button data-tab="multi-city">Multi City</button>
+        </div>
+        
+        <!-- One Way Form -->
+        <form class="search-form active" data-type="flights" id="one-way-form">
+          <input type="text" id="flight-from" placeholder="From" value="Delhi">
+          <input type="text" id="flight-to" placeholder="To" value="Mumbai">
+          <input type="date" id="flight-date" value="2025-06-20">
+          <select id="flight-travellers">
+            <option>1 Traveller</option>
+            <option>2 Travellers</option>
+            <option>3 Travellers</option>
+          </select>
+          <select id="flight-class">
+            <option>Economy</option>
+            <option>Premium Economy</option>
+            <option>Business</option>
+          </select>
+          <button type="submit">Search Flights</button>
+        </form>
+        
+        <!-- Round Trip Form -->
+        <form class="search-form" data-type="flights" id="round-trip-form" style="display: none;">
+          <input type="text" id="roundtrip-from" placeholder="From" value="Delhi">
+          <input type="text" id="roundtrip-to" placeholder="To" value="Mumbai">
+          <input type="date" id="roundtrip-depart" value="2025-06-20">
+          <input type="date" id="roundtrip-return" value="2025-06-27">
+          <select id="roundtrip-travellers">
+            <option>1 Traveller</option>
+            <option>2 Travellers</option>
+            <option>3 Travellers</option>
+          </select>
+          <select id="roundtrip-class">
+            <option>Economy</option>
+            <option>Premium Economy</option>
+            <option>Business</option>
+          </select>
+          <button type="submit">Search Flights</button>
+        </form>
+        
+        <!-- Multi City Form -->
+        <form class="search-form" data-type="flights" id="multi-city-form" style="display: none;">
+          <div class="multi-city-form" id="multi-city-legs">
+            <div class="multi-city-leg">
+              <input type="text" placeholder="From" value="Delhi">
+              <input type="text" placeholder="To" value="Mumbai">
+              <input type="date" value="2025-06-20">
+            </div>
+            <div class="multi-city-leg">
+              <input type="text" placeholder="From" value="Mumbai">
+              <input type="text" placeholder="To" value="Bangalore">
+              <input type="date" value="2025-06-25">
+              <button type="button" class="remove-leg">Remove</button>
+            </div>
+          </div>
+          <button type="button" class="add-leg-btn">+ Add Another Flight</button>
+          <select id="multi-city-travellers">
+            <option>1 Traveller</option>
+            <option>2 Travellers</option>
+            <option>3 Travellers</option>
+          </select>
+          <select id="multi-city-class">
+            <option>Economy</option>
+            <option>Premium Economy</option>
+            <option>Business</option>
+          </select>
+          <button type="submit">Search Flights</button>
+        </form>
+      </div>
+    </section>
+    <section class="offers-section">
+      <h2>Exclusive Flight Offers</h2>
+      <div class="offers-grid">
+        <div class="offer-card">
+          <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e" alt="Goa Beach">
+          <div class="offer-card-content">
+            <h3>Delhi to Goa</h3>
+            <p>Up to 25% off on domestic flights!</p>
+            <button>Book Now</button>
+          </div>
+        </div>
+        <div class="offer-card">
+          <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1" alt="Dubai Skyline">
+          <div class="offer-card-content">
+            <h3>Mumbai to Dubai</h3>
+            <p>₹1500 off on international flights.</p>
+            <button>Book Now</button>
+          </div>
+        </div>
+        <div class="offer-card">
+          <img src="https://etimg.etb2bimg.com/photo/97052424.cms" alt="Singapore Skyline">
+          <div class="offer-card-content">
+            <h3>Bangalore to Singapore</h3>
+            <p>Free upgrades to Premium Economy!</p>
+            <button>Book Now</button>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="filters-section">
+      <div class="filters">
+        <h3>Flight Filters</h3>
+        <div class="filter-group">
+          <h4>Price Range</h4>
+          <input type="range" id="flight-price-range" min="1000" max="50000" value="25000">
+          <span id="flight-price-display">₹1000 - ₹25000</span>
+        </div>
+        <div class="filter-group">
+          <h4>Airlines</h4>
+          <label><input type="checkbox" value="IndiGo" checked> IndiGo</label>
+          <label><input type="checkbox" value="Air India"> Air India</label>
+          <label><input type="checkbox" value="SpiceJet"> SpiceJet</label>
+        </div>
+        <div class="filter-group">
+          <h4>Departure Time</h4>
+          <label><input type="checkbox" value="Morning"> Morning</label>
+          <label><input type="checkbox" value="Afternoon"> Afternoon</label>
+          <label><input type="checkbox" value="Evening"> Evening</label>
+        </div>
+      </div>
+      <div class="results" id="flight-results">
+        <div class="result-item">
+          <div>
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQFz6C1AVchHSN_IpAzeVSSJL32vHron9aBw&s" alt="IndiGo Plane">
+            <span>IndiGo</span>
+          </div>
+          <div>06:00 - 08:30</div>
+          <div>2h 30m</div>
+          <div>Delhi - Mumbai</div>
+          <div>₹5,500</div>
+          <button>Book Now</button>
+        </div>
+        <div class="result-item">
+          <div>
+            <img src="https://download.logo.wine/logo/Air_India/Air_India-Logo.wine.png" alt="Air India Plane">
+            <span>Air India</span>
+          </div>
+          <div>09:00 - 11:45</div>
+          <div>2h 45m</div>
+          <div>Delhi - Mumbai</div>
+          <div>₹6,200</div>
+          <button>Book Now</button>
+        </div>
+        <div class="result-item">
+          <div>
+            <img src="https://logowik.com/content/uploads/images/spicejet5998.logowik.com.webp" alt="SpiceJet Plane">
+            <span>SpiceJet</span>
+          </div>
+          <div>12:00 - 14:30</div>
+          <div>2h 30m</div>
+          <div>Delhi - Mumbai</div>
+          <div>₹5,800</div>
+          <button>Book Now</button>
+        </div>
+      </div>
+    </section>
+  </section>
+
+  <!-- Hotels Section -->
+  <section id="hotels" class="content-section">
+    <section class="hero-section" style="background-image: url('https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9')">
+      <div class="search-box">
+        <div class="tabs">
+          <button class="active">Hotels</button>
+          <button>Homestays</button>
+        </div>
+        <form class="search-form" data-type="hotels">
+          <input type="text" id="hotel-city" placeholder="City" value="Goa">
+          <input type="date" id="hotel-checkin" value="2025-06-20">
+          <input type="date" id="hotel-checkout" value="2025-06-22">
+          <select id="hotel-guests">
+            <option>1 Guest</option>
+            <option>2 Guests</option>
+            <option>3 Guests</option>
+          </select>
+          <button type="submit">Search Hotels</button>
+        </form>
+      </div>
+    </section>
+    <section class="offers-section">
+      <h2>Exclusive Hotel Offers</h2>
+      <div class="offers-grid">
+        <div class="offer-card">
+          <img src="https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9" alt="Hotel Offer">
+          <div class="offer-card-content">
+            <h3>5-Star Stays in Goa</h3>
+            <p>30% off on luxury hotels!</p>
+            <button>Book Now</button>
+          </div>
+        </div>
+        <div class="offer-card">
+          <img src="https://cf.bstatic.com/xdata/images/hotel/max1024x768/30785708.webp?k=95ef9cd617234ef606538bd14abeb07c6342c111d4121a9b65f5afb239d8ace6&o=" alt="Hotel Offer">
+          <div class="offer-card-content">
+            <h3>Delhi Boutique Hotels</h3>
+            <p>Free breakfast included.</p>
+            <button>Book Now</button>
+          </div>
+        </div>
+        <div class="offer-card">
+          <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2" alt="Hotel Offer">
+          <div class="offer-card-content">
+            <h3>Mumbai Beach Resorts</h3>
+            <p>20% off on 3-night stays.</p>
+            <button>Book Now</button>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="filters-section">
+      <div class="filters">
+        <h3>Hotel Filters</h3>
+        <div class="filter-group">
+          <h4>Price Range</h4>
+          <input type="range" id="hotel-price-range" min="1000" max="20000" value="10000">
+          <span id="hotel-price-display">₹1000 - ₹10000</span>
+        </div>
+        <div class="filter-group">
+          <h4>Star Rating</h4>
+          <label><input type="checkbox" value="5 Star" checked> 5 Star</label>
+          <label><input type="checkbox" value="4 Star"> 4 Star</label>
+          <label><input type="checkbox" value="3 Star"> 3 Star</label>
+        </div>
+      </div>
+      <div class="results" id="hotel-results">
+        <div class="result-item">
+          <div>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Taj_Hotels_logo.svg/2286px-Taj_Hotels_logo.svg.png" alt="Hotel Logo">
+            <span>Taj Goa</span>
+          </div>
+          <div>5 Star</div>
+          <div>Goa</div>
+          <div>2 Nights</div>
+          <div>₹12,000</div>
+          <button>Book Now</button>
+        </div>
+        <div class="result-item">
+          <div>
+            <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2" alt="Hotel Logo">
+            <span>Marriott Delhi</span>
+          </div>
+          <div>4 Star</div>
+          <div>Delhi</div>
+          <div>2 Nights</div>
+          <div>₹9,000</div>
+          <button>Book Now</button>
+        </div>
+      </div>
+    </section>
+  </section>
+
+  <!-- Holidays Section -->
+  <section id="holidays" class="content-section">
+    <section class="hero-section" style="background-image: url('https://images.unsplash.com/photo-1521336575822-6da63fb45455')">
+      <div class="search-box">
+        <div class="tabs">
+          <button class="active">Domestic</button>
+          <button>International</button>
+        </div>
+        <form class="search-form" data-type="holidays">
+          <input type="text" id="holiday-destination" placeholder="Destination" value="Kerala">
+          <input type="date" id="holiday-date" value="2025-06-20">
+          <select id="holiday-duration">
+            <option>3 Days</option>
+            <option>5 Days</option>
+            <option>7 Days</option>
+          </select>
+          <button type="submit">Search Packages</button>
+        </form>
+      </div>
+    </section>
+    <section class="offers-section">
+      <h2>Exclusive Holiday Packages</h2>
+      <div class="offers-grid">
+        <div class="offer-card">
+          <img src="https://images.unsplash.com/photo-1521336575822-6da63fb45455" alt="Holiday Offer">
+          <div class="offer-card-content">
+            <h3>Kerala Backwaters</h3>
+            <p>5D/4N package at 25% off!</p>
+            <button>Book Now</button>
+          </div>
+        </div>
+        <div class="offer-card">
+          <img src="https://media.istockphoto.com/id/635758088/photo/sunrise-at-the-eiffel-tower-in-paris-along-the-seine.jpg?s=612x612&w=0&k=20&c=rdy3aU1CDyh66mPyR5AAc1yJ0yEameR_v2vOXp2uuMM=" alt="Holiday Offer">
+          <div class="offer-card-content">
+            <h3>Europe Explorer</h3>
+            <p>7D/6N with flights included.</p>
+            <button>Book Now</button>
+          </div>
+        </div>
+        <div class="offer-card">
+          <img src="https://images.unsplash.com/photo-1530789253388-582c481c54b0" alt="Holiday Offer">
+          <div class="offer-card-content">
+            <h3>Ladakh Adventure</h3>
+            <p>6D/5N off-road experience.</p>
+            <button>Book Now</button>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="filters-section">
+      <div class="filters">
+        <h3>Holiday Filters</h3>
+        <div class="filter-group">
+          <h4>Price Range</h4>
+          <input type="range" id="holiday-price-range" min="5000" max="100000" value="50000">
+          <span id="holiday-price-display">₹5000 - ₹50000</span>
+        </div>
+        <div class="filter-group">
+          <h4>Package Type</h4>
+          <label><input type="checkbox" value="Adventure" checked> Adventure</label>
+          <label><input type="checkbox" value="Relaxation"> Relaxation</label>
+          <label><input type="checkbox" value="Cultural"> Cultural</label>
+        </div>
+      </div>
+      <div class="results" id="holiday-results">
+        <div class="result-item">
+          <div>
+            <img src="https://images.mercuryholidays.co.uk/tour-details/24/Kerala_Explorer.jpg?w=1920" alt="Holiday Logo">
+            <span>Kerala Package</span>
+          </div>
+          <div>5D/4N</div>
+          <div>Kerala</div>
+          <div>Relaxation</div>
+          <div>₹45,000</div>
+          <button>Book Now</button>
+        </div>
+        <div class="result-item">
+          <div>
+            <img src="https://images.unsplash.com/photo-1530789253388-582c481c54b0" alt="Holiday Logo">
+            <span>Ladakh Adventure</span>
+          </div>
+          <div>7D/6N</div>
+          <div>Ladakh</div>
+          <div>Adventure</div>
+          <div>₹55,000</div>
+          <button>Book Now</button>
+        </div>
+      </div>
+    </section>
+  </section>
+
+  <!-- Trains Section -->
+  <section id="trains" class="content-section">
+    <section class="hero-section" style="background-image: url('https://images.unsplash.com/photo-1541845157-a6d2d100c931')">
+      <div class="search-box">
+        <div class="tabs">
+          <button class="active">One Way</button>
+          <button>Round Trip</button>
+        </div>
+        <form class="search-form" data-type="trains">
+          <input type="text" id="train-from" placeholder="From" value="Delhi">
+          <input type="text" id="train-to" placeholder="To" value="Mumbai">
+          <input type="date" id="train-date" value="2025-06-20">
+          <select id="train-class">
+            <option>Sleeper</option>
+            <option>AC 3 Tier</option>
+            <option>AC 2 Tier</option>
+          </select>
+          <button type="submit">Search Trains</button>
+        </form>
+      </div>
+    </section>
+    <section class="offers-section">
+      <h2>Exclusive Train Offers</h2>
+      <div class="offers-grid">
+        <div class="offer-card">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/Bangalore_Rajdhani_Express.jpg/250px-Bangalore_Rajdhani_Express.jpg" alt="Rajdhani Express">
+          <div class="offer-card-content">
+            <h3>Rajdhani Express</h3>
+            <p>15% off on AC bookings!</p>
+            <button>Book Now</button>
+          </div>
+        </div>
+        <div class="offer-card">
+          <img src="https://i0.wp.com/www.himachaltaxi.com/wp-content/uploads/2013/03/Shatabdi-Express-Chandigarh.jpg" alt="Shatabdi Express">
+          <div class="offer-card-content">
+            <h3>Shatabdi Express</h3>
+            <p>Free meal with every booking.</p>
+            <button>Book Now</button>
+          </div>
+        </div>
+        <div class="offer-card">
+          <img src="https://tripwithmeera.wordpress.com/wp-content/uploads/2016/08/duronto-express.jpg" alt="Goa Beach">
+          <div class="offer-card-content">
+            <h3>Duronto Express</h3>
+            <p>10% off on round trips.</p>
+            <button>Book Now</button>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="filters-section">
+      <div class="filters">
+        <h3>Train Filters</h3>
+        <div class="filter-group">
+          <h4>Price Range</h4>
+          <input type="range" id="train-price-range" min="500" max="5000" value="2500">
+          <span id="train-price-display">₹500 - ₹2500</span>
+        </div>
+        <div class="filter-group">
+          <h4>Train Type</h4>
+          <label><input type="checkbox" value="Express" checked> Express</label>
+          <label><input type="checkbox" value="Superfast"> Superfast</label>
+          <label><input type="checkbox" value="Passenger"> Passenger</label>
+        </div>
+      </div>
+      <div class="results" id="train-results">
+        <div class="result-item">
+          <div>
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQT8WsG-vqZh1o5Fy6arwhmwwPtCv8xbsrLNA&s" alt="Rajdhani Express">
+            <span>Rajdhani Express</span>
+          </div>
+          <div>18:00 - 10:30</div>
+          <div>16h 30m</div>
+          <div>Delhi - Mumbai</div>
+          <div>₹2,800</div>
+          <button>Book Now</button>
+        </div>
+        <div class="result-item">
+          <div>
+            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c" alt="Shatabdi Express">
+            <span>Shatabdi Express</span>
+          </div>
+          <div>07:00 - 14:00</div>
+          <div>7h</div>
+          <div>Delhi - Jaipur</div>
+          <div>₹1,500</div>
+          <button>Book Now</button>
+        </div>
+        <div class="result-item">
+          <div>
+            <img src="https://images.unsplash.com/photo-1541845157-a6d2d100c931" alt="Duronto Express">
+            <span>Duronto Express</span>
+          </div>
+          <div>20:00 - 12:30</div>
+          <div>16h 30m</div>
+          <div>Delhi - Bangalore</div>
+          <div>₹3,200</div>
+          <button>Book Now</button>
+        </div>
+        <div class="result-item">
+          <div>
+            <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e" alt="Goa Express">
+            <span>Goa Express</span>
+          </div>
+          <div>15:00 - 06:00</div>
+          <div>15h</div>
+          <div>Delhi - Goa</div>
+          <div>₹2,400</div>
+          <button>Book Now</button>
+        </div>
+        <div class="result-item">
+          <div>
+            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c" alt="Passenger Train">
+            <span>Passenger Train</span>
+          </div>
+          <div>09:00 - 15:00</div>
+          <div>6h</div>
+          <div>Delhi - Agra</div>
+          <div>₹800</div>
+          <button>Book Now</button>
+        </div>
+      </div>
+    </section>
+  </section>
+
+  <!-- Cabs Section -->
+  <section id="cabs" class="content-section">
+    <section class="hero-section" style="background-image: url('https://images.unsplash.com/photo-1503376780353-7e6692767b70')">
+      <div class="search-box">
+        <div class="tabs">
+          <button class="active">Local</button>
+          <button>Outstation</button>
+        </div>
+        <form class="search-form" data-type="cabs">
+          <input type="text" id="cab-city" placeholder="City" value="Delhi">
+          <input type="date" id="cab-date" value="2025-06-20">
+          <input type="time" id="cab-time" value="10:00">
+          <select id="cab-type">
+            <option>Sedan</option>
+            <option>SUV</option>
+            <option>Hatchback</option>
+          </select>
+          <button type="submit">Search Cabs</button>
+        </form>
+      </div>
+    </section>
+    <section class="offers-section">
+      <h2>Exclusive Cab Offers</h2>
+      <div class="offers-grid">
+        <div class="offer-card">
+          <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70" alt="Cab Offer">
+          <div class="offer-card-content">
+            <h3>Delhi Local Rides</h3>
+            <p>20% off on first ride!</p>
+            <button>Book Now</button>
+          </div>
+        </div>
+        <div class="offer-card">
+          <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70" alt="Cab Offer">
+          <div class="offer-card-content">
+            <h3>Outstation Trips</h3>
+            <p>₹750 off on round trips.</p>
+            <button>Book Now</button>
+          </div>
+        </div>
+        <div class="offer-card">
+          <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70" alt="Cab Offer">
+          <div class="offer-card-content">
+            <h3>Airport Transfers</h3>
+            <p>Flat ₹300 off!</p>
+            <button>Book Now</button>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="filters-section">
+      <div class="filters">
+        <h3>Cab Filters</h3>
+        <div class="filter-group">
+          <h4>Price Range</h4>
+          <input type="range" id="cab-price-range" min="500" max="5000" value="2500">
+          <span id="cab-price-display">₹500 - ₹2500</span>
+        </div>
+        <div class="filter-group">
+          <h4>Cab Type</h4>
+          <label><input type="checkbox" value="Sedan" checked> Sedan</label>
+          <label><input type="checkbox" value="SUV"> SUV</label>
+          <label><input type="checkbox" value="Hatchback"> Hatchback</label>
+        </div>
+      </div>
+      <div class="results" id="cab-results">
+        <div class="result-item">
+          <div>
+            <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70" alt="Cab Logo">
+            <span>Sedan</span>
+          </div>
+          <div>10:00</div>
+          <div>Delhi</div>
+          <div>Local</div>
+          <div>₹1,200</div>
+          <button>Book Now</button>
+        </div>
+        <div class="result-item">
+          <div>
+            <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70" alt="Cab Logo">
+            <span>SUV</span>
+          </div>
+          <div>10:00</div>
+          <div>Delhi</div>
+          <div>Outstation</div>
+          <div>₹2,500</div>
+          <button>Book Now</button>
+        </div>
+      </div>
+    </section>
+  </section>
+
+  <!-- Login Section -->
+  <section id="login" class="content-section">
+    <section class="hero-section" style="background-image: url('https://images.unsplash.com/photo-1452421824761-24e2ee564db7')">
+      <div class="search-box">
+        <h2>Login to tickbook.in</h2>
+        <form class="search-form" data-type="login">
+          <input type="email" placeholder="Email" required>
+          <input type="password" placeholder="Password" required>
+          <button type="submit">Login</button>
+        </form>
+      </div>
+    </section>
+  </section>
+
+  <footer>
+    <p>© 2025 tickbook.in. All rights reserved. <a href="#">Terms & Conditions</a> | <a href="#">Privacy Policy</a> | <a href="#">Contact Us</a></p>
+  </footer>
+
+  <script>
+    // Navigation
+    const navLinks = document.querySelectorAll('nav ul li a');
+    const sections = document.querySelectorAll('.content-section');
+
+    navLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetId = link.getAttribute('href').substring(1);
+        sections.forEach(section => {
+          section.classList.remove('active');
+          if (section.id === targetId) {
+            section.classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }
+        });
+        navLinks.forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
+      });
+    });
+
+    // Flight search tabs switching
+    const flightTabs = document.querySelectorAll('#flights .tabs button');
+    const flightForms = {
+      'one-way': document.getElementById('one-way-form'),
+      'round-trip': document.getElementById('round-trip-form'),
+      'multi-city': document.getElementById('multi-city-form')
+    };
+
+    flightTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const tabType = tab.dataset.tab;
+        
+        // Update active tab
+        flightTabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        
+        // Show corresponding form
+        Object.values(flightForms).forEach(form => form.style.display = 'none');
+        flightForms[tabType].style.display = 'grid';
+      });
+    });
+
+    // Multi-city flight legs management
+    const multiCityLegs = document.getElementById('multi-city-legs');
+    const addLegBtn = document.querySelector('.add-leg-btn');
+
+    addLegBtn.addEventListener('click', () => {
+      const newLeg = document.createElement('div');
+      newLeg.className = 'multi-city-leg';
+      newLeg.innerHTML = `
+        <input type="text" placeholder="From">
+        <input type="text" placeholder="To">
+        <input type="date">
+        <button type="button" class="remove-leg">Remove</button>
+      `;
+      multiCityLegs.appendChild(newLeg);
+      
+      // Add event listener to new remove button
+      newLeg.querySelector('.remove-leg').addEventListener('click', () => {
+        if (multiCityLegs.children.length > 1) {
+          multiCityLegs.removeChild(newLeg);
+        } else {
+          alert('You need at least one flight leg');
+        }
+      });
+    });
+
+    // Initialize remove buttons for existing legs
+    document.querySelectorAll('.multi-city-leg .remove-leg').forEach(btn => {
+      btn.addEventListener('click', function() {
+        if (multiCityLegs.children.length > 1) {
+          multiCityLegs.removeChild(this.parentElement);
+        } else {
+          alert('You need at least one flight leg');
+        }
+      });
+    });
+
+    // Tab switching for other sections
+    const tabs = document.querySelectorAll('.tabs button:not(#flights .tabs button)');
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const parent = tab.parentElement;
+        parent.querySelectorAll('button').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+      });
+    });
+
+    // Search form submission
+    const forms = document.querySelectorAll('.search-form');
+    forms.forEach(form => {
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const type = form.dataset.type;
+        const resultsContainer = document.getElementById(`${type}-results`);
+        let results = '';
+
+        if (type === 'flights') {
+          const activeTab = document.querySelector('#flights .tabs button.active').dataset.tab;
+          
+          if (activeTab === 'one-way') {
+            const from = document.getElementById('flight-from').value;
+            const to = document.getElementById('flight-to').value;
+            const date = document.getElementById('flight-date').value;
+            
+            results = `
+              <div class="result-item">
+                <div>
+                  <img src="https://images.unsplash.com/photo-1570710891163-6d3b5c47248b" alt="IndiGo Plane">
+                  <span>IndiGo</span>
+                </div>
+                <div>06:00 - 08:30</div>
+                <div>2h 30m</div>
+                <div>${from} - ${to}</div>
+                <div>₹5,500</div>
+                <button>Book Now</button>
+              </div>
+              <div class="result-item">
+                <div>
+                  <img src="https://images.unsplash.com/photo-1570710891163-6d3b5c47248b" alt="Air India Plane">
+                  <span>Air India</span>
+                </div>
+                <div>09:00 - 11:45</div>
+                <div>2h 45m</div>
+                <div>${from} - ${to}</div>
+                <div>₹6,200</div>
+                <button>Book Now</button>
+              </div>
+              <div class="result-item">
+                <div>
+                  <img src="https://images.unsplash.com/photo-1570710891163-6d3b5c47248b" alt="SpiceJet Plane">
+                  <span>SpiceJet</span>
+                </div>
+                <div>12:00 - 14:30</div>
+                <div>2h 30m</div>
+                <div>${from} - ${to}</div>
+                <div>₹5,800</div>
+                <button>Book Now</button>
+              </div>
+            `;
+            alert(`Searching one-way flights from ${from} to ${to} on ${date}...`);
+          } 
+          else if (activeTab === 'round-trip') {
+            const from = document.getElementById('roundtrip-from').value;
+            const to = document.getElementById('roundtrip-to').value;
+            const depart = document.getElementById('roundtrip-depart').value;
+            const returnDate = document.getElementById('roundtrip-return').value;
+            
+            results = `
+              <div class="result-item">
+                <div>
+                  <img src="https://images.unsplash.com/photo-1570710891163-6d3b5c47248b" alt="IndiGo Plane">
+                  <span>IndiGo</span>
+                </div>
+                <div>${depart} (06:00 - 08:30)<br>${returnDate} (18:00 - 20:30)</div>
+                <div>2h 30m each</div>
+                <div>${from} ⇄ ${to}</div>
+                <div>₹10,500</div>
+                <button>Book Now</button>
+              </div>
+              <div class="result-item">
+                <div>
+                  <img src="https://images.unsplash.com/photo-1570710891163-6d3b5c47248b" alt="Air India Plane">
+                  <span>Air India</span>
+                </div>
+                <div>${depart} (09:00 - 11:45)<br>${returnDate} (15:00 - 17:45)</div>
+                <div>2h 45m each</div>
+                <div>${from} ⇄ ${to}</div>
+                <div>₹11,200</div>
+                <button>Book Now</button>
+              </div>
+            `;
+            alert(`Searching round-trip flights from ${from} to ${to}, departing ${depart} and returning ${returnDate}...`);
+          } 
+          else if (activeTab === 'multi-city') {
+            const legs = Array.from(document.querySelectorAll('.multi-city-leg')).map(leg => {
+              return {
+                from: leg.querySelector('input:nth-child(1)').value,
+                to: leg.querySelector('input:nth-child(2)').value,
+                date: leg.querySelector('input[type="date"]').value
+              };
+            });
+            
+            let legsDescription = legs.map(leg => `${leg.from} → ${leg.to} on ${leg.date}`).join('<br>');
+            
+            results = `
+              <div class="result-item">
+                <div>
+                  <img src="https://images.unsplash.com/photo-1570710891163-6d3b5c47248b" alt="IndiGo Plane">
+                  <span>IndiGo Multi-City</span>
+                </div>
+                <div>${legsDescription}</div>
+                <div>Various durations</div>
+                <div>Multi-city trip</div>
+                <div>₹15,800</div>
+                <button>Book Now</button>
+              </div>
+              <div class="result-item">
+                <div>
+                  <img src="https://images.unsplash.com/photo-1570710891163-6d3b5c47248b" alt="Air India Plane">
+                  <span>Air India Multi-City</span>
+                </div>
+                <div>${legsDescription}</div>
+                <div>Various durations</div>
+                <div>Multi-city trip</div>
+                <div>₹16,500</div>
+                <button>Book Now</button>
+              </div>
+            `;
+            alert(`Searching multi-city flights with ${legs.length} legs...`);
+          }
+        } 
+        else if (type === 'hotels') {
+          const city = document.getElementById('hotel-city').value;
+          results = `
+            <div class="result-item">
+              <div>
+                <img src="https://images.unsplash.com/photo-1611892440504-42a792e24d3c" alt="Hotel Logo">
+                <span>Taj ${city}</span>
+              </div>
+              <div>5 Star</div>
+              <div>${city}</div>
+              <div>2 Nights</div>
+              <div>₹12,000</div>
+              <button>Book Now</button>
+            </div>
+            <div class="result-item">
+              <div>
+                <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2" alt="Hotel Logo">
+                <span>Marriott ${city}</span>
+              </div>
+              <div>4 Star</div>
+              <div>${city}</div>
+              <div>2 Nights</div>
+              <div>₹9,000</div>
+              <button>Book Now</button>
+            </div>
+          `;
+          alert(`Searching hotels in ${city}...`);
+        } 
+        else if (type === 'holidays') {
+          const destination = document.getElementById('holiday-destination').value;
+          results = `
+            <div class="result-item">
+              <div>
+                <img src="https://images.unsplash.com/photo-1500835556837-99ec7f3911d6" alt="Holiday Logo">
+                <span>${destination} Package</span>
+              </div>
+              <div>5D/4N</div>
+              <div>${destination}</div>
+              <div>Relaxation</div>
+              <div>₹45,000</div>
+              <button>Book Now</button>
+            </div>
+            <div class="result-item">
+              <div>
+                <img src="https://images.unsplash.com/photo-1530789253388-582c481c54b0" alt="Holiday Logo">
+                <span>${destination} Adventure</span>
+              </div>
+              <div>7D/6N</div>
+              <div>${destination}</div>
+              <div>Adventure</div>
+              <div>₹55,000</div>
+              <button>Book Now</button>
+            </div>
+          `;
+          alert(`Searching holidays in ${destination}...`);
+        } 
+        else if (type === 'trains') {
+          const from = document.getElementById('train-from').value;
+          const to = document.getElementById('train-to').value;
+          results = `
+            <div class="result-item">
+              <div>
+                <img src="https://images.unsplash.com/photo-1582845512747-e42001c0b7df" alt="Rajdhani Express">
+                <span>Rajdhani Express</span>
+              </div>
+              <div>18:00 - 10:30</div>
+              <div>16h 30m</div>
+              <div>${from} - ${to}</div>
+              <div>₹2,800</div>
+              <button>Book Now</button>
+            </div>
+            <div class="result-item">
+              <div>
+                <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c" alt="Shatabdi Express">
+                <span>Shatabdi Express</span>
+              </div>
+              <div>07:00 - 14:00</div>
+              <div>7h</div>
+              <div>${from} - Jaipur</div>
+              <div>₹1,500</div>
+              <button>Book Now</button>
+            </div>
+            <div class="result-item">
+              <div>
+                <img src="https://images.unsplash.com/photo-1541845157-a6d2d100c931" alt="Duronto Express">
+                <span>Duronto Express</span>
+              </div>
+              <div>20:00 - 12:30</div>
+              <div>16h 30m</div>
+              <div>${from} - Bangalore</div>
+              <div>₹3,200</div>
+              <button>Book Now</button>
+            </div>
+            <div class="result-item">
+              <div>
+                <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e" alt="Goa Express">
+                <span>Goa Express</span>
+              </div>
+              <div>15:00 - 06:00</div>
+              <div>15h</div>
+              <div>${from} - Goa</div>
+              <div>₹2,400</div>
+              <button>Book Now</button>
+            </div>
+            <div class="result-item">
+              <div>
+                <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c" alt="Passenger Train">
+                <span>Passenger Train</span>
+              </div>
+              <div>09:00 - 15:00</div>
+              <div>6h</div>
+              <div>${from} - Agra</div>
+              <div>₹800</div>
+              <button>Book Now</button>
+            </div>
+          `;
+          alert(`Searching trains from ${from} to ${to}...`);
+        } 
+        else if (type === 'cabs') {
+          const city = document.getElementById('cab-city').value;
+          results = `
+            <div class="result-item">
+              <div>
+                <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70" alt="Cab Logo">
+                <span>Sedan</span>
+              </div>
+              <div>10:00</div>
+              <div>${city}</div>
+              <div>Local</div>
+              <div>₹1,200</div>
+              <button>Book Now</button>
+            </div>
+            <div class="result-item">
+              <div>
+                <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70" alt="Cab Logo">
+                <span>SUV</span>
+              </div>
+              <div>10:00</div>
+              <div>${city}</div>
+              <div>Outstation</div>
+              <div>₹2,500</div>
+              <button>Book Now</button>
+            </div>
+          `;
+          alert(`Searching cabs in ${city}...`);
+        } 
+        else if (type === 'login') {
+          alert('Logging in...');
+          return;
+        }
+
+        resultsContainer.innerHTML = results;
+        resultsContainer.querySelectorAll('.result-item').forEach((item, index) => {
+          item.style.animation = `slideUp 0.5s ease-out ${index * 0.1}s forwards`;
+        });
+      });
+    });
+
+    // Filter interaction
+    const filterSections = document.querySelectorAll('.filters');
+    filterSections.forEach(section => {
+      const type = section.parentElement.parentElement.id;
+      const priceRange = section.querySelector(`#${type}-price-range`);
+      const priceDisplay = section.querySelector(`#${type}-price-display`);
+      const checkboxes = section.querySelectorAll('input[type="checkbox"]');
+      const resultsContainer = document.getElementById(`${type}-results`);
+
+      priceRange.addEventListener('input', () => {
+        priceDisplay.textContent = `₹${priceRange.min} - ₹${priceRange.value}`;
+        updateResults(type, checkboxes, priceRange.value, resultsContainer);
+      });
+
+      checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', () => {
+          updateResults(type, checkboxes, priceRange.value, resultsContainer);
+        });
+      });
+    });
+
+    // Dynamic results update
+    function updateResults(type, checkboxes, maxPrice, resultsContainer) {
+      let sampleData = [];
+      if (type === 'flights') {
+        sampleData = [
+          { name: 'IndiGo', time: '06:00 - 08:30', duration: '2h 30m', location: 'Delhi - Mumbai', price: 5500, filter: 'IndiGo' },
+          { name: 'Air India', time: '09:00 - 11:45', duration: '2h 45m', location: 'Delhi - Mumbai', price: 6200, filter: 'Air India' },
+          { name: 'SpiceJet', time: '12:00 - 14:30', duration: '2h 30m', location: 'Delhi - Mumbai', price: 5800, filter: 'SpiceJet' }
+        ];
+      } else if (type === 'hotels') {
+        sampleData = [
+          { name: 'Taj Goa', rating: '5 Star', location: 'Goa', duration: '2 Nights', price: 12000, filter: '5 Star' },
+          { name: 'Marriott Delhi', rating: '4 Star', location: 'Delhi', duration: '2 Nights', price: 9000, filter: '4 Star' },
+          { name: 'Holiday Inn Mumbai', rating: '3 Star', location: 'Mumbai', duration: '2 Nights', price: 6000, filter: '3 Star' }
+        ];
+      } else if (type === 'holidays') {
+        sampleData = [
+          { name: 'Kerala Package', duration: '5D/4N', location: 'Kerala', type: 'Relaxation', price: 45000, filter: 'Relaxation' },
+          { name: 'Ladakh Adventure', duration: '7D/6N', location: 'Ladakh', type: 'Adventure', price: 55000, filter: 'Adventure' },
+          { name: 'Rajasthan Cultural', duration: '6D/5N', location: 'Rajasthan', type: 'Cultural', price: 40000, filter: 'Cultural' }
+        ];
+      } else if (type === 'trains') {
+        sampleData = [
+          { name: 'Rajdhani Express', time: '18:00 - 10:30', duration: '16h 30m', location: 'Delhi - Mumbai', price: 2800, filter: 'Express', image: 'https://images.unsplash.com/photo-1582845512747-e42001c0b7df' },
+          { name: 'Shatabdi Express', time: '07:00 - 14:00', duration: '7h', location: 'Delhi - Jaipur', price: 1500, filter: 'Superfast', image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c' },
+          { name: 'Duronto Express', time: '20:00 - 12:30', duration: '16h 30m', location: 'Delhi - Bangalore', price: 3200, filter: 'Express', image: 'https://images.unsplash.com/photo-1541845157-a6d2d100c931' },
+          { name: 'Goa Express', time: '15:00 - 06:00', duration: '15h', location: 'Delhi - Goa', price: 2400, filter: 'Express', image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e' },
+          { name: 'Passenger Train', time: '09:00 - 15:00', duration: '6h', location: 'Delhi - Agra', price: 800, filter: 'Passenger', image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c' }
+        ];
+      } else if (type === 'cabs') {
+        sampleData = [
+          { name: 'Sedan', time: '10:00', location: 'Delhi', type: 'Local', price: 1200, filter: 'Sedan' },
+          { name: 'SUV', time: '10:00', location: 'Delhi', type: 'Outstation', price: 2500, filter: 'SUV' },
+          { name: 'Hatchback', time: '10:00', location: 'Delhi', type: 'Local', price: 900, filter: 'Hatchback' }
+        ];
+      }
+
+      const selectedFilters = Array.from(checkboxes)
+        .filter(cb => cb.checked)
+        .map(cb => cb.value);
+
+      const filteredData = sampleData.filter(item => 
+        (selectedFilters.length === 0 || selectedFilters.includes(item.filter)) && 
+        item.price <= maxPrice
+      );
+
+      resultsContainer.innerHTML = filteredData.map((item, index) => `
+        <div class="result-item" style="animation-delay: ${index * 0.1}s">
+          <div>
+            <img src="${item.image || `https://images.unsplash.com/photo-${type === 'flights' ? '1570710891163-6d3b5c47248b' : type === 'hotels' ? '1611892440504-42a792e24d3c' : type === 'holidays' ? '1500835556837-99ec7f3911d6' : type === 'trains' ? '1541845157-a6d2d100c931' : '1503376780353-7e6692767b70'}`}" alt="${item.name} Logo">
+            <span>${item.name}</span>
+          </div>
+          <div>${item.time || item.rating || item.duration}</div>
+          <div>${item.duration || item.location}</div>
+          <div>${item.location || item.type}</div>
+          <div>₹${item.price}</div>
+          <button>Book Now</button>
+        </div>
+      `).join('');
+    }
+  </script>
+</body>
+</html>

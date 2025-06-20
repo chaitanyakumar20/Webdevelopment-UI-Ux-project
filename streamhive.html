@@ -1,0 +1,2350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StreamHive Premium - Telugu Movies & Originals</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #00C4B4;
+            --primary-dark: #009688;
+            --secondary: #F1C40F;
+            --accent: #FF3366;
+            --dark: #0A0E1F;
+            --darker: #050711;
+            --light: #ffffff;
+            --light-gray: #e0e0e0;
+            --card-bg: rgba(26, 30, 50, 0.8);
+            --transition: all 0.3s ease-in-out;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            --gradient: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            --text-glow: 0 0 8px rgba(0, 0, 0, 0.8);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: var(--darker);
+            color: var(--light);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Login Screen */
+        .login-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--darker);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 3000;
+            transition: opacity 0.5s ease, visibility 0.5s;
+        }
+        
+        .login-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        .login-container {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(10px);
+            animation: fadeInUp 0.8s ease-out;
+        }
+        
+        .login-container h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+        
+        .login-container p {
+            margin-bottom: 30px;
+            color: var(--light-gray);
+        }
+        
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .form-group {
+            text-align: left;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--light);
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid transparent;
+            border-radius: 10px;
+            color: var(--light);
+            font-size: 16px;
+            transition: var(--transition);
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .login-btn {
+            padding: 15px;
+            font-size: 18px;
+            font-weight: 600;
+            background: var(--gradient);
+            color: var(--light);
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 10px;
+        }
+        
+        .login-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 196, 180, 0.4);
+        }
+        
+        .welcome-text {
+            font-size: 1.5rem;
+            margin-top: 10px;
+            color: var(--primary);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .welcome-text.show {
+            opacity: 1;
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--darker);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 5px;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 14, 31, 0.95);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 50px;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+        }
+
+        nav.scrolled {
+            padding: 10px 50px;
+            background: rgba(5, 7, 17, 0.98);
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: var(--transition);
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo i {
+            color: var(--secondary);
+            animation: pulse 2s infinite;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            color: var(--light);
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            position: relative;
+            padding: 5px 0;
+            transition: var(--transition);
+        }
+
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--primary);
+        }
+
+        .nav-links a:hover:after,
+        .nav-links a.active:after {
+            width: 100%;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .search-container {
+            position: relative;
+        }
+
+        .search-container input {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 30px;
+            padding: 10px 15px 10px 45px;
+            color: var(--light);
+            width: 220px;
+            font-size: 15px;
+            transition: var(--transition);
+        }
+
+        .search-container input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .search-container i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--light);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .search-container:hover i {
+            color: var(--primary);
+        }
+
+        .profile-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            position: relative;
+        }
+        
+        .username {
+            font-weight: 500;
+            color: var(--light);
+            opacity: 0.9;
+            transition: var(--transition);
+        }
+        
+        .username:hover {
+            opacity: 1;
+            color: var(--primary);
+        }
+
+        .profile {
+            width: 45px;
+            height: 45px;
+            background: var(--gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--light);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 5px 15px rgba(0, 196, 180, 0.3);
+            font-size: 18px;
+        }
+
+        .profile:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 196, 180, 0.4);
+        }
+
+        /* Profile Dropdown */
+        .profile-dropdown {
+            position: absolute;
+            top: 55px;
+            right: 0;
+            background: var(--card-bg);
+            border-radius: 10px;
+            width: 200px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            z-index: 1001;
+            opacity: 0;
+            transform: translateY(-10px);
+            visibility: hidden;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+        }
+
+        .profile-dropdown.show {
+            opacity: 1;
+            transform: translateY(0);
+            visibility: visible;
+        }
+
+        .profile-dropdown .dropdown-item {
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--light);
+            text-decoration: none;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .profile-dropdown .dropdown-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--primary);
+        }
+
+        .profile-dropdown .dropdown-item i {
+            width: 20px;
+            text-align: center;
+        }
+
+        .dropdown-divider {
+            height: 1px;
+            background: rgba(255, 255, 255, 0.1);
+            margin: 5px 0;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.7), var(--darker)), 
+                        url('https://images.unsplash.com/photo-1616531770192-6eaea74c2456') no-repeat center/cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 50px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, rgba(0,196,180,0.1) 0%, rgba(0,0,0,0) 70%);
+            z-index: 0;
+        }
+
+        .hero-content {
+            max-width: 650px;
+            z-index: 1;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero h1 {
+            font-size: 3.8rem;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            font-weight: 800;
+            text-shadow: 0 2px 15px rgba(0,0,0,0.7);
+        }
+
+        .hero h1 span {
+            color: var(--primary);
+            position: relative;
+        }
+
+        .hero h1 span::after {
+            content: '';
+            position: absolute;
+            bottom: 5px;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: rgba(0, 196, 180, 0.3);
+            z-index: -1;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            max-width: 600px;
+            color: #e0e0e0;
+            text-shadow: var(--text-glow);
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 15px 35px;
+            font-size: 18px;
+            font-weight: 600;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-primary {
+            background: var(--gradient);
+            color: var(--light);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 196, 180, 0.4);
+            background: linear-gradient(135deg, #00d4c3 0%, #00a294 100%);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.15);
+            color: var(--light);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-3px);
+        }
+
+        .hero-features {
+            display: flex;
+            gap: 30px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: fadeIn 1s ease-out 0.5s forwards;
+            opacity: 0;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 10px 20px;
+            border-radius: 30px;
+            backdrop-filter: blur(5px);
+        }
+
+        .feature-item:nth-child(2) {
+            animation-delay: 0.7s;
+        }
+
+        .feature-item:nth-child(3) {
+            animation-delay: 0.9s;
+        }
+
+        .feature-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(0, 196, 180, 0.2);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+        }
+
+        /* Filters */
+        .filters {
+            padding: 20px 50px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            background: rgba(15, 20, 40, 0.6);
+            margin: 0 50px;
+            border-radius: 15px;
+            transform: translateY(-30px);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow);
+            z-index: 10;
+            position: relative;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        .filters select, .filters button {
+            padding: 12px 20px;
+            background: var(--card-bg);
+            color: var(--light);
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: var(--transition);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .filters select {
+            flex: 1;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%2300C4B4' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 12px;
+            appearance: none;
+            padding-right: 40px;
+        }
+
+        .filters select:hover {
+            background-color: rgba(38, 43, 70, 0.8);
+        }
+
+        .filters button {
+            background: var(--gradient);
+            font-weight: 600;
+            min-width: 140px;
+        }
+
+        .filters button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 196, 180, 0.4);
+        }
+
+        /* Content Sections */
+        .section-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 0 50px;
+        }
+
+        .section-title h2 {
+            font-size: 28px;
+            font-weight: 700;
+            position: relative;
+            padding-left: 15px;
+        }
+
+        .section-title h2::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 70%;
+            width: 4px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        .view-all {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: var(--transition);
+        }
+
+        .view-all:hover {
+            gap: 10px;
+            color: var(--secondary);
+        }
+
+        .content-section {
+            padding: 20px 0 60px;
+            position: relative;
+        }
+
+        .carousel-container {
+            position: relative;
+            padding: 0 50px;
+        }
+
+        .carousel {
+            display: flex;
+            overflow-x: auto;
+            gap: 20px;
+            padding: 20px 0;
+            scroll-behavior: smooth;
+            scrollbar-width: none;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .carousel::-webkit-scrollbar {
+            display: none;
+        }
+
+        .carousel-item {
+            flex: 0 0 280px;
+            height: 380px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            animation: cardAppear 0.6s ease-out forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .carousel-item:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 20px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .carousel-item::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.85) 30%, transparent 70%);
+            z-index: 1;
+        }
+
+        .carousel-item .content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px;
+            z-index: 2;
+        }
+
+        .carousel-item .title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--light);
+            text-shadow: 0 2px 5px rgba(0,0,0,0.8);
+            letter-spacing: 0.5px;
+        }
+
+        .carousel-item .info {
+            display: flex;
+            gap: 15px;
+            font-size: 14px;
+            color: var(--light-gray);
+            margin-bottom: 15px;
+            text-shadow: var(--text-glow);
+        }
+
+        .carousel-item .rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: var(--secondary);
+            font-weight: 500;
+        }
+
+        .carousel-item .btn-play {
+            width: 45px;
+            height: 45px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--light);
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: var(--transition);
+            z-index: 3;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            text-decoration: none;
+        }
+
+        .carousel-item:hover .btn-play {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .carousel-item .btn-play:hover {
+            background: var(--primary-dark);
+            transform: translateY(0) scale(1.1);
+        }
+
+        /* Navigation Arrows */
+        .nav-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            background: var(--card-bg);
+            color: var(--light);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(10px);
+            font-size: 18px;
+        }
+
+        .nav-arrow:hover {
+            background: var(--primary);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .nav-arrow.left {
+            left: 10px;
+        }
+
+        .nav-arrow.right {
+            right: 10px;
+        }
+
+        /* Full Content View */
+        .full-content-view {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(5, 7, 17, 0.95);
+            z-index: 2000;
+            overflow-y: auto;
+            padding: 80px 50px;
+            backdrop-filter: blur(10px);
+        }
+
+        .full-content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .full-content-header h2 {
+            font-size: 32px;
+            color: var(--primary);
+        }
+
+        .close-full-view {
+            background: var(--gradient);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .close-full-view:hover {
+            transform: rotate(90deg) scale(1.1);
+        }
+
+        .full-content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 25px;
+        }
+
+        .full-content-item {
+            background: var(--card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+            height: 350px;
+            position: relative;
+        }
+
+        .full-content-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 30px rgba(0,0,0,0.4);
+        }
+
+        .full-content-img {
+            width: 100%;
+            height: 250px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .full-content-item .btn-play {
+            width: 45px;
+            height: 45px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--light);
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: var(--transition);
+            z-index: 3;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            text-decoration: none;
+        }
+
+        .full-content-item:hover .btn-play {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .full-content-item .btn-play:hover {
+            background: var(--primary-dark);
+            transform: translateY(0) scale(1.1);
+        }
+
+        .full-content-details {
+            padding: 15px;
+        }
+
+        .full-content-details .title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--light);
+        }
+
+        .full-content-details .info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            color: var(--light-gray);
+        }
+
+        .full-content-details .rating {
+            color: var(--secondary);
+            font-weight: 500;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--darker);
+            padding: 60px 50px 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--gradient);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h3 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: var(--primary);
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-column ul li a {
+            color: var(--light-gray);
+            text-decoration: none;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-column ul li a:hover {
+            color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            background: var(--card-bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--light);
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--light-gray);
+            font-size: 14px;
+        }
+
+        .copyright a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .copyright a:hover {
+            text-decoration: underline;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 3000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: var(--darker);
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 600px;
+            width: 90%;
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content h3 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .modal-content p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        /* Support Modals */
+        .support-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 3000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .support-modal-content {
+            background: var(--darker);
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 600px;
+            width: 90%;
+            box-shadow: var(--shadow);
+            position: relative;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .support-modal-content h3 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 24px;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 10px;
+        }
+
+        .support-modal-content p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .close-support-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .support-link {
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .support-link:hover {
+            color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(0);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(-30px);
+            }
+        }
+
+        @keyframes cardAppear {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* Delays for carousel items */
+        .carousel-item:nth-child(1) { animation-delay: 0.1s; }
+        .carousel-item:nth-child(2) { animation-delay: 0.2s; }
+        .carousel-item:nth-child(3) { animation-delay: 0.3s; }
+        .carousel-item:nth-child(4) { animation-delay: 0.4s; }
+        .carousel-item:nth-child(5) { animation-delay: 0.5s; }
+        .carousel-item:nth-child(6) { animation-delay: 0.6s; }
+        .carousel-item:nth-child(7) { animation-delay: 0.7s; }
+        .carousel-item:nth-child(8) { animation-delay: 0.8s; }
+        .carousel-item:nth-child(9) { animation-delay: 0.9s; }
+        .carousel-item:nth-child(10) { animation-delay: 1.0s; }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+        }
+
+        @media (max-width: 992px) {
+            nav, .section-title, .carousel-container, .hero, footer {
+                padding-left: 30px;
+                padding-right: 30px;
+            }
+            
+            .filters {
+                margin: 0 30px;
+                transform: translateY(-20px);
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .carousel-item {
+                flex: 0 0 240px;
+                height: 320px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                padding: 0 20px;
+                text-align: center;
+            }
+            
+            .hero-content {
+                margin: 0 auto;
+                text-align: center;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .hero h1 span::after {
+                height: 6px;
+                bottom: 3px;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+                margin: 0 auto 30px;
+            }
+            
+            .hero-buttons {
+                justify-content: center;
+            }
+            
+            .hero-features {
+                justify-content: center;
+            }
+            
+            nav {
+                padding: 15px 20px;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .filters {
+                flex-direction: column;
+                padding: 20px;
+                transform: translateY(-20px);
+            }
+            
+            .carousel-item {
+                flex: 0 0 200px;
+                height: 280px;
+            }
+            
+            .nav-arrow {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .username {
+                display: none;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .btn {
+                padding: 12px 20px;
+                font-size: 16px;
+            }
+            
+            .carousel-item {
+                flex: 0 0 180px;
+                height: 240px;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .full-content-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+            
+            .full-content-item {
+                height: 280px;
+            }
+            
+            .full-content-img {
+                height: 180px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Screen -->
+    <div class="login-screen" id="loginScreen">
+        <div class="login-container">
+            <h2>Welcome to StreamHive</h2>
+            <p>Please enter your name to continue to our premium Telugu content library</p>
+            
+            <form class="login-form" id="loginForm">
+                <div class="form-group">
+                    <label for="userName">Your Name</label>
+                    <input type="text" id="userName" placeholder="Enter your name" required autofocus>
+                </div>
+                <button type="submit" class="login-btn">
+                    <i class="fas fa-sign-in-alt"></i> Continue to StreamHive
+                </button>
+            </form>
+            
+            <div class="welcome-text" id="welcomeText">
+                Loading your personalized experience...
+            </div>
+        </div>
+    </div>
+
+    <nav id="navbar">
+        <div class="logo">
+            <i class="fas fa-play-circle"></i>
+            StreamHive
+        </div>
+        <div class="nav-links">
+            <a href="#home" class="active">Home</a>
+            <a href="#movies">Movies</a>
+            <a href="#series">Series</a>
+            <a href="#originals">Originals</a>
+            <a href="#tv">TV Shows</a>
+        </div>
+        <div class="nav-right">
+            <div class="search-container">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search Telugu movies...">
+            </div>
+            <div class="profile-container">
+                <span class="username" id="usernameDisplay"></span>
+                <div class="profile" id="userProfile">U</div>
+                <!-- Profile Dropdown -->
+                <div class="profile-dropdown" id="profileDropdown">
+                    <div class="dropdown-item">
+                        <i class="fas fa-user"></i> My Profile
+                    </div>
+                    <div class="dropdown-item">
+                        <i class="fas fa-cog"></i> Settings
+                    </div>
+                    <div class="dropdown-divider"></div>
+                    <div class="dropdown-item" id="logoutBtn">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Experience Telugu Cinema <span>Reimagined</span></h1>
+            <p>Stream the latest Telugu movies, series, and exclusive originals in stunning 4K quality. Anytime, anywhere.</p>
+            <div class="hero-buttons">
+                <a href="https://youtu.be/1CIWTLmcb8Q?si=_MEho-UBuWJ__7pF" target="_blank" class="btn btn-primary">
+                    <i class="fas fa-play"></i> Watch Now
+                </a>
+                <button class="btn btn-secondary" id="learnMoreBtn">
+                    <i class="fas fa-info-circle"></i> Learn More
+                </button>
+            </div>
+            <div class="hero-features">
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-hd"></i>
+                    </div>
+                    <div>4K Ultra HD Quality</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-film"></i>
+                    </div>
+                    <div>Exclusive Originals</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-tv"></i>
+                    </div>
+                    <div>Watch Anywhere</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="filters">
+        <select id="genre">
+            <option value="">All Genres</option>
+            <option value="action">Action</option>
+            <option value="comedy">Comedy</option>
+            <option value="drama">Drama</option>
+            <option value="romance">Romance</option>
+            <option value="thriller">Thriller</option>
+        </select>
+        <select id="language">
+            <option value="">All Languages</option>
+            <option value="telugu">Telugu</option>
+            <option value="hindi">Hindi</option>
+            <option value="english">English</option>
+        </select>
+        <button onclick="applyFilters()">
+            <i class="fas fa-filter"></i> Apply Filters
+        </button>
+    </section>
+
+    <section class="content-section" id="movies">
+        <div class="section-title">
+            <h2>Popular Telugu Movies</h2>
+            <a href="#" class="view-all" onclick="showFullContent('movies')">View All <i class="fas fa-chevron-right"></i></a>
+        </div>
+        <div class="carousel-container">
+            <button class="nav-arrow left" onclick="scrollCarousel('movies', -400)">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="nav-arrow right" onclick="scrollCarousel('movies', 400)">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+            <div class="carousel" id="movies-carousel">
+                <!-- Khaleja -->
+                <div class="carousel-item" style="background-image: url('https://m.media-amazon.com/images/M/MV5BZjg5NjVkMTQtMWNlNy00YjQ2LTlkMjktYzA0ZmY2NDg4ZDAwXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg');" data-genre="action" data-language="telugu">
+                    <a href="https://youtu.be/1CIWTLmcb8Q?si=_MEho-UBuWJ__7pF" target="_blank" class="btn-play">
+                        <i class="fas fa-play"></i>
+                    </a>
+                    <div class="content">
+                        <div class="title">Khaleja</div>
+                        <div class="info">
+                            <span>2010</span>
+                            <span class="rating">
+                                <i class="fas fa-star"></i> 8.2
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Jersey -->
+                <div class="carousel-item" style="background-image: url('https://m.media-amazon.com/images/M/MV5BMWU0ZTk1ODYtOTk4MS00ZTdmLWJjOWYtMmJiYWQ2ZTcwZjJlXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg');" data-genre="drama" data-language="telugu">
+                    <a href="https://youtu.be/BUniac5SVIU?si=rLdg2dUNECh6WSpU" target="_blank" class="btn-play">
+                        <i class="fas fa-play"></i>
+                    </a>
+                    <div class="content">
+                        <div class="title">Jersey</div>
+                        <div class="info">
+                            <span>2019</span>
+                            <span class="rating">
+                                <i class="fas fa-star"></i> 8.5
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Leader -->
+                <div class="carousel-item" style="background-image: url('https://m.media-amazon.com/images/M/MV5BNzYyMzZmY2EtY2Y5ZS00OTQ5LWFhZmUtZTljNDg5NDIzMjJjXkEyXkFqcGc@._V1_.jpg');" data-genre="drama" data-language="telugu">
+                    <a href="https://youtu.be/ck99_p3jVNw?si=MDXC8AW0RvwlIG-Q" target="_blank" class="btn-play">
+                        <i class="fas fa-play"></i>
+                    </a>
+                    <div class="content">
+                        <div class="title">Leader</div>
+                        <div class="info">
+                            <span>2010</span>
+                            <span class="rating">
+                                <i class="fas fa-star"></i> 8.3
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Mr. Perfect -->
+                <div class="carousel-item" style="background-image: url('https://m.media-amazon.com/images/M/MV5BMzM1ZGU4YzEtN2YwMC00MWViLTk4YzYtNzE1ZTAwZGY0ZjJlXkEyXkFqcGc@._V1_.jpg');" data-genre="romance" data-language="telugu">
+                    <a href="https://youtu.be/ChVQraBKAsQ?si=Gt6YV6kOaqSxJLlE" target="_blank" class="btn-play">
+                        <i class="fas fa-play"></i>
+                    </a>
+                    <div class="content">
+                        <div class="title">Mr. Perfect</div>
+                        <div class="info">
+                            <span>2011</span>
+                            <span class="rating">
+                                <i class="fas fa-star"></i> 7.8
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Dear Comrade -->
+                <div class="carousel-item" style="background-image: url('https://m.media-amazon.com/images/M/MV5BYTE1YTgxYWUtMjZlMS00ZWEzLWI1MGMtOWRmZTQ5NjM0NGVhXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg');" data-genre="romance" data-language="telugu">
+                    <a href="https://youtu.be/ITx2Gf0kpT0?si=N7HMaj4Q8P0ERNum" target="_blank" class="btn-play">
+                        <i class="fas fa-play"></i>
+                    </a>
+                    <div class="content">
+                        <div class="title">Dear Comrade</div>
+                        <div class="info">
+                            <span>2019</span>
+                            <span class="rating">
+                                <i class="fas fa-star"></i> 7.9
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Julayi -->
+                <div class="carousel-item" style="background-image: url('https://m.media-amazon.com/images/M/MV5BZmZjZTdlODctOWJiMy00N2NlLTg4Y2YtOWYxNDZmMDZjYTg4XkEyXkFqcGc@._V1_.jpg');" data-genre="action" data-language="telugu">
+                    <a href="https://youtu.be/tZquI3a1qZw?si=6bdt4M02XxoOyiHA" target="_blank" class="btn-play">
+                        <i class="fas fa-play"></i>
+                    </a>
+                    <div class="content">
+                        <div class="title">Julayi</div>
+                        <div class="info">
+                            <span>2012</span>
+                            <span class="rating">
+                                <i class="fas fa-star"></i> 7.5
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Snehitudu -->
+                <div class="carousel-item" style="background-image: url('https://m.media-amazon.com/images/M/MV5BYmMwYTg0YTMtZWFmMi00ZTVhLThkM2UtZTJjMTNjOWJiNDEyXkEyXkFqcGc@._V1_.jpg');" data-genre="comedy" data-language="telugu">
+                    <a href="https://youtu.be/zVm9IFaAJlo?si=uH5QBdGMlrlMz2hA" target="_blank" class="btn-play">
+                        <i class="fas fa-play"></i>
+                    </a>
+                    <div class="content">
+                        <div class="title">Snehitudu</div>
+                        <div class="info">
+                            <span>2013</span>
+                            <span class="rating">
+                                <i class="fas fa-star"></i> 7.4
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Karthikeya -->
+                <div class="carousel-item" style="background-image: url('https://m.media-amazon.com/images/M/MV5BZTE4Y2NmYTMtZDFkNi00NDBhLTk0OGQtNjMzYzgwNWVkNzhiXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg');" data-genre="thriller" data-language="telugu">
+                    <a href="https://youtu.be/6kelTocUsio?si=_DvQVF2512U_LWF5" target="_blank" class="btn-play">
+                        <i class="fas fa-play"></i>
+                    </a>
+                    <div class="content">
+                        <div class="title">Karthikeya</div>
+                        <div class="info">
+                            <span>2014</span>
+                            <span class="rating">
+                                <i class="fas fa-star"></i> 8.0
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section" id="series">
+        <div class="section-title">
+            <h2>Binge-Worthy Telugu Series</h2>
+            <a href="#" class="view-all" onclick="showFullContent('series')">View All <i class="fas fa-chevron-right"></i></a>
+        </div>
+        <div class="carousel-container">
+            <button class="nav-arrow left" onclick="scrollCarousel('series', -400)">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="nav-arrow right" onclick="scrollCarousel('series', 400)">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+            <div class="carousel" id="series-carousel">
+                <!-- SURYA -->
+                <div class="carousel-item" style="background-image: url('https://img.youtube.com/vi/BwzeY6RYMFM/maxresdefault.jpg');" data-genre="drama" data-language="telugu">
+                    <a href="https://youtu.be/BwzeY6RYMFM?si=drtP6YfbtJ1tkQAE" target="_blank" class="btn-play">
+                        <i class="fas fa-play"></i>
+                    </a>
+                    <div class="content">
+                        <div class="title">SURYA</div>
+                        <div class="info">
+                            <span>2023</span>
+                            <span class="rating">
+                                <i class="fas fa-star"></i> 9.0
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Software DevLOVEper -->
+                <div class="carousel-item" style="background-image: url('https://img.youtube.com/vi/uqngr_mp3r0/maxresdefault.jpg');" data-genre="comedy" data-language="telugu">
+                    <a href="https://youtu.be/uqngr_mp3r0?si=U-gmumnLG5Yjw2ZO" target="_blank" class="btn-play">
+                        <i class="fas fa-play"></i>
+                    </a>
+                    <div class="content">
+                        <div class="title">Software DevLOVEper</div>
+                        <div class="info">
+                            <span>2023</span>
+                            <span class="rating">
+                                <i class="fas fa-star"></i> 8.7
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- More than friends -->
+                <div class="carousel-item" style="background-image: url('https://img.youtube.com/vi/ZxyNCwME354/maxresdefault.jpg');" data-genre="romance" data-language="telugu">
+                    <a href="https://youtu.be/ZxyNCwME354?si=2o44Um6IW2BxGAJV" target="_blank" class="btn-play">
+                        <i class="fas fa-play"></i>
+                    </a>
+                    <div class="content">
+                        <div class="title">More than friends</div>
+                        <div class="info">
+                            <span>2023</span>
+                            <span class="rating">
+                                <i class="fas fa-star"></i> 8.5
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Pellivaramandi -->
+                <div class="carousel-item" style="background-image: url('https://img.youtube.com/vi/Z7unDIkZF5E/maxresdefault.jpg');" data-genre="comedy" data-language="telugu">
+                    <a href="https://youtu.be/Z7unDIkZF5E?si=jSuJvfReXfUKpwgR" target="_blank" class="btn-play">
+                        <i class="fas fa-play"></i>
+                    </a>
+                    <div class="content">
+                        <div class="title">Pellivaramandi</div>
+                        <div class="info">
+                            <span>2023</span>
+                            <span class="rating">
+                                <i class="fas fa-star"></i> 7.8
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Dear Kavya Season -->
+                <div class="carousel-item" style="background-image: url('https://img.youtube.com/vi/Vrcjv--S2YA/maxresdefault.jpg');" data-genre="romance" data-language="telugu">
+                    <a href="https://youtu.be/Vrcjv--S2YA?si=NvJsxrbIg-ABLI8C" target="_blank" class="btn-play">
+                        <i class="fas fa-play"></i>
+                    </a>
+                    <div class="content">
+                        <div class="title">Dear Kavya Season</div>
+                        <div class="info">
+                            <span>2023</span>
+                            <span class="rating">
+                                <i class="fas fa-star"></i> 8.4
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- 30 weds 21 -->
+                <div class="carousel-item" style="background-image: url('https://img.youtube.com/vi/AlmfhMou7gI/maxresdefault.jpg');" data-genre="romance" data-language="telugu">
+                    <a href="https://youtu.be/AlmfhMou7gI?si=mPpLgsGiBckhudVw" target="_blank" class="btn-play">
+                        <i class="fas fa-play"></i>
+                    </a>
+                    <div class="content">
+                        <div class="title">30 weds 21</div>
+                        <div class="info">
+                            <span>2023</span>
+                            <span class="rating">
+                                <i class="fas fa-star"></i> 8.6
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Student -->
+                <div class="carousel-item" style="background-image: url('https://img.youtube.com/vi/Qw1c6hM2mz0/maxresdefault.jpg');" data-genre="drama" data-language="telugu">
+                    <a href="https://youtu.be/Qw1c6hM2mz0?si=5L2h93kpxku40B5d" target="_blank" class="btn-play">
+                        <i class="fas fa-play"></i>
+                    </a>
+                    <div class="content">
+                        <div class="title">Student</div>
+                        <div class="info">
+                            <span>2023</span>
+                            <span class="rating">
+                                <i class="fas fa-star"></i> 8.3
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Backbenchers -->
+                <div class="carousel-item" style="background-image: url('https://img.youtube.com/vi/4hRW1HJzY0U/maxresdefault.jpg');" data-genre="comedy" data-language="telugu">
+                    <a href="https://youtu.be/4hRW1HJzY0U?si=4J-pUDJU6ArO2kFP" target="_blank" class="btn-play">
+                        <i class="fas fa-play"></i>
+                    </a>
+                    <div class="content">
+                        <div class="title">Backbenchers</div>
+                        <div class="info">
+                            <span>2023</span>
+                            <span class="rating">
+                                <i class="fas fa-star"></i> 7.5
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section" id="originals">
+        <div class="section-title">
+            <h2>StreamHive Originals</h2>
+            <a href="#" class="view-all" onclick="showFullContent('originals')">View All <i class="fas fa-chevron-right"></i></a>
+        </div>
+        <div class="carousel-container">
+            <button class="nav-arrow left" onclick="scrollCarousel('originals', -400)">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="nav-arrow right" onclick="scrollCarousel('originals', 400)">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+            <div class="carousel" id="originals-carousel">
+                <!-- Baahubali: The Beginning -->
+                <div class="carousel-item" style="background-image: url('https://m.media-amazon.com/images/M/MV5BM2YxZThhZmEtYzM0Yi00OWYxLWI4NGYtM2Y2ZDNmOGE0ZWQzXkEyXkFqcGc@._V1_.jpg');" data-genre="action" data-language="telugu">
+                    <a href="https://www.youtube.com/watch?v=sOEg_YZQsTI" target="_blank" class="btn-play">
+                        <i class="fas fa-play"></i>
+                    </a>
+                    <div class="content">
+                        <div class="title">Baahubali: The Beginning</div>
+                        <div class="info">
+                            <span>2015</span>
+                            <span class="rating">
+                                <i class="fas fa-star"></i> 8.0
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Geetha Govindam -->
+                <div class="carousel-item" style="background-image: url('https://m.media-amazon.com/images/M/MV5BNWI3OTcwN2EtMDQ2MS00YTQ2LTliZDEtYTM4YTIzNDU5ODMyXkEyXkFqcGc@._V1_.jpg');" data-genre="romance" data-language="telugu">
+                    <a href="https://youtu.be/omSw8I20aqw?si=ZlKKLDaXBc-km_ic" target="_blank" class="btn-play">
+                        <i class="fas fa-play"></i>
+                    </a>
+                    <div class="content">
+                        <div class="title">Geetha Govindam</div>
+                        <div class="info">
+                            <span>2018</span>
+                            <span class="rating">
+                                <i class="fas fa-star"></i> 7.7
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Kannum Kannum Kollaiyadithaal -->
+                <div class="carousel-item" style="background-image: url('https://m.media-amazon.com/images/M/MV5BNmZiY2RjMTQtYWZlZC00MGE1LTlhMDUtZWNhODFhMDk0OWFlXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg');" data-genre="thriller" data-language="telugu">
+                    <a href="https://youtu.be/u8q24sqwPgQ?si=V62oB8906FqJMTZs" target="_blank" class="btn-play">
+                        <i class="fas fa-play"></i>
+                    </a>
+                    <div class="content">
+                        <div class="title">Kannum Kannum Kollaiyadithaal</div>
+                        <div class="info">
+                            <span>2020</span>
+                            <span class="rating">
+                                <i class="fas fa-star"></i> 7.8
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Srimanthudu -->
+                <div class="carousel-item" style="background-image: url('https://m.media-amazon.com/images/M/MV5BN2RiZmQ0ZDItY2YzNi00YThjLTgyYjQtNDM2ZDYzNTJmZWI2XkEyXkFqcGc@._V1_.jpg');" data-genre="drama" data-language="telugu">
+                    <a href="https://youtu.be/LS6XiINMc2s?si=0kwnXmnePh8wr-m6" target="_blank" class="btn-play">
+                        <i class="fas fa-play"></i>
+                    </a>
+                    <div class="content">
+                        <div class="title">Srimanthudu</div>
+                        <div class="info">
+                            <span>2015</span>
+                            <span class="rating">
+                                <i class="fas fa-star"></i> 7.5
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Magadheera -->
+                <div class="carousel-item" style="background-image: url('https://m.media-amazon.com/images/M/MV5BMzQ0YWYyYjEtZTU2Ni00ZGZjLWJlZmQtYzliN2VlNDY0ZGE4XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg');" data-genre="action" data-language="telugu">
+                    <a href="https://youtu.be/G7haVu5g-Qw?si=wcJ5cWHM-xZHRFdl" target="_blank" class="btn-play">
+                        <i class="fas fa-play"></i>
+                    </a>
+                    <div class="content">
+                        <div class="title">Magadheera</div>
+                        <div class="info">
+                            <span>2009</span>
+                            <span class="rating">
+                                <i class="fas fa-star"></i> 7.7
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Attarintiki Daredi -->
+                <div class="carousel-item" style="background-image: url('https://m.media-amazon.com/images/M/MV5BYTIxYzZkZTQtZDRlOS00ZWUyLTlmMzEtYzdiZWMzN2Y3NGE0XkEyXkFqcGc@._V1_.jpg');" data-genre="comedy" data-language="telugu">
+                    <a href="https://youtu.be/6yH0ViJrXhM?si=9OH9aBDG-r3boLb0" target="_blank" class="btn-play">
+                        <i class="fas fa-play"></i>
+                    </a>
+                    <div class="content">
+                        <div class="title">Attarintiki Daredi</div>
+                        <div class="info">
+                            <span>2013</span>
+                            <span class="rating">
+                                <i class="fas fa-star"></i> 7.2
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Janatha Garage -->
+                <div class="carousel-item" style="background-image: url('https://m.media-amazon.com/images/M/MV5BNGUyN2ZiOGYtYmFjNi00NGVkLThlMzEtMjdlOGE0ZTgzZGFlXkEyXkFqcGc@._V1_.jpg');" data-genre="action" data-language="telugu">
+                    <a href="https://youtu.be/_Nq2m5LRQ3g?si=Wf_HEzuNFW6S8_KQ" target="_blank" class="btn-play">
+                        <i class="fas fa-play"></i>
+                    </a>
+                    <div class="content">
+                        <div class="title">Janatha Garage</div>
+                        <div class="info">
+                            <span>2016</span>
+                            <span class="rating">
+                                <i class="fas fa-star"></i> 7.2
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Bharat Ane Nenu -->
+                <div class="carousel-item" style="background-image: url('https://m.media-amazon.com/images/M/MV5BMmNkNmI2MzQtY2Q0My00MDVhLTg2ZTktNTk5ZjgyOWEzZjQ3XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg');" data-genre="drama" data-language="telugu">
+                    <a href="https://youtu.be/pjb_FCvCFWM?si=6P1oefM1fbylrVC7" target="_blank" class="btn-play">
+                        <i class="fas fa-play"></i>
+                    </a>
+                    <div class="content">
+                        <div class="title">Bharat Ane Nenu</div>
+                        <div class="info">
+                            <span>2018</span>
+                            <span class="rating">
+                                <i class="fas fa-star"></i> 7.5
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section" id="tv">
+        <div class="section-title">
+            <h2>Popular TV Shows</h2>
+            <a href="#" class="view-all" onclick="showFullContent('tv')">View All <i class="fas fa-chevron-right"></i></a>
+        </div>
+        <div class="carousel-container">
+            <button class="nav-arrow left" onclick="scrollCarousel('tv', -400)">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="nav-arrow right" onclick="scrollCarousel('tv', 400)">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+            <div class="carousel" id="tv-carousel">
+                <!-- Arjun Reddy -->
+                <div class="carousel-item" style="background-image: url('https://m.media-amazon.com/images/M/MV5BYTE1YTgxYWUtMjZlMS00ZWEzLWI1MGMtOWRmZTQ5NjM0NGVhXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg');" data-genre="drama" data-language="telugu">
+                    <a href="https://youtu.be/ITx2Gf0kpT0?si=GmQRmxLYZmssLReF" target="_blank" class="btn-play">
+                        <i class="fas fa-play"></i>
+                    </a>
+                    <div class="content">
+                        <div class="title">Dear comrade</div>
+                        <div class="info">
+                            <span>2017</span>
+                            <span class="rating">
+                                <i class="fas fa-star"></i> 8.0
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Dhruva -->
+                <div class="carousel-item" style="background-image: url('https://m.media-amazon.com/images/M/MV5BNGRkNWU5ZTYtOGI1OS00NDgzLWE4ZmEtNTJhMGZiZjhkNjE1XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg');" data-genre="action" data-language="telugu">
+                    <a href="https://youtu.be/vINrat94sFc?si=_p4IYat5KrmJajU2" target="_blank" class="btn-play">
+                        <i class="fas fa-play"></i>
+                    </a>
+                    <div class="content">
+                        <div class="title">Dhruva</div>
+                        <div class="info">
+                            <span>2016</span>
+                            <span class="rating">
+                                <i class="fas fa-star"></i> 7.7
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Fidaa -->
+                <div class="carousel-item" style="background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmdRf5hNQJfS1JPFWD4vAaptVSYEUE6Pe_tA&s');" data-genre="romance" data-language="telugu">
+                    <a href="https://youtu.be/yiiGeMjCY7c?si=uHYCnrv5YAwM-4tq" target="_blank" class="btn-play">
+                        <i class="fas fa-play"></i>
+                    </a>
+                    <div class="content">
+                        <div class="title">Fidaa</div>
+                        <div class="info">
+                            <span>2017</span>
+                            <span class="rating">
+                                <i class="fas fa-star"></i> 7.4
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Mirchi -->
+                <div class="carousel-item" style="background-image: url('https://m.media-amazon.com/images/M/MV5BYjRkOWYyZGQtODA5My00MGIzLWE3MjYtZmIzNzk4NmRmYjUxXkEyXkFqcGc@._V1_.jpg');" data-genre="action" data-language="telugu">
+                    <a href="https://youtu.be/b8dvhBPrGtw?si=6XuBW9EYPCVFWtp0" target="_blank" class="btn-play">
+                        <i class="fas fa-play"></i>
+                    </a>
+                    <div class="content">
+                        <div class="title">Mirchi</div>
+                        <div class="info">
+                            <span>2013</span>
+                            <span class="rating">
+                                <i class="fas fa-star"></i> 7.3
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Pokiri -->
+                <div class="carousel-item" style="background-image: url('https://m.media-amazon.com/images/M/MV5BNGEwOWUzNmYtYzE0MC00ZTk2LWI0NjAtMTIxMTRhMWQyYmU4XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg');" data-genre="action" data-language="telugu">
+                    <a href="https://youtu.be/w4l6yDmoepA?si=rN4c-x_SkXJHSHKQ" target="_blank" class="btn-play">
+                        <i class="fas fa-play"></i>
+                    </a>
+                    <div class="content">
+                        <div class="title">Pokiri</div>
+                        <div class="info">
+                            <span>2006</span>
+                            <span class="rating">
+                                <i class="fas fa-star"></i> 8.0
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Race Gurram -->
+                <div class="carousel-item" style="background-image: url('https://m.media-amazon.com/images/M/MV5BN2Q2MTA0MGQtMzM1Ni00MmIwLWJmYjMtYzIzNDIxZjU0Y2FmXkEyXkFqcGc@._V1_.jpg');" data-genre="action" data-language="telugu">
+                    <a href="https://youtu.be/oVsA6B1cweo?si=7bcaRHJ9pNPM3yns" target="_blank" class="btn-play">
+                        <i class="fas fa-play"></i>
+                    </a>
+                    <div class="content">
+                        <div class="title">Race Gurram</div>
+                        <div class="info">
+                            <span>2014</span>
+                            <span class="rating">
+                                <i class="fas fa-star"></i> 7.2
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Gabbar Singh -->
+                <div class="carousel-item" style="background-image: url('https://m.media-amazon.com/images/M/MV5BNjRmZTU4NjYtMjgzNC00ZWY5LThlMDUtNjc4MWRiZmQzM2VmXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg');" data-genre="action" data-language="telugu">
+                    <a href="https://youtu.be/EztUsjJAh0E?si=Ug6uVLjT_NfkCNiM" target="_blank" class="btn-play">
+                        <i class="fas fa-play"></i>
+                    </a>
+                    <div class="content">
+                        <div class="title">Gabbar Singh</div>
+                        <div class="info">
+                            <span>2012</span>
+                            <span class="rating">
+                                <i class="fas fa-star"></i> 7.1
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Businessman -->
+                <div class="carousel-item" style="background-image: url('https://m.media-amazon.com/images/M/MV5BMmNkNmI2MzQtY2Q0My00MDVhLTg2ZTktNTk5ZjgyOWEzZjQ3XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg');" data-genre="action" data-language="telugu">
+                    <a href="https://youtu.be/8AD-jFF1RaM?si=hCMD52cg5GqGmRy3" target="_blank" class="btn-play">
+                        <i class="fas fa-play"></i>
+                    </a>
+                    <div class="content">
+                        <div class="title">Businessman</div>
+                        <div class="info">
+                            <span>2012</span>
+                            <span class="rating">
+                                <i class="fas fa-star"></i> 7.1
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Full Content View Sections -->
+    <div class="full-content-view" id="full-movies">
+        <div class="full-content-header">
+            <h2>All Telugu Movies</h2>
+            <button class="close-full-view" onclick="closeFullContent()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="full-content-grid">
+            <!-- Movie content will be dynamically added here -->
+        </div>
+    </div>
+
+    <div class="full-content-view" id="full-series">
+        <div class="full-content-header">
+            <h2>All Series</h2>
+            <button class="close-full-view" onclick="closeFullContent()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="full-content-grid">
+            <!-- Series content will be dynamically added here -->
+        </div>
+    </div>
+
+    <div class="full-content-view" id="full-originals">
+        <div class="full-content-header">
+            <h2>All Originals</h2>
+            <button class="close-full-view" onclick="closeFullContent()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="full-content-grid">
+            <!-- Originals content will be dynamically added here -->
+        </div>
+    </div>
+
+    <div class="full-content-view" id="full-tv">
+        <div class="full-content-header">
+            <h2>All TV Shows</h2>
+            <button class="close-full-view" onclick="closeFullContent()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="full-content-grid">
+            <!-- TV content will be dynamically added here -->
+        </div>
+    </div>
+
+    <!-- Learn More Modal -->
+    <div class="modal" id="learnMoreModal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal()">
+                <i class="fas fa-times"></i>
+            </button>
+            <h3>About StreamHive</h3>
+            <p>This website is developed by Chaitanya Kumar Bagadi purely for experimental and educational purposes. All content featured on this site belongs to their respective owners and is used here only for learning and demonstration.</p>
+            <p><strong>Contact:</strong><br>
+            For inquiries or concerns, please reach out at:<br>
+            📧 chaitanyakumarbagadi@gmail.com</p>
+        </div>
+    </div>
+
+    <!-- Support Modals -->
+    <div class="support-modal" id="helpCenterModal">
+        <div class="support-modal-content">
+            <button class="close-support-modal" onclick="closeSupportModal('helpCenter')">
+                <i class="fas fa-times"></i>
+            </button>
+            <h3>Help Center</h3>
+            <p>For any assistance or support regarding StreamHive, please contact us at:</p>
+            <p>📧 chaitanyakumarbagadi@gmail.com</p>
+            <p>We'll be happy to help you with any questions or issues you may have.</p>
+        </div>
+    </div>
+
+    <div class="support-modal" id="contactUsModal">
+        <div class="support-modal-content">
+            <button class="close-support-modal" onclick="closeSupportModal('contactUs')">
+                <i class="fas fa-times"></i>
+            </button>
+            <h3>Contact Us</h3>
+            <p>You can reach out to us for any inquiries, feedback, or business opportunities at:</p>
+            <p>📧 chaitanyakumarbagadi@gmail.com</p>
+            <p>We value your input and will respond to your message as soon as possible.</p>
+        </div>
+    </div>
+
+    <div class="support-modal" id="aboutUsModal">
+        <div class="support-modal-content">
+            <button class="close-support-modal" onclick="closeSupportModal('aboutUs')">
+                <i class="fas fa-times"></i>
+            </button>
+            <h3>About Us</h3>
+            <p>Hi! I'm Chaitanya Kumar Bagadi, a passionate web developer and UI/UX enthusiast. I specialize in experimenting with user interface and user experience designs to craft visually appealing and highly functional websites.</p>
+            <p>With a strong foundation in front-end and back-end development, I love bringing creative ideas to life through elegant, responsive, and user-friendly web designs. My focus is not just on making things look good, but also ensuring they work seamlessly across devices and deliver a smooth user experience.</p>
+            <p>I'm deeply driven by curiosity and a desire to constantly learn and innovate. Whether it's testing out the latest web design trends or fine-tuning performance and accessibility, I approach each project with dedication and creativity.</p>
+            <p>This website is part of my ongoing journey to experiment, learn, and grow as a designer and developer.</p>
+        </div>
+    </div>
+
+    <div class="support-modal" id="devicesModal">
+        <div class="support-modal-content">
+            <button class="close-support-modal" onclick="closeSupportModal('devices')">
+                <i class="fas fa-times"></i>
+            </button>
+            <h3>Devices</h3>
+            <p>Currently, this website is optimized for laptop/desktop viewing. We're working hard to bring you a fully responsive mobile experience soon!</p>
+            <p>Stay tuned for our mobile version coming in the near future. We appreciate your patience and understanding.</p>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>StreamHive</h3>
+                <p>Your ultimate entertainment destination with thousands of Telugu movies, TV shows, and exclusive originals.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h3>Navigation</h3>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#movies">Movies</a></li>
+                    <li><a href="#series">Series</a></li>
+                    <li><a href="#originals">Originals</a></li>
+                    <li><a href="#tv">TV Shows</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Support</h3>
+                <ul>
+                    <li><a class="support-link" onclick="openSupportModal('helpCenter')"><i class="fas fa-question-circle"></i> Help Center</a></li>
+                    <li><a class="support-link" onclick="openSupportModal('contactUs')"><i class="fas fa-envelope"></i> Contact Us</a></li>
+                    <li><a class="support-link" onclick="openSupportModal('aboutUs')"><i class="fas fa-info-circle"></i> About Us</a></li>
+                    <li><a class="support-link" onclick="openSupportModal('devices')"><i class="fas fa-mobile-alt"></i> Devices</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Legal</h3>
+                <ul>
+                    <li><a href="#"><i class="fas fa-shield-alt"></i> Privacy Policy</a></li>
+                    <li><a href="#"><i class="fas fa-file-contract"></i> Terms of Use</a></li>
+                    <li><a href="#"><i class="fas fa-cookie"></i> Cookie Preferences</a></li>
+                    <li><a href="#"><i class="fas fa-gavel"></i> Legal Notices</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>© 2025 StreamHive. All rights reserved. <a href="#">Terms</a> | <a href="#">Privacy</a></p>
+            <p>Contact: For inquiries or concerns, please reach out at: 📧 chaitanyakumarbagadi@gmail.com</p>
+        </div>
+    </footer>
+
+    <script>
+        // Login functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginScreen = document.getElementById('loginScreen');
+            const loginForm = document.getElementById('loginForm');
+            const userNameInput = document.getElementById('userName');
+            const welcomeText = document.getElementById('welcomeText');
+            const usernameDisplay = document.getElementById('usernameDisplay');
+            const userProfile = document.getElementById('userProfile');
+            const profileDropdown = document.getElementById('profileDropdown');
+            const logoutBtn = document.getElementById('logoutBtn');
+            
+            // Check if user is already logged in
+            const savedUserName = localStorage.getItem('streamHiveUserName');
+            if (savedUserName) {
+                loginScreen.classList.add('hidden');
+                updateUserDisplay(savedUserName);
+            }
+            
+            // Handle login form submission
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const userName = userNameInput.value.trim();
+                
+                if (userName) {
+                    // Save to localStorage
+                    localStorage.setItem('streamHiveUserName', userName);
+                    
+                    // Show welcome message
+                    welcomeText.textContent = `Welcome, ${userName}! Loading your content...`;
+                    welcomeText.classList.add('show');
+                    
+                    // Hide login screen after delay
+                    setTimeout(() => {
+                        loginScreen.classList.add('hidden');
+                        updateUserDisplay(userName);
+                    }, 2000);
+                }
+            });
+            
+            function updateUserDisplay(userName) {
+                // Display username in the nav
+                usernameDisplay.textContent = userName;
+                
+                // Update profile circle with first initial
+                const firstLetter = userName.charAt(0).toUpperCase();
+                userProfile.textContent = firstLetter;
+            }
+            
+            // Profile dropdown functionality
+            userProfile.addEventListener('click', function(e) {
+                profileDropdown.classList.toggle('show');
+                e.stopPropagation();
+            });
+            
+            // Close dropdown when clicking elsewhere
+            document.addEventListener('click', function(e) {
+                if (!profileDropdown.contains(e.target) && e.target !== userProfile) {
+                    profileDropdown.classList.remove('show');
+                }
+            });
+            
+            // Logout functionality
+            logoutBtn.addEventListener('click', function() {
+                localStorage.removeItem('streamHiveUserName');
+                profileDropdown.classList.remove('show');
+                loginScreen.classList.remove('hidden');
+                usernameDisplay.textContent = '';
+                userProfile.textContent = 'U';
+            });
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Filter function
+        function applyFilters() {
+            const genre = document.getElementById('genre').value;
+            const language = document.getElementById('language').value;
+            
+            // Get all carousel items
+            const carouselItems = document.querySelectorAll('.carousel-item');
+            
+            // Filter items based on selected genre and language
+            carouselItems.forEach(item => {
+                const itemGenre = item.getAttribute('data-genre');
+                const itemLanguage = item.getAttribute('data-language');
+                
+                const genreMatch = !genre || itemGenre === genre;
+                const languageMatch = !language || itemLanguage === language;
+                
+                if (genreMatch && languageMatch) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+            
+            // Show notification
+            const notification = document.createElement('div');
+            notification.style.position = 'fixed';
+            notification.style.bottom = '20px';
+            notification.style.right = '20px';
+            notification.style.padding = '15px 25px';
+            notification.style.backgroundColor = '#00C4B4';
+            notification.style.color = 'white';
+            notification.style.borderRadius = '10px';
+            notification.style.boxShadow = '0 5px 15px rgba(0,0,0,0.3)';
+            notification.style.zIndex = '1000';
+            notification.style.transition = 'all 0.3s ease';
+            notification.innerHTML = `Filters applied: ${genre || 'All genres'}, ${language || 'All languages'}`;
+            document.body.appendChild(notification);
+            
+            // Remove after delay
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+
+        // Carousel scrolling
+        function scrollCarousel(sectionId, amount) {
+            const carousel = document.getElementById(`${sectionId}-carousel`);
+            carousel.scrollBy({ left: amount, behavior: 'smooth' });
+        }
+
+        // Learn More button event listener
+        document.getElementById('learnMoreBtn').addEventListener('click', function() {
+            document.getElementById('learnMoreModal').style.display = 'flex';
+        });
+        
+        // Add smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Full content view functionality - FIXED IMAGE DISPLAY
+        function showFullContent(type) {
+            // Hide all full content views
+            document.querySelectorAll('.full-content-view').forEach(view => {
+                view.style.display = 'none';
+            });
+            
+            // Show the selected full content view
+            const fullView = document.getElementById(`full-${type}`);
+            fullView.style.display = 'block';
+            
+            // Populate the grid with content
+            const grid = fullView.querySelector('.full-content-grid');
+            grid.innerHTML = '';
+            
+            // Get all items from the carousel
+            const carouselItems = document.querySelectorAll(`#${type}-carousel .carousel-item`);
+            
+            carouselItems.forEach(item => {
+                // Get the background image URL - FIXED HERE
+                const bgImage = item.style.backgroundImage;
+                const title = item.querySelector('.title').textContent;
+                const info = item.querySelector('.info').innerHTML;
+                
+                // Get play button href
+                const playBtn = item.querySelector('.btn-play');
+                const playHref = playBtn ? playBtn.getAttribute('href') : '#';
+                
+                const contentItem = document.createElement('div');
+                contentItem.className = 'full-content-item';
+                contentItem.innerHTML = `
+                    <div class="full-content-img" style="${bgImage}">
+                        <a href="${playHref}" target="_blank" class="btn-play">
+                            <i class="fas fa-play"></i>
+                        </a>
+                    </div>
+                    <div class="full-content-details">
+                        <div class="title">${title}</div>
+                        <div class="info">${info}</div>
+                    </div>
+                `;
+                
+                grid.appendChild(contentItem);
+            });
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        function closeFullContent() {
+            document.querySelectorAll('.full-content-view').forEach(view => {
+                view.style.display = 'none';
+            });
+        }
+        
+        function closeModal() {
+            document.getElementById('learnMoreModal').style.display = 'none';
+        }
+
+        // Support Modal Functions
+        function openSupportModal(modalType) {
+            const modalId = `${modalType}Modal`;
+            document.getElementById(modalId).style.display = 'flex';
+        }
+
+        function closeSupportModal(modalType) {
+            const modalId = `${modalType}Modal`;
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Close modal when clicking outside content
+        window.addEventListener('click', function(event) {
+            const modals = document.querySelectorAll('.support-modal, .modal');
+            modals.forEach(modal => {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

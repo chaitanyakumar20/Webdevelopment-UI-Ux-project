@@ -1,0 +1,1415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staynest - Luxury Stays & Experiences</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #FF385C;
+            --primary-dark: #E31C5F;
+            --secondary: #00A699;
+            --dark: #222222;
+            --light: #FFFFFF;
+            --light-gray: #F7F7F7;
+            --medium-gray: #E7E7E7;
+            --text-gray: #717171;
+            --text-dark: #484848;
+            --accent: #FFB400;
+            --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.12);
+            --shadow-lg: 0 12px 36px rgba(0, 0, 0, 0.15);
+            --transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --border-radius: 16px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            font-family: 'Montserrat', 'Arial', sans-serif;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+        }
+
+        /* Header Styles */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 50px;
+            background-color: var(--light);
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--primary);
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: 'Playfair Display', serif;
+        }
+
+        .logo:hover {
+            color: var(--primary-dark);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            font-size: 16px;
+            padding: 10px 15px;
+            border-radius: 30px;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        nav ul li a:hover, nav ul li a.active {
+            color: var(--primary);
+        }
+
+        nav ul li a.active::after, nav ul li a:hover::after {
+            content: '';
+            position: absolute;
+            bottom: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 6px;
+            height: 6px;
+            background-color: var(--primary);
+            border-radius: 50%;
+        }
+
+        .profile {
+            background-color: var(--light-gray);
+            padding: 8px 15px 8px 20px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .profile:hover {
+            background-color: var(--medium-gray);
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* Hero Section */
+        .hero {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://source.unsplash.com/1920x1080/?luxury-resort');
+            background-size: cover;
+            background-position: center;
+            height: 550px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--light);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255, 56, 92, 0.2) 0%, rgba(0, 166, 153, 0.2) 100%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            padding: 0 20px;
+        }
+
+        .hero-content h1 {
+            font-size: 56px;
+            margin-bottom: 25px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            line-height: 1.2;
+        }
+
+        .hero-content p {
+            font-size: 20px;
+            margin-bottom: 40px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .search-bar {
+            background-color: var(--light);
+            padding: 20px;
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: var(--shadow-lg);
+            max-width: 1000px;
+            width: 90%;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .search-bar input, .search-bar select {
+            padding: 15px;
+            border: none;
+            outline: none;
+            font-size: 16px;
+            flex: 1;
+            min-width: 120px;
+            border-right: 1px solid var(--medium-gray);
+            background: transparent;
+            transition: var(--transition);
+        }
+
+        .search-bar input:focus, .search-bar select:focus {
+            background: rgba(247, 247, 247, 0.5);
+        }
+
+        .search-bar input:last-child, .search-bar select {
+            border-right: none;
+        }
+
+        .search-bar label {
+            font-size: 14px;
+            color: var(--text-gray);
+            margin-left: 10px;
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .search-bar .input-group {
+            padding: 0 15px;
+            border-right: 1px solid var(--medium-gray);
+            flex: 1;
+        }
+
+        .search-bar .input-group:last-child {
+            border-right: none;
+        }
+
+        .search-bar button {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: var(--light);
+            border: none;
+            padding: 15px 35px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            box-shadow: var(--shadow-sm);
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .search-bar button:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Filter Section */
+        .filters {
+            padding: 30px 50px;
+            background-color: var(--light);
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+            border-bottom: 1px solid var(--medium-gray);
+        }
+
+        .filter-btn {
+            padding: 12px 25px;
+            border: 1px solid var(--medium-gray);
+            border-radius: 30px;
+            background-color: var(--light);
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 500;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .filter-btn i {
+            font-size: 18px;
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: var(--light);
+            border-color: var(--primary);
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* Listings Section */
+        .listings {
+            padding: 60px 50px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-header h2 {
+            font-size: 42px;
+            color: var(--dark);
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-header h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+
+        .section-header p {
+            color: var(--text-gray);
+            max-width: 600px;
+            margin: 20px auto 0;
+            font-size: 18px;
+        }
+
+        .listings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 35px;
+        }
+
+        .listing-card {
+            background-color: var(--light);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .listing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .listing-card .badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: var(--light);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            z-index: 2;
+        }
+
+        .listing-card .save-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow-sm);
+            z-index: 2;
+        }
+
+        .listing-card .save-btn:hover {
+            background: var(--primary);
+            color: var(--light);
+        }
+
+        .listing-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            background-color: var(--light-gray);
+            transition: transform 0.5s ease;
+        }
+
+        .listing-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .listing-info {
+            padding: 25px;
+        }
+
+        .listing-info h3 {
+            font-size: 22px;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+
+        .listing-info .location {
+            color: var(--text-gray);
+            font-size: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .listing-info .features {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: var(--text-gray);
+        }
+
+        .listing-info .features span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .listing-info .price {
+            font-weight: 700;
+            color: var(--dark);
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .listing-info .price span {
+            font-weight: 400;
+            font-size: 16px;
+            color: var(--text-gray);
+        }
+
+        .listing-info .rating {
+            background: var(--light-gray);
+            color: var(--dark);
+            font-size: 14px;
+            padding: 5px 12px;
+            border-radius: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .listing-info .rating i {
+            color: var(--accent);
+        }
+
+        .book-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: var(--light);
+            padding: 12px 25px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            margin-top: 10px;
+            transition: var(--transition);
+            width: 100%;
+            text-align: center;
+            border: none;
+            cursor: pointer;
+        }
+
+        .book-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* Categories Section */
+        .categories {
+            padding: 60px 50px;
+            background-color: var(--light-gray);
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .category-card {
+            background: var(--light);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .category-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .category-card i {
+            font-size: 48px;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .category-card h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+
+        .category-card p {
+            color: var(--text-gray);
+            font-size: 15px;
+        }
+
+        /* Testimonials */
+        .testimonials {
+            padding: 80px 50px;
+            background: linear-gradient(135deg, rgba(255, 56, 92, 0.05) 0%, rgba(0, 166, 153, 0.05) 100%);
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .testimonial-card {
+            background: var(--light);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-sm);
+            padding: 35px;
+            transition: var(--transition);
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .testimonial-card .rating {
+            color: var(--accent);
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .testimonial-card p {
+            font-style: italic;
+            margin-bottom: 25px;
+            font-size: 17px;
+            line-height: 1.8;
+        }
+
+        .testimonial-card .user {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .testimonial-card .user img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .testimonial-card .user-info h4 {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .testimonial-card .user-info p {
+            font-style: normal;
+            color: var(--text-gray);
+            font-size: 15px;
+            margin: 0;
+        }
+
+        /* Newsletter */
+        .newsletter {
+            padding: 80px 50px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: var(--light);
+            text-align: center;
+        }
+
+        .newsletter-content {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .newsletter h2 {
+            font-size: 42px;
+            margin-bottom: 20px;
+        }
+
+        .newsletter p {
+            font-size: 18px;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+
+        .newsletter-form {
+            display: flex;
+            max-width: 500px;
+            margin: 0 auto;
+            gap: 10px;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .newsletter-form button {
+            background: var(--dark);
+            color: var(--light);
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            font-size: 16px;
+        }
+
+        .newsletter-form button:hover {
+            background: var(--light);
+            color: var(--primary);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: var(--light);
+            padding: 70px 50px 30px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            max-width: 1400px;
+            margin: 0 auto 50px;
+        }
+
+        .footer-column h3 {
+            font-size: 22px;
+            margin-bottom: 25px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--primary);
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 15px;
+        }
+
+        .footer-column ul li a {
+            color: var(--light);
+            text-decoration: none;
+            transition: var(--transition);
+            opacity: 0.8;
+        }
+
+        .footer-column ul li a:hover {
+            opacity: 1;
+            color: var(--primary);
+        }
+
+        .footer-column p {
+            opacity: 0.8;
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--light);
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 14px;
+            opacity: 0.7;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .hero-content h1 {
+                font-size: 46px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            header {
+                padding: 15px 30px;
+            }
+            
+            .hero {
+                height: 500px;
+            }
+            
+            .hero-content h1 {
+                font-size: 40px;
+            }
+            
+            .search-bar {
+                flex-wrap: wrap;
+                padding: 25px;
+            }
+            
+            .search-bar .input-group {
+                flex: 0 0 calc(50% - 20px);
+                border-right: none;
+                border-bottom: 1px solid var(--medium-gray);
+                padding-bottom: 15px;
+                margin-bottom: 15px;
+            }
+            
+            .search-bar .input-group:last-child {
+                border-bottom: none;
+                padding-bottom: 0;
+                margin-bottom: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 34px;
+            }
+            
+            .hero-content p {
+                font-size: 18px;
+            }
+            
+            .section-header h2 {
+                font-size: 36px;
+            }
+            
+            nav ul {
+                gap: 12px;
+            }
+            
+            nav ul li a {
+                font-size: 14px;
+                padding: 8px 12px;
+            }
+            
+            .filters, .listings, .categories, .testimonials, .newsletter {
+                padding: 50px 30px;
+            }
+            
+            .search-bar button {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .listings-grid, .categories-grid, .testimonial-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .newsletter-form {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 576px) {
+            header {
+                padding: 15px 20px;
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .hero {
+                height: 450px;
+            }
+            
+            .hero-content h1 {
+                font-size: 30px;
+            }
+            
+            .search-bar {
+                padding: 20px 15px;
+            }
+            
+            .search-bar .input-group {
+                flex: 0 0 100%;
+            }
+            
+            .filters {
+                gap: 10px;
+            }
+            
+            .filter-btn {
+                padding: 10px 15px;
+                font-size: 14px;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo" onclick="resetPage()">Staynest</div>
+        <nav>
+            <ul>
+                <li><a href="#" class="active" onclick="showStays(event)">Stays</a></li>
+                <li><a href="#" onclick="showExperiences(event)">Experiences</a></li>
+                <li><a href="#" onclick="showOnlineExperiences(event)">Online Experiences</a></li>
+            </ul>
+        </nav>
+        <div class="profile">
+            <span>Account</span>
+            <i class="fas fa-user-circle"></i>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Discover Extraordinary Stays & Experiences</h1>
+            <p>Find and book unique accommodations and experiences curated for the discerning traveler</p>
+            <div class="search-bar">
+                <div class="input-group">
+                    <label for="search-input"><i class="fas fa-search"></i> Destination</label>
+                    <input type="text" id="search-input" placeholder="Where are you going?">
+                </div>
+                <div class="input-group">
+                    <label for="checkin-date"><i class="far fa-calendar"></i> Check-in</label>
+                    <input type="date" id="checkin-date">
+                </div>
+                <div class="input-group">
+                    <label for="checkout-date"><i class="far fa-calendar"></i> Check-out</label>
+                    <input type="date" id="checkout-date">
+                </div>
+                <div class="input-group">
+                    <label for="guests"><i class="fas fa-user-friends"></i> Guests</label>
+                    <select id="guests" name="guests">
+                        <option value="1">1 guest</option>
+                        <option value="2">2 guests</option>
+                        <option value="3">3 guests</option>
+                        <option value="4">4 guests</option>
+                        <option value="5">5+ guests</option>
+                    </select>
+                </div>
+                <button onclick="search()"><i class="fas fa-search"></i> Search</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="filters" id="filters">
+        <button class="filter-btn active" data-type="all"><i class="fas fa-border-all"></i> All</button>
+        <button class="filter-btn" data-type="villa"><i class="fas fa-home"></i> Villas</button>
+        <button class="filter-btn" data-type="apartment"><i class="fas fa-building"></i> Apartments</button>
+        <button class="filter-btn" data-type="cabin"><i class="fas fa-tree"></i> Cabins</button>
+        <button class="filter-btn" data-type="beach"><i class="fas fa-umbrella-beach"></i> Beachfront</button>
+        <button class="filter-btn" data-price="low"><i class="fas fa-sort-amount-down"></i> Price: Low to High</button>
+        <button class="filter-btn" data-price="high"><i class="fas fa-sort-amount-up"></i> Price: High to Low</button>
+    </section>
+
+    <section class="listings">
+        <div class="section-header">
+            <h2>Premium Stays & Experiences</h2>
+            <p>Discover handpicked accommodations and experiences tailored to your taste</p>
+        </div>
+        <div class="listings-grid" id="listings-grid">
+            <!-- Listings will be populated by JavaScript -->
+        </div>
+    </section>
+
+    <section class="categories">
+        <div class="section-header">
+            <h2>Browse by Category</h2>
+            <p>Find the perfect stay based on your preferences</p>
+        </div>
+        <div class="categories-grid">
+            <div class="category-card">
+                <i class="fas fa-home"></i>
+                <h3>Entire Homes</h3>
+                <p>Private getaways with all the comforts of home</p>
+            </div>
+            <div class="category-card">
+                <i class="fas fa-umbrella-beach"></i>
+                <h3>Beachfront</h3>
+                <p>Wake up to the sound of waves crashing</p>
+            </div>
+            <div class="category-card">
+                <i class="fas fa-mountain"></i>
+                <h3>Mountain Cabins</h3>
+                <p>Cozy retreats with breathtaking views</p>
+            </div>
+            <div class="category-card">
+                <i class="fas fa-city"></i>
+                <h3>City Apartments</h3>
+                <p>Stylish urban stays in the heart of the city</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonials">
+        <div class="section-header">
+            <h2>What Our Guests Say</h2>
+            <p>Real stories from travelers who found their perfect stay with us</p>
+        </div>
+        <div class="testimonial-grid">
+            <div class="testimonial-card">
+                <div class="rating">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <p>"The villa we booked through Staynest exceeded all expectations. The attention to detail and luxury amenities made our anniversary unforgettable."</p>
+                <div class="user">
+                    <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Sarah Johnson">
+                    <div class="user-info">
+                        <h4>Sarah Johnson</h4>
+                        <p>Bali Villa Guest</p>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="rating">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                </div>
+                <p>"The online cooking class was such a unique experience! We learned authentic recipes and felt connected to Italy from our own kitchen."</p>
+                <div class="user">
+                    <img src="https://randomuser.me/api/portraits/men/54.jpg" alt="Michael Chen">
+                    <div class="user-info">
+                        <h4>Michael Chen</h4>
+                        <p>Cooking Class Participant</p>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="rating">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <p>"The beachfront property in Thailand was paradise. Staynest made the booking process seamless and the property was even better than photos."</p>
+                <div class="user">
+                    <img src="https://randomuser.me/api/portraits/women/67.jpg" alt="Elena Rodriguez">
+                    <div class="user-info">
+                        <h4>Elena Rodriguez</h4>
+                        <p>Beachfront Bungalow Guest</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="newsletter">
+        <div class="newsletter-content">
+            <h2>Join Our Exclusive Community</h2>
+            <p>Subscribe to receive special offers, travel inspiration, and early access to new destinations</p>
+            <div class="newsletter-form">
+                <input type="email" placeholder="Your email address">
+                <button>Subscribe</button>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>Staynest</h3>
+                <p>Discover extraordinary stays and experiences around the world, curated for the discerning traveler.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-pinterest"></i></a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h3>Destinations</h3>
+                <ul>
+                    <li><a href="#">Europe</a></li>
+                    <li><a href="#">Asia</a></li>
+                    <li><a href="#">North America</a></li>
+                    <li><a href="#">South America</a></li>
+                    <li><a href="#">Africa</a></li>
+                    <li><a href="#">Oceania</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Company</h3>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Press</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Support</h3>
+                <ul>
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">Safety Information</a></li>
+                    <li><a href="#">Cancellation Options</a></li>
+                    <li><a href="#">COVID-19 Resources</a></li>
+                    <li><a href="#">Trust & Safety</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>© 2025 Staynest. All rights reserved. | Privacy Policy | Terms of Service | Sitemap</p>
+        </div>
+    </footer>
+
+    <script>
+        // Improved hotel image URLs
+        const getHotelImage = (type, location, id) => {
+            const baseUrl = "https://source.unsplash.com/600x400/?";
+            const queryMap = {
+                villa: `luxury-villa,${location.split(',')[0].toLowerCase()}`,
+                apartment: `luxury-apartment,${location.split(',')[0].toLowerCase()}`,
+                cabin: `luxury-cabin,${location.split(',')[0].toLowerCase()}`,
+                beach: `luxury-beach-resort,${location.split(',')[0].toLowerCase()}`,
+                default: `luxury-hotel,${location.split(',')[0].toLowerCase()}`
+            };
+            
+            const query = queryMap[type] || queryMap.default;
+            return `${baseUrl}${query}&sig=${id}`;
+        };
+
+        // Sample stays data with improved image URLs
+        const staysData = [
+            { id: 1, name: "Cozy Villa Haven", type: "villa", location: "Bali, Indonesia", price: 120, rating: 4.8, maxGuests: 4 },
+            { id: 2, name: "Oceanfront Apartment", type: "apartment", location: "Miami, USA", price: 95, rating: 4.5, maxGuests: 2 },
+            { id: 3, name: "Mountain Cabin Retreat", type: "cabin", location: "Aspen, USA", price: 150, rating: 4.9, maxGuests: 6 },
+            { id: 4, name: "Beachside Bungalow", type: "beach", location: "Phuket, Thailand", price: 80, rating: 4.7, maxGuests: 3 },
+            { id: 5, name: "Urban Loft", type: "apartment", location: "New York, USA", price: 200, rating: 4.6, maxGuests: 2 },
+            { id: 6, name: "Tropical Villa", type: "villa", location: "Maldives", price: 250, rating: 4.9, maxGuests: 8 },
+            { id: 7, name: "Rustic Cabin", type: "cabin", location: "Banff, Canada", price: 110, rating: 4.4, maxGuests: 4 },
+            { id: 8, name: "Seaside Apartment", type: "apartment", location: "Santorini, Greece", price: 130, rating: 4.8, maxGuests: 3 },
+            { id: 9, name: "Luxury Beach House", type: "beach", location: "Maui, Hawaii", price: 300, rating: 4.9, maxGuests: 10 },
+            { id: 10, name: "Modern Villa", type: "villa", location: "Ibiza, Spain", price: 180, rating: 4.7, maxGuests: 6 },
+            { id: 11, name: "City Studio", type: "apartment", location: "Tokyo, Japan", price: 90, rating: 4.5, maxGuests: 1 },
+            { id: 12, name: "Forest Cabin", type: "cabin", location: "Black Forest, Germany", price: 100, rating: 4.6, maxGuests: 5 },
+            { id: 13, name: "Cliffside Retreat", type: "beach", location: "Amalfi, Italy", price: 220, rating: 4.8, maxGuests: 4 },
+            { id: 14, name: "Countryside Villa", type: "villa", location: "Tuscany, Italy", price: 160, rating: 4.7, maxGuests: 7 },
+            { id: 15, name: "Downtown Flat", type: "apartment", location: "London, UK", price: 140, rating: 4.5, maxGuests: 3 },
+            { id: 16, name: "Lakeside Cabin", type: "cabin", location: "Lake Tahoe, USA", price: 125, rating: 4.6, maxGuests: 4 },
+            { id: 17, name: "Beachfront Villa", type: "beach", location: "Barbados", price: 280, rating: 4.9, maxGuests: 8 },
+            { id: 18, name: "Chic Apartment", type: "apartment", location: "Paris, France", price: 170, rating: 4.7, maxGuests: 2 },
+            { id: 19, name: "Mountain Villa", type: "villa", location: "Chamonix, France", price: 190, rating: 4.8, maxGuests: 6 },
+            { id: 20, name: "Coastal Cabin", type: "cabin", location: "Big Sur, USA", price: 135, rating: 4.6, maxGuests: 3 }
+        ];
+
+        // Add images to stays data
+        staysData.forEach(stay => {
+            stay.img = getHotelImage(stay.type, stay.location, stay.id);
+        });
+
+        // Sample experiences data
+        const experiencesData = [
+            {
+                id: 101,
+                name: "Sunset Yoga Retreat",
+                type: "yoga",
+                location: "Bali, Indonesia",
+                price: 50,
+                rating: 4.9,
+                img: "https://source.unsplash.com/600x400/?yoga,bali",
+                maxGuests: 10,
+                reviews: [
+                    { user: "Emma L.", text: "An amazing experience! The instructor was so calming, and the sunset view was breathtaking." },
+                    { user: "Rahul M.", text: "Perfect way to unwind. Highly recommend for anyone visiting Bali!" }
+                ]
+            },
+            {
+                id: 102,
+                name: "Street Food Tour",
+                type: "food",
+                location: "Bangkok, Thailand",
+                price: 40,
+                rating: 4.7,
+                img: "https://source.unsplash.com/600x400/?streetfood,bangkok",
+                maxGuests: 8,
+                reviews: [
+                    { user: "Sophie T.", text: "The best food tour I've ever done! So many flavors and great stories from the guide." },
+                    { user: "Arjun K.", text: "Loved the variety of dishes. A must-do for foodies!" }
+                ]
+            },
+            {
+                id: 103,
+                name: "Wine Tasting Journey",
+                type: "wine",
+                location: "Tuscany, Italy",
+                price: 75,
+                rating: 4.8,
+                img: "https://source.unsplash.com/600x400/?winetasting,tuscany",
+                maxGuests: 12,
+                reviews: [
+                    { user: "Michael P.", text: "The wines were exquisite, and the vineyard setting was stunning." },
+                    { user: "Clara S.", text: "A delightful afternoon! Learned so much about Italian wines." }
+                ]
+            },
+            {
+                id: 104,
+                name: "City Photography Walk",
+                type: "photography",
+                location: "Tokyo, Japan",
+                price: 60,
+                rating: 4.6,
+                img: "https://source.unsplash.com/600x400/?photography,tokyo",
+                maxGuests: 6,
+                reviews: [
+                    { user: "Lila W.", text: "Great tips from the guide! Captured some amazing shots of Tokyo." },
+                    { user: "Vikram S.", text: "Fun and informative. Perfect for photography enthusiasts." }
+                ]
+            },
+            {
+                id: 105,
+                name: "Kayaking Adventure",
+                type: "adventure",
+                location: "Phuket, Thailand",
+                price: 55,
+                rating: 4.9,
+                img: "https://source.unsplash.com/600x400/?kayaking,phuket",
+                maxGuests: 8,
+                reviews: [
+                    { user: "James R.", text: "Thrilling experience! The caves and lagoons were unreal." },
+                    { user: "Anita B.", text: "Well-organized and safe. A highlight of our trip!" }
+                ]
+            }
+        ];
+
+        // Sample online experiences data
+        const onlineExperiencesData = [
+            {
+                id: 201,
+                name: "Virtual Italian Cooking Class",
+                type: "cooking",
+                location: "Online (Italy)",
+                price: 35,
+                rating: 4.8,
+                img: "https://source.unsplash.com/600x400/?cooking,italian",
+                maxGuests: 20,
+                reviews: [
+                    { user: "Sarah K.", text: "Learned to make authentic pasta from scratch! The host was so engaging." },
+                    { user: "Ravi P.", text: "Fun and interactive. My family loved cooking together virtually!" }
+                ]
+            },
+            {
+                id: 202,
+                name: "Online Salsa Dance Workshop",
+                type: "dance",
+                location: "Online (Cuba)",
+                price: 25,
+                rating: 4.7,
+                img: "https://source.unsplash.com/600x400/?salsa,dance",
+                maxGuests: 15,
+                reviews: [
+                    { user: "Mia T.", text: "The instructor was fantastic! I'm ready to hit the dance floor now." },
+                    { user: "Suresh V.", text: "Great energy and easy-to-follow steps. Highly recommend!" }
+                ]
+            },
+            {
+                id: 203,
+                name: "Virtual Tour of Paris",
+                type: "tour",
+                location: "Online (France)",
+                price: 30,
+                rating: 4.9,
+                img: "https://source.unsplash.com/600x400/?paris,tour",
+                maxGuests: 25,
+                reviews: [
+                    { user: "Lucas M.", text: "Felt like I was walking through Paris! The guide was so knowledgeable." },
+                    { user: "Priya D.", text: "Loved the stories behind the landmarks. A wonderful experience!" }
+                ]
+            },
+            {
+                id: 204,
+                name: "Online Meditation Session",
+                type: "meditation",
+                location: "Online (India)",
+                price: 20,
+                rating: 4.6,
+                img: "https://source.unsplash.com/600x400/?meditation,india",
+                maxGuests: 30,
+                reviews: [
+                    { user: "Anna B.", text: "So relaxing! The guide's voice was incredibly soothing." },
+                    { user: "Kiran J.", text: "Perfect way to de-stress. I'll be joining again!" }
+                ]
+            },
+            {
+                id: 205,
+                name: "Virtual Art Workshop",
+                type: "art",
+                location: "Online (Spain)",
+                price: 40,
+                rating: 4.8,
+                img: "https://source.unsplash.com/600x400/?art,workshop",
+                maxGuests: 10,
+                reviews: [
+                    { user: "Ella R.", text: "Created a beautiful painting with great guidance. So much fun!" },
+                    { user: "Amit G.", text: "Loved the creative tips. A fantastic virtual experience!" }
+                ]
+            }
+        ];
+
+        // Function to render listings (stays, experiences, or online experiences)
+        function renderListings(listings, checkinDate = '', checkoutDate = '', isExperience = false) {
+            const grid = document.getElementById('listings-grid');
+            grid.innerHTML = '<div class="loading">Loading...</div>';
+            
+            setTimeout(() => { // Simulate loading
+                grid.innerHTML = '';
+                if (listings.length === 0) {
+                    grid.innerHTML = '<div class="loading">No results found.</div>';
+                    return;
+                }
+                listings.forEach(listing => {
+                    const card = document.createElement('div');
+                    card.className = 'listing-card';
+                    
+                    // Generate random badge
+                    const badges = ["Premium", "Popular", "New", "Luxury", "Featured"];
+                    const randomBadge = badges[Math.floor(Math.random() * badges.length)];
+                    
+                    card.innerHTML = `
+                        <div class="badge">${randomBadge}</div>
+                        <div class="save-btn">
+                            <i class="far fa-heart"></i>
+                        </div>
+                        <img src="${listing.img}" alt="${listing.name}">
+                        <div class="listing-info">
+                            <h3>${listing.name}</h3>
+                            <p class="location"><i class="fas fa-map-marker-alt"></i> ${listing.location}</p>
+                            <div class="features">
+                                <span><i class="fas fa-bed"></i> ${Math.floor(Math.random() * 5) + 2} beds</span>
+                                <span><i class="fas fa-bath"></i> ${Math.floor(Math.random() * 3) + 1} baths</span>
+                                <span><i class="fas fa-user-friends"></i> ${listing.maxGuests} guests</span>
+                            </div>
+                            <p class="price">$${listing.price}<span>/${isExperience ? 'person' : 'night'}</span></p>
+                            <div class="rating">
+                                <i class="fas fa-star"></i> ${listing.rating} (${Math.floor(Math.random() * 100 + 20)} reviews)
+                            </div>
+                            <button class="book-btn" onclick="bookNow(${listing.id}, ${isExperience})">${isExperience ? 'Book Experience' : 'Book Now'}</button>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+            }, 500);
+        }
+
+        // Initial render (stays)
+        renderListings(staysData);
+
+        // Filter functionality
+        function setupFilters(data) {
+            document.querySelectorAll('.filter-btn').forEach(button => {
+                button.removeEventListener('click', handleFilterClick); // Remove existing listeners to prevent duplicates
+                button.addEventListener('click', handleFilterClick);
+            });
+
+            function handleFilterClick() {
+                document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+
+                let filteredListings = [...data];
+                const type = this.getAttribute('data-type');
+                const price = this.getAttribute('data-price');
+
+                if (type && type !== 'all') {
+                    filteredListings = filteredListings.filter(listing => listing.type === type);
+                }
+
+                if (price === 'low') {
+                    filteredListings.sort((a, b) => a.price - b.price);
+                } else if (price === 'high') {
+                    filteredListings.sort((a, b) => b.price - a.price);
+                }
+
+                renderListings(filteredListings);
+            }
+        }
+
+        // Search functionality
+        function search(isExperience = false) {
+            const query = document.getElementById('search-input').value.toLowerCase();
+            const checkinDate = document.getElementById('checkin-date').value;
+            const checkoutDate = document.getElementById('checkout-date').value;
+            const guests = parseInt(document.getElementById('guests').value);
+            const data = isExperience ? (isExperience === 'online' ? onlineExperiencesData : experiencesData) : staysData;
+
+            let filteredListings = data.filter(listing => 
+                (listing.name.toLowerCase().includes(query) || 
+                 listing.location.toLowerCase().includes(query)) &&
+                listing.maxGuests >= guests
+            );
+
+            // Validate dates for stays only
+            if (!isExperience && checkinDate && checkoutDate) {
+                const checkin = new Date(checkinDate);
+                const checkout = new Date(checkoutDate);
+                if (checkin >= new Date() && checkout > checkin) {
+                    const formattedCheckin = checkin.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                    const formattedCheckout = checkout.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                    renderListings(filteredListings, formattedCheckin, formattedCheckout, isExperience);
+                } else {
+                    renderListings([], '', '', isExperience);
+                }
+            } else {
+                renderListings(filteredListings, '', '', isExperience || isExperience === 'online');
+            }
+        }
+
+        // Navbar functionality
+        function showStays(event) {
+            event.preventDefault();
+            document.querySelectorAll('nav ul li a').forEach(link => link.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById('filters').style.display = 'flex';
+            setupFilters(staysData);
+            renderListings(staysData);
+        }
+
+        function showExperiences(event) {
+            event.preventDefault();
+            document.querySelectorAll('nav ul li a').forEach(link => link.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById('filters').style.display = 'none';
+            renderListings(experiencesData, '', '', true);
+        }
+
+        function showOnlineExperiences(event) {
+            event.preventDefault();
+            document.querySelectorAll('nav ul li a').forEach(link => link.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById('filters').style.display = 'none';
+            renderListings(onlineExperiencesData, '', '', 'online');
+        }
+
+        function resetPage() {
+            document.querySelectorAll('nav ul li a').forEach(link => link.classList.remove('active'));
+            document.querySelector('nav ul li a[href="#"]').classList.add('active');
+            document.getElementById('search-input').value = '';
+            document.getElementById('checkin-date').value = '';
+            document.getElementById('checkout-date').value = '';
+            document.getElementById('guests').value = '1';
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector('.filter-btn[data-type="all"]').classList.add('active');
+            document.getElementById('filters').style.display = 'flex';
+            renderListings(staysData);
+        }
+
+        // Book Now functionality (placeholder)
+        function bookNow(id, isExperience) {
+            alert(`Booking ${isExperience ? 'experience' : 'stay'} ID ${id} initiated!`);
+        }
+
+        // Initialize filters for stays
+        setupFilters(staysData);
+        
+        // Set min date for date inputs
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('checkin-date').min = today;
+        document.getElementById('checkout-date').min = today;
+    </script>
+</body>
+</html>
